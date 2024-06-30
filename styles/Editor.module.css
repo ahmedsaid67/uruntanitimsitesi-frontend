@@ -1,0 +1,19 @@
+/* styles.css */
+
+/* Quill editörünün temel stilini özelleştir */
+.ql-editor {
+    font-family: 'Arial', sans-serif; /* Varsayılan font stili */
+    font-size: 16px; /* Varsayılan font boyutu */
+    color: #333; /* Varsayılan metin rengi */
+  }
+  
+  .ql-toolbar {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Özel toolbar stilini de özelleştirebilirsiniz */
+  .ql-toolbar.ql-snow {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  

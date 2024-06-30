@@ -1,60 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, TextField, Typography, Box, Grid } from '@mui/material';
+import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
-
-// API URL'nizi tanımlayın
-
 
 const Iletisim = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [phones, setPhones] = useState(['', '']);
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
-  const [data, setData] = useState({ email: '', phones: ['', ''], address: '' });
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [id, setId] = useState(null); // Verinin id'si
+
+  // Veriyi API'den al
+  const getData = async () => {
+    setIsLoading(true);
+    setHasError(false);
+    try {
+      const response = await axios.get(API_ROUTES.ILETISIM.replace("id/", ""));
+      const result = response.data.results[0]; // İlk sonucu al
+      if (result) {
+        const { email, phone1, phone2, address, id } = result;
+        setData(result);
+        setEmail(email || '');
+        setPhones([phone1 || '', phone2 || '']);
+        setAddress(address || '');
+        setId(id); // Verinin id'sini sakla
+      }
+    } catch (error) {
+      setHasError(true);
+      console.error('Veri çekme hatası:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(API_ROUTES.ILETISIM);
-        console.log(response);
-        if (response.ok) {
-          const result = await response.json();
-          // API'dan gelen veriyi state'e aktar
-          setData({
-            email: result.email || '',
-            phones: result.phones || ['', ''],
-            address: result.address || '',
-          });
-          // State'leri güncelle
-          setEmail(result.email || '');
-          setPhones(result.phones || ['', '']);
-          setAddress(result.address || '');
-        }
-      } catch (error) {
-        console.error('Veri çekme hatası:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
+    getData();
   }, []);
 
+  // Telefon değişikliği işlemi
   const handlePhoneChange = (index, value) => {
     const newPhones = [...phones];
     newPhones[index] = value;
     setPhones(newPhones);
   };
 
+  // Form gönderme işlemi
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedData = { email, phones, address };
+    const updatedData = { email, phone1: phones[0], phone2: phones[1], address };
 
     try {
-      const response = await fetch(API_ROUTES.HAKKIMIZDA, {
-        method: 'POST',
+      const method = id ? 'PUT' : 'POST'; // id varsa PUT, yoksa POST
+      const url = id ? `${API_ROUTES.ILETISIM.replace("id/", "")}${id}/` : API_ROUTES.ILETISIM.replace("id/", "");
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -62,41 +65,28 @@ const Iletisim = () => {
       });
       if (response.ok) {
         const result = await response.json();
-        console.log('Güncelleme başarılı:', result);
+        console.log('İşlem başarılı:', result);
         setIsOpen(false);
-        // Güncellenmiş veriyi API'dan tekrar çekin
-        const fetchData = async () => {
-          try {
-            const response = await fetch(API_ROUTES.HAKKIMIZDA);
-            if (response.ok) {
-              const result = await response.json();
-              setData({
-                email: result.email || '',
-                phones: result.phones || ['', ''],
-                address: result.address || '',
-              });
-              setEmail(result.email || '');
-              setPhones(result.phones || ['', '']);
-              setAddress(result.address || '');
-            }
-          } catch (error) {
-            console.error('Veri çekme hatası:', error);
-          }
-        };
-
-        fetchData();
+        getData(); // Güncellenmiş veriyi tekrar al
       } else {
-        console.error('Güncelleme hatası:', response.statusText);
+        console.error('İşlem hatası:', response.statusText);
       }
     } catch (error) {
-      console.error('Güncelleme hatası:', error);
+      console.error('İşlem hatası:', error);
     }
   };
 
+  // Buton metni, veri olup olmadığına göre ayarlanıyor
+  const buttonText = data ? 'Güncelle' : 'İletişim Bilgilerini Gir';
+
   return (
     <div className='content'>
-      <Button variant="contained" color="primary" onClick={() => setIsOpen(true)}>
-        İletişim Bilgilerini Gir
+      <Button variant="contained" color="primary" onClick={() => setIsOpen(true)}
+        sx={{
+          marginLeft:'1.5em',
+        }}
+        >
+        {buttonText}
       </Button>
 
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
@@ -113,14 +103,14 @@ const Iletisim = () => {
           }}
         >
           <Typography variant="h6" component="h2">
-            İletişim Bilgilerini Gir
+            {buttonText}
           </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Email"
+                  label="E-posta"
                   variant="outlined"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -130,7 +120,7 @@ const Iletisim = () => {
                 <Grid item xs={12} sm={6} key={index}>
                   <TextField
                     fullWidth
-                    label={`Phone ${index + 1}`}
+                    label={`Telefon ${index + 1}`}
                     variant="outlined"
                     value={phone}
                     onChange={(e) => handlePhoneChange(index, e.target.value)}
@@ -141,7 +131,7 @@ const Iletisim = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Address:"
+                  label="Adres"
                   variant="outlined"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}

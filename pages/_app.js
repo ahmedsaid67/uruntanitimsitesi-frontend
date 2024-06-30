@@ -6,7 +6,7 @@ import { wrapper } from '../context/provider';
 import React, { useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 
-
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
 
 const ROUTES_TO_RETAIN = ["/"];
