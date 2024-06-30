@@ -8,6 +8,9 @@ import Image from 'next/image';
 import PopupWithZoom from '@/compenent/PopupWithZoom';
 import Slider from 'react-slick';
 
+import { FaRegArrowAltCircleDown ,FaRegArrowAltCircleUp} from "react-icons/fa";
+
+
 
 
 const getDataById = async (slug) => {
@@ -106,6 +109,8 @@ const Urun = () => {
     afterChange: handleAfterChange,
   
   };
+
+  const itemCount = getImg.length;
 
   
  
@@ -216,30 +221,36 @@ const scrollToImageX = (id) => {
         <div className={styles.container}>
 
         <div className={styles.imgContainer}>
-          <Slider {...settings}
-            className={styles.altImages}
-            ref={sliderRef} 
+        <div className={styles.altImages}>
+        {itemCount > 5 && (
+        <div className={styles.prevArrow} onClick={() => sliderRef.current.slickPrev()}><FaRegArrowAltCircleUp /></div> )}
+          <Slider
+            {...settings}
+            className={styles.slider}
+            ref={sliderRef}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
-            vertical // Make sure to add this prop for vertical scrolling
           >
             {getImg.map((img, index) => (
-             
-                <Image key={index} src={img.image} alt=""
+              <Image
+                key={index}
+                src={img.image}
+                alt=""
                 className={`${styles.altImage} ${activeImage === img.id ? styles.active : ''}`}
-                width={800} height={1200} 
+                width={800}
+                height={1200}
                 onClick={(e) => {
                   e.preventDefault();
                   if (!isSliding) {
                     scrollToImage(img.id);
                   }
-
                 }}
-                
-                />
+              />
             ))}
-          
           </Slider>
+          {itemCount > 5 && (
+          <div className={styles.nextArrow} onClick={() => sliderRef.current.slickNext()}><FaRegArrowAltCircleDown /></div>)}
+        </div>
           
           <div className={styles.mainImages} ref={mainImagesRef}>
             {getImg.map((img, index) => (
@@ -252,6 +263,7 @@ const scrollToImageX = (id) => {
               ))}
 
             <div className={styles.rowDotContainer}>
+              <>
                     {getImg.map((img, index) => (
                       <a
                       className={`${styles.rowDot} ${activeDot === img.id ? styles.active : ''}`}
@@ -263,11 +275,11 @@ const scrollToImageX = (id) => {
                         }}
                       ></a>
                     ))}
-                    
+                     </>
                   </div>
-                      
+                 
           </div>
-        
+         
         </div>
 
         
@@ -292,6 +304,9 @@ const scrollToImageX = (id) => {
 
         
       </div>
+
+
+      
      
     
     {/* popup */}

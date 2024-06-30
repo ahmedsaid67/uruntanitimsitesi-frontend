@@ -84,4 +84,10 @@ export const API_ROUTES = {
     HIZLI_LINKLER_DETAIL : API_SERVER_URL + "/hizlilinkler/id/",
     HIZLI_LINKLER_DELETE : API_SERVER_URL + "/hizlilinkler/bulk_soft_delete/",
 
+    // İletişim
+    ILETISIM : API_SERVER_URL + "/contact/id/1",
+
+    // Hakkımızda
+    HAKKIMIZDA : API_SERVER_URL + "/hakkimizda/id/",
+    
 }

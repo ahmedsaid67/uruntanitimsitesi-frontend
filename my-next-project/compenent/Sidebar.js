@@ -45,6 +45,16 @@ const MenuListItems = [
       { id: 63, text: 'Ürünler', url: '/panel/urunler/urunler' },
     ],
   },
+  {
+    id: 7,
+    text: 'İletisim',
+    url: '/panel/iletisim',
+  },
+  {
+    id: 8,
+    text: 'Hakkimizda',
+    url: '/panel/hakkimizda',
+  },
 
 
 ];

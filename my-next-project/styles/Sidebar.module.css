@@ -174,12 +174,14 @@
 .content {
   
   display: flex;
-  justify-content: center;
+  justify-content: start;
   flex-grow: 1;
   margin-bottom: 20px;
   margin-top: 40px;
 
 }
+
+
 
 
 .rightbar {
