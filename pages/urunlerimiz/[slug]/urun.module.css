@@ -188,6 +188,39 @@
 /* rowDot end */
 
 
+/* Slider */
+
+/* Arrow styles */
+.prevArrow,
+.nextArrow {
+  position: sticky;
+  display: flex;
+  color: #1c3a5a95;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 50px;
+  font-size: 2.5em;
+  
+  
+}
+
+.nextArrow{
+  bottom: 10px;
+}
+
+
+
+.altImages:hover .prevArrow,
+.altImages:hover .nextArrow {
+  opacity: 1;
+}
+
+
+/* SliderEnd */
 
 /* popup */
 
@@ -398,7 +431,7 @@
 
   .rowDotContainer {
     display: flex;
-    bottom: -25%;
+    bottom: -10%;
   }
 }
 
