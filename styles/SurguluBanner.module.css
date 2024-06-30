@@ -1,0 +1,175 @@
+.sliderContainer {
+  width: 100%;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100vh;
+}
+
+.sliderContainer img {
+  width: 100%;
+  height: auto;
+}
+
+
+
+
+.rightArrow, .leftArrow {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 16px;
+  color: black;
+  z-index: 5;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 50%;
+  padding: 9px 13.5px;
+}
+
+.rightArrow:hover, .leftArrow:hover {
+  background: black; /* Mavi arka plan */
+  color: #fff; /* Beyaz ok renk */
+}
+
+.leftArrow {
+  left: 32px;
+}
+
+.rightArrow {
+  right: 32px;
+}
+
+
+.customDots {
+  position: absolute;
+  top: 90%; /* Slider'ın yüksekliğinin %90'ı kadar aşağıda */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  z-index: 10; /* Z-index yüksek değeri ile dot'ların diğer elementlerin üstünde görünmesini sağlar */
+}
+
+.customDots li {
+  margin: 0 5px;
+}
+
+.customDots li button {
+  font-size: 8px;
+  line-height: 15px;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background: #fff; /* Dot'ların arka plan rengini hafif şeffaf beyaz olarak ayarla */
+  cursor: pointer;
+  transition: background 0.3s ease; /* Arka plan rengi değişimini yumuşat */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Gölgelendirme efekti */
+}
+
+.customDots li button::before {
+  content: none;
+}
+
+.customDots li button:hover {
+  background: black /* Üzerine gelindiğinde dot'un arka plan rengini değiştir */
+}
+
+.customDots li.slick-active button {
+  background: black; /* Aktif dot'un arka plan rengini ayarla */
+  opacity: 1; /* Aktif dot'u tamamen opak yap */
+}
+
+
+
+/* Responsive adjustments */
+@media only screen and (max-width: 768px) {
+  .rightArrow, .leftArrow {
+    padding: 6px 9px; /* Adjust padding accordingly */
+    font-size: 12px;
+    left: 8px; /* Both arrows adjusted to the same side for simplification */
+    right: auto;
+  }
+  
+  .rightArrow {
+    right: 8px;
+    left: auto;
+  }
+  
+
+
+  .customDots{
+    top: 90%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width:900px) {
+  .rightArrow, .leftArrow {
+    padding: 9px 13.5px; /* Adjust padding accordingly */
+    font-size: 16px;
+    left: 8px; /* Both arrows adjusted to the same side for simplification */
+    right: auto;
+  }
+
+  .rightArrow {
+    right: 8px;
+    left: auto;
+  }
+
+}
+
+
+@media only screen and (min-width: 900px) and (max-width:1100px) {
+  .rightArrow, .leftArrow {
+    padding: 9px 13.5px; /* Adjust padding accordingly */
+    font-size: 16px;
+    left: 8px; /* Both arrows adjusted to the same side for simplification */
+    right: auto;
+  }
+
+  .rightArrow {
+    right: 8px;
+    left: auto;
+  }
+
+}
+
+
+
+@media only screen and (min-width: 1100px) and (max-width:1200px) {
+  .rightArrow, .leftArrow {
+    padding: 9px 13.5px; /* Adjust padding accordingly */
+    font-size: 16px;
+    left: 8px; /* Both arrows adjusted to the same side for simplification */
+    right: auto;
+  }
+
+  .rightArrow {
+    right: 8px;
+    left: auto;
+  }
+
+
+}
+
+
+@media only screen and (min-width: 1200px) and (max-width:1300px) {
+  .rightArrow, .leftArrow {
+    padding: 9px 13.6px; /* Adjust padding accordingly */
+    font-size: 16px;
+    left: 8px; /* Both arrows adjusted to the same side for simplification */
+    right: auto;
+  }
+
+  .rightArrow {
+    right: 8px;
+    left: auto;
+  }
+
+}
+
