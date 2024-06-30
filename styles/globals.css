@@ -1,0 +1,55 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+
+  --IMG-W: 600px;
+  --IMG-H: 900px;
+  --IMG-H2k: 1500px;
+  --IMG-H4k: 2100px;
+
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+/* Mevcut aydınlık mod stilleriniz burada bulunur */
+
+/* Kullanıcının tercih ettiği tema karanlık mod olsa bile aydınlık mod stilini zorla uygula */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Burada, karanlık mod için özel olarak tanımlamış olabileceğiniz tüm değişkenleri, aydınlık moddaki değerlerle tekrar tanımlayın. */
+    /* Örneğin: */
+    --background-color: #ffffff; /* Beyaz arka plan */
+    --text-color: #000000; /* Siyah metin rengi */
+    /* Diğer tüm temel renk değişkenleriniz */
+  }
+
+  /* Varsa, karanlık modda değişiklik yapmak istediğiniz diğer öğeleri de buraya ekleyin. */
+  /* Örneğin: */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+}

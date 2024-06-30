@@ -1,0 +1,61 @@
+/* Login.module.css */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #F4F7FA;
+    padding: 20px;
+  }
+  
+  .login {
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    text-align: center;
+    padding: 50px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .title {
+    color: #333333;
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+  
+  .inputContainer {
+    margin-bottom: 15px;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #E3E9EF;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  
+  .button {
+    background-color: #007BFF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 30px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+  }
+  
+  @media (max-width: 600px) {
+    .login {
+      max-width: 100%;
+      padding: 20px;
+    }
+  
+    .input, .button {
+      font-size: 14px;
+    }
+  }
+  

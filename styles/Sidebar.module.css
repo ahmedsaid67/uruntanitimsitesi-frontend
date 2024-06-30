@@ -1,0 +1,240 @@
+
+
+
+/* Sağ Konteyner */
+.rightContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+/* Header Konteyneri */
+.headerContainer {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #212529;
+}
+
+/* Çıkış Yap Konteyneri */
+.logoutContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 75px;
+}
+
+/* Çıkış Yap Butonu */
+.logoutButton {
+  font-size: 16px;
+  background-color: #dc3545;
+  color: #ffffff;
+  padding: 8px 32px;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  margin-right: 20px;
+}
+
+.logoutButton:hover {
+  background-color: #bd2130;
+}
+
+/* İçerik */
+.children {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+}
+
+/* Özel Tablar */
+.customTabs {
+  background-color: #ecf0f1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Özel Tab */
+.customTab {
+  font-size: 14px;
+  color: #34495e;
+  text-transform: none;
+  margin-right: 4px;
+  padding: 10px 16px;
+  border: 1px solid #bdc3c7;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.customTab:hover {
+  background-color: #bdc3c7;
+}
+
+.customTab.Mui-selected {
+  color: #2c3e50;
+  background-color: #ecf0f1;
+  border-color: #2c3e50;
+}
+
+/* Alt Tablar */
+.customSubTabs {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #ecf0f1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+/* Özel Alt Tab */
+.customSubTab {
+  font-size: 14px;
+  color: #576574;
+  text-transform: none;
+  padding: 10px 20px;
+  margin: 5px 10px;
+  border: none;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.customSubTab:hover {
+  color: #2c3e50;
+  background-color: #dfe6e9;
+}
+
+.customSubTab.Mui-selected {
+  color: #2980b9;
+  background-color: #d6eaf8;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Ana öğeler için stil */
+.nested {
+  box-sizing: border-box; /* padding ve border genişlikleri toplam genişliğe dahil edilsin */
+  border-left: 4px solid #1976d2; /* Daima sol tarafta 4px mavi kenarlık */
+  padding: 5px 20px; /* İç boşluk */
+  transition: border-left-color 0.3s ease; /* Kenarlık rengi geçiş efekti */
+}
+
+/* Alt öğeler için stil */
+.nestedSubList {
+
+  padding: 5px 24px;
+
+}
+
+/* Ana öğe üzerine gelindiğinde */
+.nested:hover {
+  color: black;
+  cursor: pointer;
+  background-color: #e0e0e0; /* Seçili durumda arka plan rengi değişmesin */
+  
+  
+}
+
+.nestedSubList:hover {
+  background-color: #e0e0e0; /* Hafifçe farklı bir arka plan rengi */
+  color: black;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+.tabContainer {
+
+  width: 250px;
+  height: calc(100vh - 64px); /* AppBar'ın yüksekliğini hesaba kat */
+  padding-top: 0;
+  flex-shrink: 0;
+  padding-left: 20px;
+  position: sticky;
+  top: 64px; /* AppBar'ın altında sabitlenmesi için */
+  border-radius: 10px; /* Yuvarlak köşeler */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+  overflow: hidden; /* İçerik taşması durumunda gizle */
+}
+
+
+.subitem {
+  color: black;
+}
+
+/* İçerik */
+.content {
+  
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  margin-top: 40px;
+
+}
+
+
+.rightbar {
+  display: flex;
+  flex-grow: 1;
+
+}
+
+.sidebar {
+  width: 250px; 
+  flex-shrink: 0;
+  background-color: #3a3b3c;
+  color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.toolbar {
+  /* Toolbar yüksekliğini ayarlayın */
+  min-height: 64px;
+}
+
+.drawerContent {
+  overflow: auto;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  /* Seçili öğe için stil */
+  background-color: #3a3b3c; /* varsayılan arkaplan rengi */
+  color: white; /* varsayılan renk */
+  font-size: 14px;
+  border-left: 4px solid transparent;
+}
+
+.menuItem:hover {
+  background-color: #5a5a5a; /* hover arkaplan rengi */
+  
+}
+
+/* Seçili menü öğesi için aktif sınıfı */
+.active {
+  background-color: #4a4a4a; /* aktif arkaplan rengi */
+  font-weight: bold;
+  border-left-color: #507dac; /* Yalnızca sol kenarlık rengi değişsin */
+}
