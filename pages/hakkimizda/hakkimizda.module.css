@@ -11,6 +11,11 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
+    box-sizing: border-box; /* İçerik ve paddingin container genişliğine dahil edilmesini sağlar */
+}
+
+.detail {
+    overflow: hidden; /* İçerik taşmasını gizler */
 }
 
 .detail h2 {
@@ -20,11 +25,17 @@
     color: #333;
 }
 
-.detail p {
+.detail .content {
     font-size: 1.1em;
     line-height: 1.6;
     margin-bottom: 20px;
     color: #555;
+    overflow-wrap: break-word; /* Uzun kelimeleri ve satırları kırar */
+    word-wrap: break-word;
+}
+
+.detail p {
+    margin-bottom: 20px;
 }
 
 .detail p:last-child {

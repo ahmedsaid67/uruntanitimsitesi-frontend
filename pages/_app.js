@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 
 
 
-
 const ROUTES_TO_RETAIN = ["/"];
 
 function MyApp({ Component, pageProps }) {

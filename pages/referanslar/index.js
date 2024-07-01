@@ -4,6 +4,7 @@ import { API_ROUTES } from '@/utils/constants';
 import axios from 'axios';
 import Link from "next/link";
 import BaslikGorsel from "../../compenent/BaslikGorsel";
+import { CircularProgress } from "@mui/material";
 
 
 const getReferences = async () => {
@@ -27,23 +28,53 @@ const getReferences = async () => {
 
 const Referans = () => {
   const [references, setReferences] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
 
   useEffect(() => {
     // Component yüklendiğinde referansları al
     const fetchReferences = async () => {
+      setIsLoading(true);
+      setHasError(false);
       try {
+        
         const data = await getReferences();
+        console.log(data);
         setReferences(data); // Veriyi state'e kaydet
         console.log(data);
       } catch (error) {
         console.error("Referanslar alınırken bir hata oluştu:", error);
+        setHasError(true);
+        console.error('Veri çekme hatası:', error);
+      }
+      finally{
+        setIsLoading(false);
       }
     };
 
     fetchReferences(); // fetchReferences fonksiyonunu çağırın
 
   }, []); // useEffect'in sadece bir kez çalışması için boş bağımlılık dizisi
+
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <Container>
+        <Alert severity="error">
+          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+        </Alert>
+      </Container>
+    );
+  }
+
 
   return (
     <>
@@ -53,7 +84,7 @@ const Referans = () => {
 
     <div className={styles.container}>
       {references.map((ref, index) => (
-        <Link href={ref.url} key={ref.id}>
+        <Link href={ref.url} key={ref.id} target="blank">
         <div key={index} className={styles.imgCont}>
           <img src={ref.img} alt={ref.name} width={300} height={300} key={ref.id} className={styles.box}/>
           <p>{ref.name}</p>

@@ -1,24 +1,75 @@
 import styles from "./hakkimizda.module.css";
+
+import axios from 'axios';
+import { API_ROUTES } from '@/utils/constants';
+import React, { useState, useEffect } from 'react';
+import { CircularProgress } from "@mui/material";
 import BaslikGorsel from "@/compenent/BaslikGorsel";
 
 const Hakkimizda = () => {
-    return (
-        <>
-            <BaslikGorsel slug="hakkimizda"/>
+  const [content, setContent] = useState('');
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [id, setId] = useState(null);
 
-            <div className={styles.container}>
-                <div className={styles.detail}>
-                    <h2>Hakkımızda</h2>
-                    <p>Monavet Veteriner Kliniği, 2023 yılında kurulan ve evcil hayvanların sağlık ihtiyaçlarını karşılamak için 7/24 açık olan bir veteriner kliniğidir. Baş hekimi Abdul Kadir Keleş olan kliniğimiz, evcil hayvanların sağlığına ve mutluluğuna önem vererek, en son teknoloji ve tedavi yöntemlerini kullanarak en iyi sonuçları elde etmeyi hedeflemektedir.</p>
-                    <p>Monavet Veteriner Kliniği olarak, evcil hayvanların sağlığına ve mutluluğuna odaklanarak, acil muayene, genel cerrahi, dahiliye, aşılama, doğum jinekoloji, ağız ve diş sağlığı, laboratuvar, röntgen, ultrason ve pet kuaför hizmetleri sunmaktayız. Acil durumlarda, kliniğimiz 7/24 açık olduğu için her zaman hizmetinizdeyiz.</p>
-                    <p>Kliniğimizde, evcil hayvanlarınızın rahatlığı için ayrılmış bekleme alanları ve yürüyüş parkurları mevcuttur. Ayrıca, evcil hayvanlarınızın rahatlığı için çeşitli yiyecek ve içecekler de sunuyoruz. Veteriner hekimlerimiz, evcil hayvanların bakımı, beslenmesi, egzersiz ihtiyaçları ve sağlıklı yaşam için gerekli diğer konularda size yardımcı olacak bilgiler sunmaktadır.</p>
-                    <p>Monavet Veteriner Kliniği, evcil hayvanların sağlığı ve mutluluğu için gereken tüm hizmetleri sunmakla birlikte, aynı zamanda evcil hayvan sahiplerine danışmanlık hizmeti de sunmaktadır. Veteriner hekimlerimiz, evcil hayvanlarınızın sağlığına ve mutluluğuna önem vererek, en iyi tedavi yöntemleri ve hizmetleri sunuyoruz. Evcil hayvanınızın sağlığına ve mutluluğuna önem veren bir klinik arıyorsanız, Monavet Veteriner Kliniği sizin için doğru tercih olacaktır.</p>
-                </div>
-            </div>
-        
-        </>
-        
-    )
-}
+  // Veriyi API'den al
+  const getData = async () => {
+    setIsLoading(true);
+    setHasError(false);
+    try {
+      const response = await axios.get(API_ROUTES.HAKKIMIZDA.replace("id/", ""));
+      const result = response.data.results[0]; // İlk sonucu al
+      if (result) {
+        const { content, id } = result;
+        setData(result);
+        setContent(content || '');
+        setId(id); // Verinin id'sini sakla
+      }
+    } catch (error) {
+      setHasError(true);
+      console.error('Veri çekme hatası:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  if (isLoading) {
+    return (
+
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <Container>
+        <Alert severity="error">
+          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+        </Alert>
+      </Container>
+    );
+  }
+
+  return (
+    <>
+    <BaslikGorsel slug="hakkimizda"/>
+    <div className={styles.container}>
+      <div className={styles.detail}>
+        <h2>Hakkımızda</h2>
+        {/* HTML içeriği güvenli bir şekilde render et */}
+        <div className={styles.content} dangerouslySetInnerHTML={{ __html: content }}></div>
+      </div>
+    </div>
+  </>
+  );
+};
+
 
 export default Hakkimizda;

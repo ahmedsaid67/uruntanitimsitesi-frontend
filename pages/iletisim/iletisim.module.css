@@ -55,6 +55,7 @@
 .detail p {
     font-size: 1em; /* Paragrafların boyutunu ayarlama */
     line-height: 1.5; /* Satır yüksekliğini artırma */
+    text-align: center;
 }
 
 .socialMedia {
