@@ -92,4 +92,14 @@ export const API_ROUTES = {
     
     HAKKIMIZDA : API_SERVER_URL + "/hakkimizda/id/",
 
+    // BAŞLIK GÖRSEL
+
+    BASLIK_GORSEL: API_SERVER_URL + "/baslikgorsel/",
+    BASLIK_GORSEL_ACTIVE : API_SERVER_URL + "/baslikgorsel/get_active/",
+    BASLIK_GORSEL_PAGINATIONS : API_SERVER_URL + "/baslikgorsel/?page=currentPage",
+    BASLIK_GORSEL_DETAIL : API_SERVER_URL + "/baslikgorsel/id/",
+    BASLIK_GORSEL_DELETE : API_SERVER_URL + "/baslikgorsel/bulk_soft_delete/",
+    BASLIK_GORSEL_GET_GORSEL: API_SERVER_URL + "/baslikgorsel/get-by-name/data/",
+
+
 }

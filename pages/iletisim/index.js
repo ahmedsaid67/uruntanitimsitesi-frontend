@@ -1,10 +1,11 @@
 import styles from "./iletisim.module.css";
+import BaslikGorsel from "@/compenent/BaslikGorsel";
+
 
 const Iletisim = () =>{
     return(
         <div>
-            <h2>İletisim</h2>
-
+           <BaslikGorsel slug="iletisim"/>
             <div className={styles.mainContainer}>
                 <div className={styles.detail}>
                     <h2>E-mail</h2>

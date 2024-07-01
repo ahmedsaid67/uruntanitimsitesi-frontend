@@ -33,25 +33,30 @@ const MenuListItems = [
   },
   {
     id: 5,
+    text: 'Başlık Görsel',
+    url: '/panel/baslik-gorsel',
+  },
+  {
+    id: 6,
     text: 'Referanslar',
     url: '/panel/references',
   },
   {
-    id: 6,
+    id: 7,
     text: 'Ürünler',
     children: [
-      { id: 61, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
-      { id: 62, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
-      { id: 63, text: 'Ürünler', url: '/panel/urunler/urunler' },
+      { id: 71, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
+      { id: 72, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
+      { id: 73, text: 'Ürünler', url: '/panel/urunler/urunler' },
     ],
   },
   {
-    id:7,
+    id:8,
     text: 'İletisim',
     url: '/panel/iletisim',
   },
   {
-    id:8,
+    id:9,
     text: 'Hakkımızda',
     url: '/panel/hakkimizda',
   }

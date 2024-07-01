@@ -5,9 +5,9 @@ import axios from 'axios';
 import Link from 'next/link';
 
 const Footer = () => {
-
   const [socialMedia, setSocialMedia] = useState([]);
   const [hizliLinkler, setHizliLinkler] = useState([]);
+  const [iletisim, setIletisim] = useState({});
 
   useEffect(() => {
     const fetchSocialMedia = async () => {
@@ -35,15 +35,27 @@ const Footer = () => {
     fetchHizliLinkler();
   }, []);
 
+  useEffect(() => {
+    const fetchIletisim = async () => {
+      try {
+        const response = await axios.get(API_ROUTES.ILETISIM.replace("id", 1));
+        setIletisim(response.data);
+      } catch (error) {
+        console.error('İletişim bilgileri yüklenirken bir hata oluştu:', error);
+      }
+    };
+
+    fetchIletisim();
+  }, []);
+
   return (
     <footer className={styles.customFooter}>
       <div className={styles.footerContent}>
-
         <div className={`${styles.footerSection} ${styles.rightCizgi}`}>
           <h3>İletişim</h3>
-          <p>Adres: Elmalıkent Mah. Elmalıkent Cad. No:4 B Blok Kat:3 34764 Ümraniye / İSTANBUL</p>
-          <p>Email: <a href="mailto:info@kuramer.org">info@kuramer.org</a></p>
-          <p>Telefon: +90 216 474 08 60 / 2910 - 2918</p>
+          <p>Adres: {iletisim.address}</p>
+          <p>Email: <a href={`mailto:${iletisim.email}`}>{iletisim.email}</a></p>
+          <p>Telefon: {iletisim.phone1} / {iletisim.phone2}</p>
         </div>
 
         <div className={`${styles.footerSection} ${styles.rightCizgi}`}>
@@ -72,11 +84,12 @@ const Footer = () => {
       </div>
 
       <div className={styles.footerBottom}>
-        <p>&copy; 2024 Kur'an Araştırmaları Merkezi</p>
+        <p>&copy; 2024 ASD</p>
       </div>
     </footer>
   );
 };
 
 export default Footer;
+
 

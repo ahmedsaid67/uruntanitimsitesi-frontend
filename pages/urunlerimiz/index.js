@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress'; 
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
-
+import BaslikGorsel from '@/compenent/BaslikGorsel';
 
 function Urunlerimiz() {
   const [kategoriler, setKategoriler] = useState([]);
@@ -35,7 +35,9 @@ function Urunlerimiz() {
   
   const [isHorizontalContainerHovered, setIsHorizontalContainerHovered] = useState(false);
 
+  const [slug,setSlug] = useState("")
 
+    
 
   useEffect(() => {
     const fetchCategoriesAndValidateTab = async () => {
@@ -59,6 +61,7 @@ function Urunlerimiz() {
         } else {
           const initialTab = tabUrlFriendly || categories[0]?.slug;
           setActiveTab(initialTab);
+          
         }
   
         setCategoriesError(null);
@@ -104,6 +107,7 @@ function Urunlerimiz() {
       const selectedKategori = kategoriler.find(k => k.slug === activeTab);
       if (selectedKategori) {
         fetchBooks(selectedKategori.slug,currentPage);
+        setSlug(selectedKategori.slug)
       }
       
     }
@@ -114,6 +118,7 @@ function Urunlerimiz() {
       const selectedKategori = kategoriler.find(k => k.slug === router.query.tab);
       if (selectedKategori) {
         fetchBooks(selectedKategori.slug,currentPage);
+        setSlug(selectedKategori.slug)
       }
       
     }
@@ -127,12 +132,15 @@ function Urunlerimiz() {
       const selectedKategori = kategoriler.find(k => k.slug === router.query.tab);
       if (selectedKategori) {
         fetchBooks(selectedKategori.slug,currentPage);
+        setSlug(selectedKategori.slug)
       }
     }else if (router && kategoriler.length > 0){
-      const initialTab = categories[0]?.slug;
-      setActiveTab(initialTab);
+      
       const selectedKategori = kategoriler[0];
+      const initialTab = selectedKategori?.slug;
+      setActiveTab(initialTab);
       fetchBooks(selectedKategori.slug,currentPage);
+      setSlug(selectedKategori.slug)
     }
   }, [router]);
 
@@ -295,10 +303,11 @@ function Urunlerimiz() {
 
   return (
     <>
+      <BaslikGorsel slug={slug}/>
 
       { categoriesLoading ? (
         <div className={styles.loader}>
-        <CircularProgress /> 
+        <CircularProgress style={{ color: 'black' }}/> 
         </div>)
         : categoriesError ? (
         <div className={styles.errorMessage}>{categoriesError}</div>
@@ -306,9 +315,9 @@ function Urunlerimiz() {
       : kategoriler.length > 0 ? (
 
       <div className={styles.container}>
-        <div className={styles.bannerImage}>
-          <img src='/newban7.jpg' alt='Ürünlerimiz Sayfası' />
-        </div>
+
+        
+
         <div className={styles.mainContainer}>
           
           <div className={styles.leftContainer}>
@@ -380,7 +389,7 @@ function Urunlerimiz() {
                 <TabPanel key={kategori.id} value={activeTab} index={kategori.slug}>
                   {isLoading ? (
                       <div className={styles.loader}>
-                        <CircularProgress /> {/* Yükleme göstergesi */}
+                        <CircularProgress style={{ color: 'black' }}/> {/* Yükleme göstergesi */}
                       </div>
                       ) : error ? (
                         <div className={styles.errorMessage}>{error}</div>

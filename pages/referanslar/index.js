@@ -3,6 +3,8 @@ import styles from "./referans.module.css";
 import { API_ROUTES } from '@/utils/constants';
 import axios from 'axios';
 import Link from "next/link";
+import BaslikGorsel from "../../compenent/BaslikGorsel";
+
 
 const getReferences = async () => {
   try {
@@ -26,6 +28,7 @@ const getReferences = async () => {
 const Referans = () => {
   const [references, setReferences] = useState([]);
 
+
   useEffect(() => {
     // Component yüklendiğinde referansları al
     const fetchReferences = async () => {
@@ -43,6 +46,11 @@ const Referans = () => {
   }, []); // useEffect'in sadece bir kez çalışması için boş bağımlılık dizisi
 
   return (
+    <>
+
+    <BaslikGorsel slug="referanslar"/>
+
+
     <div className={styles.container}>
       {references.map((ref, index) => (
         <Link href={ref.url} key={ref.id}>
@@ -53,6 +61,8 @@ const Referans = () => {
         </Link>
       ))}
     </div>
+
+    </>
   );
 };
 

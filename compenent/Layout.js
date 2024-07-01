@@ -92,7 +92,8 @@ useEffect(() => {
           zIndex: 999,
         }}
       >
-        <CircularProgress />
+        <CircularProgress style={{ color: !isPanelPage ? 'black' : 'defaultColor' }}/>
+
       </div>
     );
   }
