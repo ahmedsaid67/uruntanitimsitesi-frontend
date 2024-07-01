@@ -2,6 +2,7 @@ import styles from "./hakkimizda.module.css";
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
 import React, { useState, useEffect } from 'react';
+import { CircularProgress } from "@mui/material";
 
 const Hakkimizda = () => {
   const [content, setContent] = useState('');
@@ -34,6 +35,24 @@ const Hakkimizda = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <Container>
+        <Alert severity="error">
+          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+        </Alert>
+      </Container>
+    );
+  }
 
   return (
     <div className={styles.container}>

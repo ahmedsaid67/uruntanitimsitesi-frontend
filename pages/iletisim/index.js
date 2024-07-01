@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
 import styles from './iletisim.module.css';
+import { CircularProgress } from '@mui/material';
 
 const Iletisim = () => {
   const [email, setEmail] = useState('');
@@ -50,6 +51,24 @@ const Iletisim = () => {
     getData();
     getSocialData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <Container>
+        <Alert severity="error">
+          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+        </Alert>
+      </Container>
+    );
+  }
 
   return (
     <div>
