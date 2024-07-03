@@ -76,7 +76,7 @@
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .kategoriItem {
     width: calc(50% - 5px); /* Mobilde iki kart genişliği */
     height: auto;
@@ -86,6 +86,10 @@
   }
   .kategoriBaslikContainer {
     font-size: 16px; /* Mobil için font boyutu */
+  }
+  .kategoriContainer {
+    padding: 10% 1rem;
+
   }
 
 }

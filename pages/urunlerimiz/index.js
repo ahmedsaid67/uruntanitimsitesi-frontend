@@ -226,7 +226,7 @@ function Urunlerimiz() {
   useEffect(() => {
     const calculateTabWidths = () => {
       if (kategoriler.length > 0 && scrollContainerRef.current) {
-        const containerWidth = window.innerWidth -32; // -32 sebebi sağdan soldan margın farkı
+        const containerWidth = window.innerWidth -16; 
         const kategoriItems = scrollContainerRef.current.querySelectorAll(`.${styles.kategoriItemTitle}`);
 
         let totalTabsWidth = 0;
@@ -234,10 +234,12 @@ function Urunlerimiz() {
           totalTabsWidth += item.offsetWidth + 16;
         });
 
-        if (totalTabsWidth > containerWidth) {
+        if (totalTabsWidth -16 > containerWidth) {     //-17 sebebi gap sadece eleman arasına 1rem fark verıyor 6 eleman var ise 5 kere yanı ondan -1 gerekıyor
           setVariant('scrollable');
+          console.log('scrollable')
         } else {
           setVariant('fullWidth');
+          console.log('fullWidth')
         }
       }
     };
