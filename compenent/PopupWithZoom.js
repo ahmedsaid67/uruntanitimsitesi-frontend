@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from "../pages/urunlerimiz/[slug]/urun.module.css";
+import styles from "../pages/urunlerimiz/[slug]/urundetay.module.css";
 import Image from 'next/image';
 
 const PopupWithZoom = ({ showPopup, handlePopupClick, handleClosePopup, getMainImage, imageSet, currentIndex }) => {
