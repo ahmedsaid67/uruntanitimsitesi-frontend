@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
 
         <div className={styles.footerSection}>
-          <h3>Sosyal Medya ve İlgili Kuruluşlar</h3>
+          <h3>Sosyal Medya</h3>
           <div className={styles.socialIcons}>
             {socialMedia.map(media => (
               <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer">
