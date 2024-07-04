@@ -4,7 +4,7 @@
     display: flex;
     margin: 0 auto;
     margin-top: 3em;
-    margin-bottom: 3em;
+    margin-bottom: 5em;
 
 }
 
@@ -26,9 +26,10 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-left: 1.5rem;
+    margin-left: 4rem;
     border: 1px solid rgba(30, 38, 192, 0);
     overflow-y: auto;
+    
 }
 
   
@@ -77,6 +78,9 @@
     object-fit: cover;
     height: 100%;
 
+}
+.mainImage:hover{
+  cursor: pointer;
 }
 
 
@@ -133,15 +137,33 @@
     border: 1px solid #2e5077;
     border-radius: 5px;
     margin: 20px auto;
-    background-color: #2e5077;
     max-width: 90%; /* Adjusted for smaller screens */
+  }
+  .placeholder {
+    width: 100%;
+    height: 120vh; /* Varsayılan yükseklik, ihtiyaca göre ayarlayın */
+    background: #fff;
+  
   }
   
   .loader {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    height: 100vh;
+  }
+  .loadImage{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loadSlider{
     height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .noDataMessage {
@@ -286,6 +308,13 @@
     z-index: 5000;
     border-style:double;
   }
+
+  .leftArrow:hover{
+    cursor: pointer;
+  }
+  .rightArrow:hover{
+    cursor: pointer;
+  }
   
   .leftArrow {
     left: 10px;
@@ -353,8 +382,18 @@
     .detailContainer {
       width: 100%;
       margin-left: 0;
+      flex-direction: row;
       overflow-y: none;
       height: auto;
+      justify-content: space-between;
+    }
+
+    .detailText{
+      font-size: 1em;
+    }
+
+    .detailPrice{
+      font-size: 1em;
     }
   
     .styleContainer {
@@ -387,6 +426,7 @@
       min-height: 800px;
       object-fit: cover;
     }
+    
   
     .rowDotContainer {
       display: flex;
@@ -395,6 +435,9 @@
     .popImage{
         object-fit: cover;
     }
+
+
+
   }
   
   
@@ -408,9 +451,17 @@
     .detailContainer {
       width: 100%;
       margin-left: 0;
-  
+      flex-direction: row;
       overflow-y: none;
       height: auto;
+      justify-content: space-between;
+    }
+    .detailText{
+      font-size: 1.1em;
+    }
+
+    .detailPrice{
+      font-size: 1.1em;
     }
   
     .styleContainer {

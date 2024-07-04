@@ -149,8 +149,8 @@ const Iletisim = () => {
           onClick={handleSubmit}
           sx={{
             position: 'fixed',
-            bottom: '20px',
-            right: '20px',
+            bottom: '400px',
+            right: '50px',
           }}
         >
           {buttonText}

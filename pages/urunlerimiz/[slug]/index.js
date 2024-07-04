@@ -199,6 +199,7 @@ const scrollToImageXNew = (id) => {
       const offsetTop = element.offsetTop - mainImagesRef.current.offsetTop;
       mainImagesRef.current.scrollTo({
         top: offsetTop,
+        behavior: 'smooth',
       });
     }
     setActiveImage(id);
@@ -325,7 +326,10 @@ const scrollToImageX = (id) => {
   };
 
   if (loading) {
-    return <div className={styles.loader}><CircularProgress /></div>;
+    return <div>
+      <div className={styles.loadImage}></div>
+      <div className={styles.loadSlider}></div>
+    </div>;
   }
 
   if (error) {
@@ -338,7 +342,6 @@ const scrollToImageX = (id) => {
 
   return (
     <div>
-        
         <div className={styles.styleContainer}>
             <div className={styles.imgContainer}>
                 <div className={styles.altImages}>
@@ -405,18 +408,12 @@ const scrollToImageX = (id) => {
                 </div>
             </div>
             <div className={styles.detailContainer}>
-                    <h2 className={styles.detailTextStudio}>ASD Studio</h2>
-                        <h3 className={styles.detailText}>{getData.baslik}</h3>
-                        <h4 className={styles.detailPrice}>{getData.fiyat}</h4>
+                    
+                        <p className={styles.detailText}>{getData.baslik}</p>
+                        <p className={styles.detailPrice}>{getData.fiyat}</p>
                         {/* eğer ticaret sitesi ise */}
 
-                            
-                        {/* empty detail */}
-                        <>
-                        <p className={styles.detailText}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa et, possimus hic voluptatibus id, facere, exercitationem velit necessitatibus quisquam doloribus laboriosam autem nobis vero! Temporibus debitis expedita enim eos aperiam!</p>
                         
-                            
-                        </>
                 </div>
 
                 <PopupWithZoom
@@ -431,30 +428,31 @@ const scrollToImageX = (id) => {
         
 
 
-      <div className={stylesSlider.showcaseContainer}>
-        <div className={stylesSlider.mainContainer}>
-          <div className={stylesSlider.leftContainer}>
-            <h2>İlginizi Çekebilecek Ürünler</h2>
-            <Slider {...sliderSettings}>
-              {products.map(product => (
-                <div key={product.id} className={stylesSlider.productItem}>
-                  <Link href={`/urunlerimiz/${product.slug}`}>
-                    <img
-                      className={stylesSlider.productItemImage}
-                      src={product.kapak_fotografi}
-                      alt={product.baslik}
-                    />
-                  </Link>
-                  <Link href={`/urunlerimiz/${product.slug}`}>
-                    <p className={stylesSlider.productItemTitle}>{product.baslik}</p>
-                  </Link>
-                  <p className={stylesSlider.productItemPrice}>{product.fiyat ? `${product.fiyat} TL` : ''}</p>
-                </div>
-              ))}
-            </Slider>
+        <div className={stylesSlider.showcaseContainer}>
+          <div className={stylesSlider.mainContainer}>
+            <div className={stylesSlider.leftContainer}>
+              <h2>İlginizi Çekebilecek Ürünler</h2>
+              <Slider {...sliderSettings}>
+                {products.map(product => (
+                  <div key={product.id} className={stylesSlider.productItem}>
+                    <Link href={`/urunlerimiz/${product.slug}`}>
+                      <img
+                        className={stylesSlider.productItemImage}
+                        src={product.kapak_fotografi}
+                        alt={product.baslik}
+                      />
+                    </Link>
+                    <Link href={`/urunlerimiz/${product.slug}`}>
+                      <p className={stylesSlider.productItemTitle}>{product.baslik}</p>
+                    </Link>
+                    <p className={stylesSlider.productItemPrice}>{product.fiyat ? `${product.fiyat} TL` : ''}</p>
+                  </div>
+                ))}
+              </Slider>
+            </div>
           </div>
         </div>
-      </div>
+      
     </div>
   );
 };
