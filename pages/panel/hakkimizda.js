@@ -70,7 +70,7 @@ const Hakkimizda = () => {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Hakkımızda
       </Typography>
       <Box

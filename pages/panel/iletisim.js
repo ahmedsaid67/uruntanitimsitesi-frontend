@@ -95,7 +95,7 @@ const Iletisim = () => {
 
   return (
     <div className='content'>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         İletişim Bilgileri
       </Typography>
       <Box
