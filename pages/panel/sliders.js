@@ -596,7 +596,7 @@ export default function GorselBasin() {
           {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}
 
           <DialogActions>
-              <Button onClick={() => handleSave(selectedItem)} color="primary">
+              <Button onClick={() => handleSave(selectedItem)} color="primary" disabled={isSaving}>
                   {isSaving ? <CircularProgress size={24} /> : "Kaydet"}
               </Button>
           </DialogActions>
@@ -726,7 +726,7 @@ export default function GorselBasin() {
       {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
 
         <DialogActions>
-          <Button onClick={handleAddNewItem} color="primary">
+          <Button onClick={handleAddNewItem} color="primary" disabled={isSaving}>
             {isSaving ? <CircularProgress size={24} /> : "Ekle"}
           </Button>
         </DialogActions>

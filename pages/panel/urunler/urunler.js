@@ -857,7 +857,7 @@ export default function FotoGaleri() {
           {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}
 
           <DialogActions>
-              <Button onClick={() => handleSave(selectedItem,selectedKategori,selectedVitrin)} color="primary">
+              <Button onClick={() => handleSave(selectedItem,selectedKategori,selectedVitrin)} color="primary" disabled={isSaving}>
                 {isSaving ? <CircularProgress size={24} /> : "Kaydet"}
               </Button>
           </DialogActions>
@@ -1066,7 +1066,7 @@ export default function FotoGaleri() {
       {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
 
         <DialogActions>
-          <Button onClick={()=>{handleAddNewItem(selectedKategori,selectedVitrin)}} color="primary">
+          <Button onClick={()=>{handleAddNewItem(selectedKategori,selectedVitrin)}} color="primary" disabled={isSaving}>
             {isSaving ? <CircularProgress size={24} /> : "Ekle"}
           </Button>
         </DialogActions>

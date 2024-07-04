@@ -59,9 +59,7 @@
   cursor: pointer;
 }
 
-.horizontalCLick:hover {
-  background-color: whitesmoke; 
-}
+
 
 .horizontalContainerFullWidth{
   margin-top: 0.5rem;
