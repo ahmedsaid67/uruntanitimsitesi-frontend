@@ -79,10 +79,11 @@ const Hakkimizda = () => {
           flexDirection: 'column',
           alignItems: 'flex-start',
           width: '850px',
-          height: '580px',
+          height: '500px',
           margin: '20px',
           padding: '20px',
           background: '#fff',
+          overflow:'hidden',
           boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
           boxSizing: 'border-box',
           position: 'relative' // Box'ı konumlandırmak için relative yapıyoruz
@@ -92,7 +93,7 @@ const Hakkimizda = () => {
           sx={{
             mb: 2,
             width: '800px',
-            height: '450px', // Set a fixed height for the editor
+            height: '80%', // Set a fixed height for the editor
           }}
         >
           <TextEditor
