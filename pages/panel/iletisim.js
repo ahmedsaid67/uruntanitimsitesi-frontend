@@ -77,7 +77,7 @@ const Iletisim = () => {
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh',width:'100%' }}>
         <CircularProgress />
       </div>
     );
@@ -94,27 +94,28 @@ const Iletisim = () => {
   }
 
   return (
-    <div className='content'>
-      <Typography variant="h5" gutterBottom>
-        İletişim Bilgileri
-      </Typography>
+    <div>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          width: '850px',
-          height:'300px',
-          margin: '20px',
-          padding: '20px',
+          width: '100%',
+          height: 'auto', // Adjust height automatically based on content
+          margin: '20px auto', // Center the box horizontally
+          padding: '20px', // Add extra padding at the bottom for the button
           background: '#fff',
-          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // Slightly increase shadow for depth
+          borderRadius: '8px', // Add rounded corners
           boxSizing: 'border-box',
-          position: 'relative', // Box'ı konumlandırmak için relative yapıyoruz
+          position: 'relative',
         }}
       >
+        <Typography variant="h5"  sx={{ color: '#333', fontWeight: 'bold' }}> {/* Slightly darker color and bold text */}
+          İletişim Bilgileri
+        </Typography>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{ marginTop: '1em' }}> {/* Added marginTop for spacing */}
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -151,15 +152,22 @@ const Iletisim = () => {
               display: 'flex',
               justifyContent: 'flex-end',
               marginTop: '1em',
-              position: 'absolute', // Button'ı absolute yapıyoruz
-              bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
-              right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
+              position: 'absolute',
+              bottom: '20px',
+              right: '20px',
             }}
           >
             <Button
               variant="contained"
               color="primary"
               type="submit"
+              sx={{
+                backgroundColor: '#1976d2', // Primary color
+                '&:hover': {
+                  backgroundColor: '#155a9a', // Darker shade on hover
+                },
+                borderRadius: '4px', // Rounded corners for the button
+              }}
             >
               {buttonText}
             </Button>

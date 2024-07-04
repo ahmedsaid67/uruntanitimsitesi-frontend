@@ -13,50 +13,55 @@ const MenuListItems = [
  
   {
     id: 1,
+    text: 'Ana Sayfa',
+    url: '/panel/ana-sayfa',
+  },
+  {
+    id: 2,
     text: 'Menü',
     url: '/panel/menu',
   },
   {
-    id: 2,
+    id: 3,
     text: 'Banner',
     url: '/panel/sliders',
   },
   {
-    id: 3,
+    id: 4,
     text: 'Sosyal Medya',
     url: '/panel/sosyal-medya',
   },
   {
-    id: 4,
+    id: 5,
     text: 'Hızlı Linkler',
     url: '/panel/hizli-linkler',
   },
   {
-    id: 5,
+    id: 6,
     text: 'Başlık Görsel',
     url: '/panel/baslik-gorsel',
   },
   {
-    id: 6,
+    id: 7,
     text: 'Referanslar',
     url: '/panel/references',
   },
   {
-    id: 7,
+    id: 8,
     text: 'Ürünler',
     children: [
-      { id: 71, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
-      { id: 72, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
-      { id: 73, text: 'Ürünler', url: '/panel/urunler/urunler' },
+      { id: 81, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
+      { id: 82, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
+      { id: 83, text: 'Ürünler', url: '/panel/urunler/urunler' },
     ],
   },
   {
-    id:8,
-    text: 'İletisim',
+    id:9,
+    text: 'İletişim',
     url: '/panel/iletisim',
   },
   {
-    id:9,
+    id:10,
     text: 'Hakkımızda',
     url: '/panel/hakkimizda',
   }
@@ -131,16 +136,12 @@ function NestedList({ children }) {
 
 
   const logout=()=>{
-    console.log("logout")
     dispatch(submitLogout())
   }
 
 
   
-  
 
-  
-  
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -363,13 +364,20 @@ function NestedList({ children }) {
           {renderSubItems()}
         </div>
 
-        <div className={styles.content}>
-            {isLoading ? (
+        <div className={isLoading ? styles.contentLoading : styles.content}>
+          {isLoading ? (
+            <div className={styles.contentLoading}>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress />
               </div>
-            ) : children }
+            </div>
+          ) : 
+            <div className={styles.content} > 
+                {children}
+            </div>
+            }
         </div>
+
       </div>
     </Box>
     </Box>

@@ -70,30 +70,35 @@ const Hakkimizda = () => {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom>
-        Hakkımızda
-      </Typography>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          width: '850px',
+          width: '100%',
           height: '500px',
-          margin: '20px',
+          margin: '20px auto', // Center the box horizontally
           padding: '20px',
+          paddingBottom: '60px', // Add padding at the bottom to accommodate the button
           background: '#fff',
-          overflow:'hidden',
-          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          overflow: 'hidden',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // Slightly increase shadow for depth
+          borderRadius: '8px', // Add rounded corners
           boxSizing: 'border-box',
-          position: 'relative' // Box'ı konumlandırmak için relative yapıyoruz
+          position: 'relative', // Box'ı konumlandırmak için relative yapıyoruz
         }}
       >
+        <Typography variant="h5" gutterBottom sx={{ color: '#333', fontWeight: 'bold' }}> {/* Slightly darker color and bold text */}
+          Hakkımızda
+        </Typography>
         <Box
           sx={{
             mb: 2,
-            width: '800px',
-            height: '80%', // Set a fixed height for the editor
+            width: '100%', // Full width for better alignment
+            height: '100%', // Set a fixed height for the editor
+            borderRadius: '4px', // Rounded corners for the editor
+            border: '1px solid #ddd', // Light border for better separation
+            overflow: 'hidden',
           }}
         >
           <TextEditor
@@ -109,6 +114,11 @@ const Hakkimizda = () => {
             position: 'absolute', // Button'ı absolute yapıyoruz
             bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
             right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
+            backgroundColor: '#1976d2', // Primary color
+            '&:hover': {
+              backgroundColor: '#155a9a', // Darker shade on hover
+            },
+            borderRadius: '4px', // Rounded corners for the button
           }}
         >
           {buttonText}

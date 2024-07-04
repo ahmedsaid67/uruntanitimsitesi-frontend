@@ -174,7 +174,18 @@
 .content {
 
   display: flex;
-  justify-content: center;;
+  justify-content: flex-start;
+  
+  width: 95%;
+  
+  margin: 2% auto ;
+
+}
+
+.contentLoading {
+
+  display: flex;
+  justify-content: center;
   flex-grow: 1;
   margin-bottom: 20px;
   margin-top: 40px;
