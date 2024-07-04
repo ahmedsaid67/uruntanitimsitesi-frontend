@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Typography, Box, Grid,CircularProgress } from '@mui/material';
+import { Button, TextField, Typography, Box, Grid, CircularProgress, Container, Alert } from '@mui/material';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const Iletisim = () => {
   const [phones, setPhones] = useState(['', '']);
@@ -28,7 +27,6 @@ const Iletisim = () => {
         setPhones([phone1 || '', phone2 || '']);
         setAddress(address || '');
         setId(id); // Verinin id'sini sakla
-        
       }
     } catch (error) {
       setHasError(true);
@@ -53,7 +51,6 @@ const Iletisim = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedData = { email, phone1: phones[0], phone2: phones[1], address };
-    
 
     try {
       const method = id ? 'PUT' : 'POST'; // id varsa PUT, yoksa POST
@@ -96,69 +93,79 @@ const Iletisim = () => {
     );
   }
 
-
-
   return (
     <div className='content'>
       <Typography variant="h4" gutterBottom>
         İletişim Bilgileri
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="E-posta"
-              variant="outlined"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Grid>
-          {phones.map((phone, index) => (
-            <Grid item xs={12} sm={6} key={index}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          width: '850px',
+          height:'300px',
+          margin: '20px',
+          padding: '20px',
+          background: '#fff',
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          boxSizing: 'border-box',
+          position: 'relative', // Box'ı konumlandırmak için relative yapıyoruz
+        }}
+      >
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
-                label={`Telefon ${index + 1}`}
+                label="E-posta"
                 variant="outlined"
-                value={phone}
-                onChange={(e) => handlePhoneChange(index, e.target.value)}
-                placeholder="Telefon"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
-          ))}
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Adres"
-              variant="outlined"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
+            {phones.map((phone, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <TextField
+                  fullWidth
+                  label={`Telefon ${index + 1}`}
+                  variant="outlined"
+                  value={phone}
+                  onChange={(e) => handlePhoneChange(index, e.target.value)}
+                  placeholder="Telefon"
+                />
+              </Grid>
+            ))}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Adres"
+                variant="outlined"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '1em',
-          }}
-        >
-          <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          sx={{
-            position: 'fixed',
-            bottom: '400px',
-            right: '85px',
-          }}
-        >
-          {buttonText}
-        </Button>
-        </Box>
-      </form>
-
-      
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '1em',
+              position: 'absolute', // Button'ı absolute yapıyoruz
+              bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
+              right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              {buttonText}
+            </Button>
+          </Box>
+        </form>
+      </Box>
     </div>
   );
 };

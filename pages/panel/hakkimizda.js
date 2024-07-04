@@ -85,6 +85,7 @@ const Hakkimizda = () => {
           background: '#fff',
           boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
           boxSizing: 'border-box',
+          position: 'relative' // Box'ı konumlandırmak için relative yapıyoruz
         }}
       >
         <Box
@@ -92,7 +93,6 @@ const Hakkimizda = () => {
             mb: 2,
             width: '800px',
             height: '450px', // Set a fixed height for the editor
-            
           }}
         >
           <TextEditor
@@ -105,9 +105,9 @@ const Hakkimizda = () => {
           color="primary"
           onClick={handleSubmit}
           sx={{
-            position: 'fixed',
-            bottom: '85px',
-            right: '85px',
+            position: 'absolute', // Button'ı absolute yapıyoruz
+            bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
+            right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
           }}
         >
           {buttonText}
