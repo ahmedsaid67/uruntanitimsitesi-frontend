@@ -79,6 +79,7 @@ const Hakkimizda = () => {
           flexDirection: 'column',
           alignItems: 'flex-start',
           width: '850px',
+          height: '590px',
           margin: '20px',
           padding: '20px',
           background: '#fff',
@@ -105,8 +106,8 @@ const Hakkimizda = () => {
           onClick={handleSubmit}
           sx={{
             position: 'fixed',
-            bottom: '20px',
-            right: '20px',
+            bottom: '75px',
+            right: '85px',
           }}
         >
           {buttonText}
