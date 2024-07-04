@@ -150,7 +150,7 @@ const Iletisim = () => {
           sx={{
             position: 'fixed',
             bottom: '400px',
-            right: '50px',
+            right: '85px',
           }}
         >
           {buttonText}

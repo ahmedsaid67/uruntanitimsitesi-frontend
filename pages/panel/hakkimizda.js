@@ -79,7 +79,7 @@ const Hakkimizda = () => {
           flexDirection: 'column',
           alignItems: 'flex-start',
           width: '850px',
-          height: '590px',
+          height: '580px',
           margin: '20px',
           padding: '20px',
           background: '#fff',
@@ -91,8 +91,8 @@ const Hakkimizda = () => {
           sx={{
             mb: 2,
             width: '800px',
-            height: '500px', // Set a fixed height for the editor
-            overflow: 'hidden',
+            height: '450px', // Set a fixed height for the editor
+            
           }}
         >
           <TextEditor
@@ -106,7 +106,7 @@ const Hakkimizda = () => {
           onClick={handleSubmit}
           sx={{
             position: 'fixed',
-            bottom: '75px',
+            bottom: '85px',
             right: '85px',
           }}
         >
