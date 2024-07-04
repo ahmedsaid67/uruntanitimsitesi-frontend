@@ -172,3 +172,6 @@ const Iletisim = () => {
 };
 
 export default Iletisim;
+
+
+export default Iletisim;
