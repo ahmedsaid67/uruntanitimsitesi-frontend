@@ -87,10 +87,12 @@
 .detailText {
     border: 1px solid rgba(2, 14, 248, 0);
     font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 0;
 }
 
 .detailContainer p {
-    line-height: 1.8em;
+    line-height: 1em;
 }
 
 .detailContainer p:last-child {
@@ -102,13 +104,12 @@
     border: 1px solid rgba(2, 14, 248, 0);
 }
 
-.detailPrice::before {
-    content: "Fiyatı: ";
-}
+
 
 .detailPrice {
     color: black;
     border: 1px solid rgba(2, 14, 248, 0);
+    margin-top: 0;
 }
 
 .detailPrice::after{
@@ -382,10 +383,8 @@
     .detailContainer {
       width: 100%;
       margin-left: 0;
-      flex-direction: row;
       overflow-y: none;
       height: auto;
-      justify-content: space-between;
     }
 
     .detailText{
@@ -451,10 +450,8 @@
     .detailContainer {
       width: 100%;
       margin-left: 0;
-      flex-direction: row;
       overflow-y: none;
       height: auto;
-      justify-content: space-between;
     }
     .detailText{
       font-size: 1.1em;
