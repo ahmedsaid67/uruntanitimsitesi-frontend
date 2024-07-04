@@ -356,7 +356,7 @@ function Urunlerimiz() {
                       onClick={orientation === 'horizontal' ? () => handleTabChange(kategori.slug) : null}
                     >
                       <span
-                        className={styles.kategoriItemTitle}
+                        className={orientation === 'horizontal' ? styles.kategoriItemTitleHorizantal : styles.kategoriItemTitle}
                         data-slug={kategori.slug} 
                         style={{ 
                           color: kategori.slug === activeTab ? 'black' : '#666',
@@ -404,7 +404,7 @@ function Urunlerimiz() {
                               className={styles.productItemImage}
                               src={product.kapak_fotografi}
                               alt={product.baslik}
-                              />
+                            />
                             </Link>
                             <Link href={`/urunlerimiz/${(product.slug)}`} >
                               <p className={styles.productItemTitle}>{product.baslik}</p>

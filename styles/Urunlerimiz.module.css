@@ -57,9 +57,7 @@
 .horizontalCLick{
   cursor: pointer;
 }
-.horizontalCLick:hover {
-  background-color: whitesmoke; 
-}
+
 .horizontalContainerFullWidth{
   margin-top: 0.5rem;
   margin-left: 0.5rem;
@@ -85,6 +83,17 @@
 }
 
 .kategoriItemTitle {
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+}
+
+/* sırf  kategoriItemTitle'ın hover ın den kurtulmak ıcın urettım */
+.kategoriItemTitleHorizantal {
   display: inline-block;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
