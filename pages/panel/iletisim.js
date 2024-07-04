@@ -103,7 +103,7 @@ const Iletisim = () => {
           width: '100%',
           height: 'auto', // Adjust height automatically based on content
           margin: '20px auto', // Center the box horizontally
-          padding: '20px', // Add extra padding at the bottom for the button
+          padding: '20px 20px 80px', // Add extra padding at the bottom for the button
           background: '#fff',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // Slightly increase shadow for depth
           borderRadius: '8px', // Add rounded corners
