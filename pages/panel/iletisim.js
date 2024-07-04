@@ -77,7 +77,7 @@ const Iletisim = () => {
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh',width:'100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' ,width:'100%'}}>
         <CircularProgress />
       </div>
     );
@@ -87,35 +87,34 @@ const Iletisim = () => {
     return (
       <Container>
         <Alert severity="error">
-          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+          Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
         </Alert>
       </Container>
     );
   }
 
   return (
-    <div>
+    <div className='content'>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          width: '100%',
-          height: 'auto', // Adjust height automatically based on content
-          margin: '20px auto', // Center the box horizontally
-          padding: '20px', // Add extra padding at the bottom for the button
+          width: '850px',
+          height:'350px',
+          margin: ' 0 20px',
+          padding: '20px',
           background: '#fff',
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // Slightly increase shadow for depth
-          borderRadius: '8px', // Add rounded corners
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
           boxSizing: 'border-box',
-          position: 'relative',
+          position: 'relative', // Box'ı konumlandırmak için relative yapıyoruz
         }}
       >
-        <Typography variant="h5"  sx={{ color: '#333', fontWeight: 'bold' }}> {/* Slightly darker color and bold text */}
+        <h2 style={{ marginBottom: '16px',marginTop:"8px" }}>
           İletişim Bilgileri
-        </Typography>
+        </h2>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Grid container spacing={2} sx={{ marginTop: '1em' }}> {/* Added marginTop for spacing */}
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -152,22 +151,15 @@ const Iletisim = () => {
               display: 'flex',
               justifyContent: 'flex-end',
               marginTop: '1em',
-              position: 'absolute',
-              bottom: '20px',
-              right: '20px',
+              position: 'absolute', // Button'ı absolute yapıyoruz
+              bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
+              right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
             }}
           >
             <Button
               variant="contained"
               color="primary"
               type="submit"
-              sx={{
-                backgroundColor: '#1976d2', // Primary color
-                '&:hover': {
-                  backgroundColor: '#155a9a', // Darker shade on hover
-                },
-                borderRadius: '4px', // Rounded corners for the button
-              }}
             >
               {buttonText}
             </Button>
@@ -175,6 +167,7 @@ const Iletisim = () => {
         </form>
       </Box>
     </div>
+
   );
 };
 
