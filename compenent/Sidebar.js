@@ -15,43 +15,42 @@ const drawerWidth = 240;
 const MenuListItems = [
   {
     id: 1,
-     text: <><span className={styles.icon}><FontAwesomeIcon icon={faHouse} /></span> Ana Sayfa</>,
+    text: 'Ana Sayfa',
     url: '/panel/ana-sayfa',
   },
   {
     id: 2,
-     text: <><span className={styles.icon}><FontAwesomeIcon icon={faList} /></span> Menü</>,
+    text: 'Menü',
     url: '/panel/menu',
   },
   {
     id: 3,
-    text: <><span className={styles.icon}><FontAwesomeIcon icon={faSliders} /></span> Banner</>,
+    text: 'Banner',
     url: '/panel/sliders',
   },
   {
     id: 4,
-    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHashtag} /></span> Sosyal Medya</>,
+    text: 'Sosyal Medya',
     url: '/panel/sosyal-medya',
   },
   {
     id: 5,
-    text: <><span className={styles.icon}><FontAwesomeIcon icon={faLink} /></span> Hızlı Linkler</>,
+    text: 'Hızlı Linkler',
     url: '/panel/hizli-linkler',
   },
   {
     id: 6,
-    text: <><span className={styles.icon}><FontAwesomeIcon icon={faImage} /></span> Başlık Görsel</>,
+    text: 'Başlık Görsel',
     url: '/panel/baslik-gorsel',
   },
   {
     id: 7,
-    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHandshake} /></span> Başlık Görsel</>,
+    text: 'Referanslar',
     url: '/panel/references',
   },
   {
     id: 8,
-    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faFile} /></span> Ürünler</>,
-
+    text: 'Ürünler',
     children: [
       { id: 81, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
       { id: 82, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
@@ -60,12 +59,12 @@ const MenuListItems = [
   },
   {
     id:9,
-    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faAddressCard} /></span> İlteişim</>,
+    text: 'İletişim',
     url: '/panel/iletisim',
   },
   {
     id:10,
-    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faCircleInfo} /></span> Hakkımızda</>,
+    text: 'Hakkımızda',
     url: '/panel/hakkimizda',
   }
 ];
