@@ -45,7 +45,7 @@ const MenuListItems = [
   },
   {
     id: 7,
-    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHandshake} /></span> Başlık Görsel</>,
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHandshake} /></span> Referanslar</>,
     url: '/panel/references',
   },
   {
@@ -69,7 +69,6 @@ const MenuListItems = [
     url: '/panel/hakkimizda',
   }
 ];
-
 
 
 

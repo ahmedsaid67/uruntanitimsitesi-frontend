@@ -36,6 +36,8 @@ export default function UrunKategori() {
     const [uyariMesajiEkle, setUyariMesajiEkle] = useState("");
     const [isSaving, setIsSaving] = useState(false);
 
+    const [createResponse, setCreateResponse] = useState(false);
+
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
 
@@ -85,6 +87,7 @@ export default function UrunKategori() {
     
       const handleOpenAddDialog = () => {
         setOpenAddDialog(true);
+        
       };
       const handleCloseAddDialog = () => {
         setOpenAddDialog(false);
@@ -94,8 +97,14 @@ export default function UrunKategori() {
           durum: true
         }); // newItem durumunu sıfırla
         setUyariMesajiEkle("");
-        setSaveError(""); 
+        setSaveError("");
+      
+        // setCreateResponse(true) işlemini 3 saniye sonra çalıştır
+        setTimeout(() => {
+          setCreateResponse(true);
+        }, 500); // 3000 milisaniye = 3 saniye
       };
+      
       
       const handleOpen = (item) => {
         setSelectedItem(item);
@@ -215,6 +224,10 @@ export default function UrunKategori() {
 
     const handleCloseWarningDialog = () => {
       setWarningDialogOpen(false);
+    };
+
+    const handleCreateResponse = () => {
+      setCreateResponse(false);
     };
 
 
@@ -363,6 +376,48 @@ export default function UrunKategori() {
         return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
       }
 
+
+      
+
+      const StyledDialog = styled(Dialog)(({ theme }) => ({
+        '& .MuiPaper-root': {
+          borderRadius: theme.spacing(1),
+        },
+        '& .MuiDialogTitle-root': {
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.common.white,
+          padding: theme.spacing(1.5),
+          textAlign: 'center',
+          fontSize: '1.3rem', // Başlık font boyutu küçültüldü
+        },
+        '& .MuiDialogContent-root': {
+          padding: theme.spacing(2),
+        },
+        '& .MuiDialogActions-root': {
+          padding: theme.spacing(1.5, 2),
+          borderTop: `1px solid ${theme.palette.grey[300]}`,
+          justifyContent: 'flex-end',
+        },
+      }));
+      
+      const StyledTypography = styled(Typography)(({ theme }) => ({
+        marginBottom: theme.spacing(1),
+        lineHeight: '1.5', // Metinler arası çizgi yüksekliği ayarlandı
+        fontSize: '1rem', // Metin font boyutu küçültüldü
+      }));
+      
+      const StyledButton = styled(Button)(({ theme }) => ({
+        color: theme.palette.common.white,
+        backgroundColor: theme.palette.primary.main,
+        '&:hover': {
+          backgroundColor: theme.palette.primary.dark,
+        },
+        borderRadius: theme.spacing(1),
+        padding: theme.spacing(1, 3), // Buton padding (iç boşluklar) ayarlandı
+        fontSize: '0.9rem', // Buton font boyutu küçültüldü
+      }));
+      
+      
 
 
 
@@ -652,6 +707,45 @@ export default function UrunKategori() {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+      <StyledDialog
+          open={createResponse}
+          onClose={handleCreateResponse}
+          maxWidth="xs"
+          fullWidth
+        >
+          <DialogTitle>Ürün Kategorisi Başarıyla Oluşturuldu!</DialogTitle>
+          <DialogContent dividers>
+            <StyledTypography paragraph>
+              Yeni ürün kategoriniz başarıyla oluşturuldu ve şu adımlar tamamlandı:
+            </StyledTypography>
+            <StyledTypography>
+              <strong>Menüler Güncellendi:</strong> Yeni kategoriniz "Ürünlerimiz" menüsünde alt öge olarak eklendi.
+            </StyledTypography>
+            <StyledTypography>
+              <strong>Başlık Görsel Eklendi:</strong> Kategori sayfanız için başlık görseli tablosuna yeni bir giriş yapıldı.
+            </StyledTypography>
+            <StyledTypography>
+              <strong>Başlık Görseli Güncellemek İçin:</strong>
+            </StyledTypography>
+            <StyledTypography>
+              - Yönetim panelinden "Başlık Görsel" sekmesine gidin.
+            </StyledTypography>
+            <StyledTypography>
+              - Yeni kategoriyi seçin.
+            </StyledTypography>
+            <StyledTypography>
+              - İlgili görseli yükleyin veya güncelleyin.
+            </StyledTypography>
+          </DialogContent>
+          <DialogActions>
+            <StyledButton onClick={handleCreateResponse} color="primary" variant="contained">
+              Tamam
+            </StyledButton>
+          </DialogActions>
+        </StyledDialog>
+
 
     </>
 
