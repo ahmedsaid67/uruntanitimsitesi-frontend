@@ -101,5 +101,9 @@ export const API_ROUTES = {
     BASLIK_GORSEL_DELETE : API_SERVER_URL + "/baslikgorsel/bulk_soft_delete/",
     BASLIK_GORSEL_GET_GORSEL: API_SERVER_URL + "/baslikgorsel/get-by-name/data/",
 
+    // ADET
+
+    ADET: API_SERVER_URL + "/adet/"
+
 
 }
