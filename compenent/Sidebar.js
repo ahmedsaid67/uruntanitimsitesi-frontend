@@ -60,7 +60,7 @@ const MenuListItems = [
   },
   {
     id:9,
-    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faAddressCard} /></span> İlteişim</>,
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faAddressCard} /></span> İletişim</>,
     url: '/panel/iletisim',
   },
   {
