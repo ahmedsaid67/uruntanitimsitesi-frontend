@@ -35,7 +35,7 @@ const Login = () => {
       if (router.query && router.query.from) {
         router.push(router.query.from);
       } else {
-        router.push("/panel/menu/");
+        router.push("/panel/ana-sayfa/");
       }
     }
   }, [isAuthenticated, router]);

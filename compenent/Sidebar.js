@@ -6,63 +6,73 @@ import styles from '../styles/Sidebar.module.css';
 import { useSelector,useDispatch } from 'react-redux';
 import { submitLogout } from '../context/features/auth/loginSlice';
 import CircularProgress from '@mui/material/CircularProgress';
+import { faAddressCard,  faCircleInfo, faFile, faHandshake, faHashtag, faHouse, faImage, faLink, faList, faMap, faSliders } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const drawerWidth = 240;
 
 const MenuListItems = [
- 
   {
     id: 1,
-    text: 'Menü',
-    url: '/panel/menu',
+     text: <><span className={styles.icon}><FontAwesomeIcon icon={faHouse} /></span> Ana Sayfa</>,
+    url: '/panel/ana-sayfa',
   },
   {
     id: 2,
-    text: 'Banner',
-    url: '/panel/sliders',
+     text: <><span className={styles.icon}><FontAwesomeIcon icon={faList} /></span> Menü</>,
+    url: '/panel/menu',
   },
   {
     id: 3,
-    text: 'Sosyal Medya',
-    url: '/panel/sosyal-medya',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faSliders} /></span> Banner</>,
+    url: '/panel/sliders',
   },
   {
     id: 4,
-    text: 'Hızlı Linkler',
-    url: '/panel/hizli-linkler',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHashtag} /></span> Sosyal Medya</>,
+    url: '/panel/sosyal-medya',
   },
   {
     id: 5,
-    text: 'Başlık Görsel',
-    url: '/panel/baslik-gorsel',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faLink} /></span> Hızlı Linkler</>,
+    url: '/panel/hizli-linkler',
   },
   {
     id: 6,
-    text: 'Referanslar',
-    url: '/panel/references',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faImage} /></span> Başlık Görsel</>,
+    url: '/panel/baslik-gorsel',
   },
   {
     id: 7,
-    text: 'Ürünler',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHandshake} /></span> Başlık Görsel</>,
+    url: '/panel/references',
+  },
+  {
+    id: 8,
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faFile} /></span> Ürünler</>,
+
     children: [
-      { id: 71, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
-      { id: 72, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
-      { id: 73, text: 'Ürünler', url: '/panel/urunler/urunler' },
+      { id: 81, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
+      { id: 82, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
+      { id: 83, text: 'Ürünler', url: '/panel/urunler/urunler' },
     ],
   },
   {
-    id:8,
-    text: 'İletisim',
+    id:9,
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faAddressCard} /></span> İlteişim</>,
     url: '/panel/iletisim',
   },
   {
-    id:9,
-    text: 'Hakkımızda',
+    id:10,
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faCircleInfo} /></span> Hakkımızda</>,
     url: '/panel/hakkimizda',
   }
-
-
 ];
+
+
+
+
 
 function NestedList({ children }) {
   const router = useRouter();
@@ -131,16 +141,12 @@ function NestedList({ children }) {
 
 
   const logout=()=>{
-    console.log("logout")
     dispatch(submitLogout())
   }
 
 
   
-  
 
-  
-  
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -363,13 +369,20 @@ function NestedList({ children }) {
           {renderSubItems()}
         </div>
 
-        <div className={styles.content}>
-            {isLoading ? (
+        <div className={isLoading ? styles.contentLoading : styles.content}>
+          {isLoading ? (
+            <div className={styles.contentLoading}>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress />
               </div>
-            ) : children }
+            </div>
+          ) : 
+            <div className={styles.content} > 
+                {children}
+            </div>
+            }
         </div>
+
       </div>
     </Box>
     </Box>

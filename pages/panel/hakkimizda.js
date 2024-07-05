@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Typography, Box } from '@mui/material';
+import { Button, Typography, Box, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
 import dynamic from 'next/dynamic';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 // Dinamik olarak TextEditor bileşenini yükle
 const TextEditor = dynamic(() => import('@/compenent/Editor'), { ssr: false });
@@ -14,6 +16,10 @@ const Hakkimizda = () => {
   const [hasError, setHasError] = useState(false);
   const [id, setId] = useState(null); // Verinin id'si
   const buttonText = data ? 'Güncelle' : 'Kaydet';
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const user = useSelector((state) => state.user);
 
   // Veriyi API'den al
   const getData = async () => {
@@ -39,6 +45,17 @@ const Hakkimizda = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    if (!user.id) {
+      router.push({
+        pathname: "/login",
+        query: {from: router.pathname},
+      });
+    }else{
+      getData()
+    }
+  }, [user,currentPage]);
 
   // Form gönderme işlemi
   const handleSubmit = async (e) => {
@@ -68,54 +85,73 @@ const Hakkimizda = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh',width:'100%' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <Container>
+        <Alert severity="error">
+          Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+        </Alert>
+      </Container>
+    );
+  }
+
   return (
     <div>
-      <Typography variant="h5" gutterBottom>
-        Hakkımızda
-      </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          width: '850px',
-          height: '500px',
-          margin: '20px',
-          padding: '20px',
-          background: '#fff',
-          overflow:'hidden',
-          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-          boxSizing: 'border-box',
-          position: 'relative' // Box'ı konumlandırmak için relative yapıyoruz
-        }}
-      >
         <Box
           sx={{
-            mb: 2,
-            width: '800px',
-            height: '80%', // Set a fixed height for the editor
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            width: '95%',
+            height: '550px',
+            margin: '0 20px ',
+            padding: '20px 20px 80px',
+            background: '#fff',
+            overflow: 'hidden',
+            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+            boxSizing: 'border-box',
+            position: 'relative' // Box'ı konumlandırmak için relative yapıyoruz
           }}
         >
-          <TextEditor
-            value={content}
-            onChange={(newContent) => setContent(newContent)}
-          />
+          <h2 style={{ marginBottom: '8px',marginTop:"8px" }}>
+            Hakkımızda
+          </h2>
+          <Box
+            sx={{
+              mb: 2,
+              width: '100%%',
+              height: '80%', // Set a fixed height for the editor
+            }}
+          >
+            <TextEditor
+              value={content}
+              onChange={(newContent) => setContent(newContent)}
+            />
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{
+              position: 'absolute', // Button'ı absolute yapıyoruz
+              bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
+              right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
+            }}
+          >
+            {buttonText}
+          </Button>
         </Box>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          sx={{
-            position: 'absolute', // Button'ı absolute yapıyoruz
-            bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
-            right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
-          }}
-        >
-          {buttonText}
-        </Button>
-      </Box>
-    </div>
+      </div>
   );
 };
 
 export default Hakkimizda;
+

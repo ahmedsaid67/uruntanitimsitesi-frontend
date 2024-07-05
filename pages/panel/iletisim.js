@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Typography, Box, Grid, CircularProgress, Container, Alert } from '@mui/material';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 const Iletisim = () => {
   const [phones, setPhones] = useState(['', '']);
@@ -12,6 +14,9 @@ const Iletisim = () => {
   const [hasError, setHasError] = useState(false);
   const [id, setId] = useState(null); // Verinin id'si
   const buttonText = data ? 'Güncelle' : 'Kaydet';
+  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const user = useSelector((state) => state.user);
 
   // Veriyi API'den al
   const getData = async () => {
@@ -39,6 +44,17 @@ const Iletisim = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    if (!user.id) {
+      router.push({
+        pathname: "/login",
+        query: {from: router.pathname},
+      });
+    }else{
+      getData()
+    }
+  }, [user,currentPage]);
 
   // Telefon değişikliği işlemi
   const handlePhoneChange = (index, value) => {
@@ -77,7 +93,7 @@ const Iletisim = () => {
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' ,width:'100%'}}>
         <CircularProgress />
       </div>
     );
@@ -87,7 +103,7 @@ const Iletisim = () => {
     return (
       <Container>
         <Alert severity="error">
-          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+          Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
         </Alert>
       </Container>
     );
@@ -95,17 +111,14 @@ const Iletisim = () => {
 
   return (
     <div className='content'>
-      <Typography variant="h5" gutterBottom>
-        İletişim Bilgileri
-      </Typography>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
           width: '850px',
-          height:'300px',
-          margin: '20px',
+          height:'350px',
+          margin: ' 0 20px',
           padding: '20px',
           background: '#fff',
           boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
@@ -113,6 +126,9 @@ const Iletisim = () => {
           position: 'relative', // Box'ı konumlandırmak için relative yapıyoruz
         }}
       >
+        <h2 style={{ marginBottom: '16px',marginTop:"8px" }}>
+          İletişim Bilgileri
+        </h2>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -167,7 +183,10 @@ const Iletisim = () => {
         </form>
       </Box>
     </div>
+
   );
 };
 
 export default Iletisim;
+
+

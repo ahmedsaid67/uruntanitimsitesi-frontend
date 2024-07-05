@@ -1,0 +1,103 @@
+.mainContainer {
+    width: 95%;
+    margin: 0 auto ;
+  }
+  
+  .dateHeader {
+    color: #444;
+    text-align: left;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+  
+  .welcomeContainer {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  
+  .welcomeHeader {
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .taskContainer {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .taskBox {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  
+  .taskBox:hover {
+    transform: translateY(-5px);
+  }
+  
+  .taskBox h3 {
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #555;
+  }
+  
+  .button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  .statsContainer {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .statBox {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .statBox h3 {
+    margin: 0;
+    font-size: 2em;
+    color: #333;
+  }
+  
+  .statBox p {
+    margin: 10px 0 0;
+    color: #777;
+  }
+  
+  .blue {
+    background-color: #e3f2fd;
+  }
+  
+  .red {
+    background-color: #ffebee;
+  }
+  
+  .green {
+    background-color: #e8f5e9;
+  }
+  

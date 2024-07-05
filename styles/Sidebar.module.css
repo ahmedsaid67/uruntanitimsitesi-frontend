@@ -174,7 +174,18 @@
 .content {
 
   display: flex;
-  justify-content: center;;
+  justify-content: flex-start;
+  
+  width: 95%;
+  
+  margin: 2% auto ;
+
+}
+
+.contentLoading {
+
+  display: flex;
+  justify-content: center;
   flex-grow: 1;
   margin-bottom: 20px;
   margin-top: 40px;
@@ -215,21 +226,27 @@
   padding: 0;
   margin: 0;
 }
-
 .menuItem {
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.2s;
-  /* Seçili öğe için stil */
-  background-color: #3a3b3c; /* varsayılan arkaplan rengi */
-  color: white; /* varsayılan renk */
+  background-color: #3a3b3c; /* Default background color */
+  color: white; /* Default text color */
   font-size: 14px;
   border-left: 4px solid transparent;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
 }
 
 .menuItem:hover {
-  background-color: #5a5a5a; /* hover arkaplan rengi */
-  
+  background-color: #5a5a5a; /* Hover background color */
+}
+
+.menuItem .icon {
+  width: 20px; /* Set a fixed width for the icon container */
+  display: flex;
+  justify-content: center; /* Center the icon horizontally */
+  margin-right: 10px; /* Space between icon and text */
 }
 
 /* Seçili menü öğesi için aktif sınıfı */
