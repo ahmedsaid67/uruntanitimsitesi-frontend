@@ -3,6 +3,8 @@ import { Button, Typography, Box, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
 import dynamic from 'next/dynamic';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 // Dinamik olarak TextEditor bileşenini yükle
 const TextEditor = dynamic(() => import('@/compenent/Editor'), { ssr: false });
@@ -14,6 +16,10 @@ const Hakkimizda = () => {
   const [hasError, setHasError] = useState(false);
   const [id, setId] = useState(null); // Verinin id'si
   const buttonText = data ? 'Güncelle' : 'Kaydet';
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const user = useSelector((state) => state.user);
 
   // Veriyi API'den al
   const getData = async () => {
@@ -39,6 +45,17 @@ const Hakkimizda = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    if (!user.id) {
+      router.push({
+        pathname: "/login",
+        query: {from: router.pathname},
+      });
+    }else{
+      getData()
+    }
+  }, [user,currentPage]);
 
   // Form gönderme işlemi
   const handleSubmit = async (e) => {
@@ -87,56 +104,55 @@ const Hakkimizda = () => {
   }
 
   return (
-    <div style={{ width: '95%' }}>
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      width: '100%',
-      height: '550px',
-      margin: '0 20px',
-      padding: '20px 20px 80px',
-      background: '#fff',
-      overflow: 'hidden',
-      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-      boxSizing: 'border-box',
-      position: 'relative' // Box'ı konumlandırmak için relative yapıyoruz
-    }}
-  >
-    <h2 style={{ marginBottom: '8px', marginTop: '8px' }}>
-      Hakkımızda
-    </h2>
-    <Box
-      sx={{
-        mb: 2,
-        width: '100%', // TextEditor'ün tam ekran genişliği
-        height: '80%', // Editör alanı için sabit bir yükseklik belirleyin
-      }}
-    >
-      <TextEditor
-        value={content}
-        onChange={(newContent) => setContent(newContent)}
-        style={{ width: '100%' }} // TextEditor bileşeninin genişliğini tam ekran genişliğe ayarlayın
-      />
-    </Box>
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={handleSubmit}
-      sx={{
-        position: 'absolute',
-        bottom: '20px',
-        right: '20px',
-      }}
-    >
-      {buttonText}
-    </Button>
-  </Box>
-</div>
-
+    <div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            width: '95%',
+            height: '550px',
+            margin: '0 20px ',
+            padding: '20px 20px 80px',
+            background: '#fff',
+            overflow: 'hidden',
+            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+            boxSizing: 'border-box',
+            position: 'relative' // Box'ı konumlandırmak için relative yapıyoruz
+          }}
+        >
+          <h2 style={{ marginBottom: '8px',marginTop:"8px" }}>
+            Hakkımızda
+          </h2>
+          <Box
+            sx={{
+              mb: 2,
+              width: '100%%',
+              height: '80%', // Set a fixed height for the editor
+            }}
+          >
+            <TextEditor
+              value={content}
+              onChange={(newContent) => setContent(newContent)}
+            />
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{
+              position: 'absolute', // Button'ı absolute yapıyoruz
+              bottom: '20px', // Box'ın altından 20px yukarıda konumlandırıyoruz
+              right: '20px', // Box'ın sağından 20px içeride konumlandırıyoruz
+            }}
+          >
+            {buttonText}
+          </Button>
+        </Box>
+      </div>
   );
 };
 
 export default Hakkimizda;
+
 

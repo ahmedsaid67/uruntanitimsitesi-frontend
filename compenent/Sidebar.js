@@ -6,49 +6,52 @@ import styles from '../styles/Sidebar.module.css';
 import { useSelector,useDispatch } from 'react-redux';
 import { submitLogout } from '../context/features/auth/loginSlice';
 import CircularProgress from '@mui/material/CircularProgress';
+import { faAddressCard,  faCircleInfo, faFile, faHandshake, faHashtag, faHouse, faImage, faLink, faList, faMap, faSliders } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const drawerWidth = 240;
 
 const MenuListItems = [
- 
   {
     id: 1,
-    text: 'Ana Sayfa',
+     text: <><span className={styles.icon}><FontAwesomeIcon icon={faHouse} /></span> Ana Sayfa</>,
     url: '/panel/ana-sayfa',
   },
   {
     id: 2,
-    text: 'Menü',
+     text: <><span className={styles.icon}><FontAwesomeIcon icon={faList} /></span> Menü</>,
     url: '/panel/menu',
   },
   {
     id: 3,
-    text: 'Banner',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faSliders} /></span> Banner</>,
     url: '/panel/sliders',
   },
   {
     id: 4,
-    text: 'Sosyal Medya',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHashtag} /></span> Sosyal Medya</>,
     url: '/panel/sosyal-medya',
   },
   {
     id: 5,
-    text: 'Hızlı Linkler',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faLink} /></span> Hızlı Linkler</>,
     url: '/panel/hizli-linkler',
   },
   {
     id: 6,
-    text: 'Başlık Görsel',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faImage} /></span> Başlık Görsel</>,
     url: '/panel/baslik-gorsel',
   },
   {
     id: 7,
-    text: 'Referanslar',
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faHandshake} /></span> Başlık Görsel</>,
     url: '/panel/references',
   },
   {
     id: 8,
-    text: 'Ürünler',
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faFile} /></span> Ürünler</>,
+
     children: [
       { id: 81, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },
       { id: 82, text: 'Ürün Vitrin', url: '/panel/urunler/urun-vitrin' },
@@ -57,17 +60,19 @@ const MenuListItems = [
   },
   {
     id:9,
-    text: 'İletişim',
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faAddressCard} /></span> İlteişim</>,
     url: '/panel/iletisim',
   },
   {
     id:10,
-    text: 'Hakkımızda',
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faCircleInfo} /></span> Hakkımızda</>,
     url: '/panel/hakkimizda',
   }
-
-
 ];
+
+
+
+
 
 function NestedList({ children }) {
   const router = useRouter();

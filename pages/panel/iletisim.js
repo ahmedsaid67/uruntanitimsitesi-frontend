@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Typography, Box, Grid, CircularProgress, Container, Alert } from '@mui/material';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 const Iletisim = () => {
   const [phones, setPhones] = useState(['', '']);
@@ -12,6 +14,9 @@ const Iletisim = () => {
   const [hasError, setHasError] = useState(false);
   const [id, setId] = useState(null); // Verinin id'si
   const buttonText = data ? 'Güncelle' : 'Kaydet';
+  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const user = useSelector((state) => state.user);
 
   // Veriyi API'den al
   const getData = async () => {
@@ -39,6 +44,17 @@ const Iletisim = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    if (!user.id) {
+      router.push({
+        pathname: "/login",
+        query: {from: router.pathname},
+      });
+    }else{
+      getData()
+    }
+  }, [user,currentPage]);
 
   // Telefon değişikliği işlemi
   const handlePhoneChange = (index, value) => {
@@ -100,7 +116,7 @@ const Iletisim = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          width: '95%',
+          width: '850px',
           height:'350px',
           margin: ' 0 20px',
           padding: '20px',
@@ -172,6 +188,4 @@ const Iletisim = () => {
 };
 
 export default Iletisim;
-
-
 
