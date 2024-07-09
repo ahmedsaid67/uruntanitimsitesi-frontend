@@ -412,19 +412,6 @@
 
 
 
-/* Media Queries */
-@media screen and (max-height: 700px) {
-  .rowDotContainer {
-    bottom:50px; /* Daha küçük ekran yüksekliklerinde alt konumu ayarlayın */
-  }
-}
-
-@media screen and (min-height: 701px){
-  .rowDotContainer{
-    bottom: 150px;
-  }
-}
-
 
 @media screen and (max-width: 576px) {
     .altImage, .altImages {
@@ -450,7 +437,7 @@
     .styleContainer {
       width: 100%;
       flex-wrap: wrap;
-      margin-top: 1.5em;
+      margin-top: 1em;
     }
   
     .imgContainer {
@@ -458,7 +445,7 @@
       min-width: auto;
       margin: 0 auto;
       height: auto;
-      margin-bottom: 2em;
+      margin-bottom: 1em;
     }
   
     .mainImages {
@@ -481,12 +468,27 @@
   
     .rowDotContainer {
       display: flex;
+      bottom: 150px;
     }
     
     .popImage{
         object-fit: cover;
     }
 
+    .detailContainer{
+      align-items: flex-start;
+      margin-top: 0;
+    }
+    .detailText{
+      margin-top: 0;
+    }
+    .detailPrice{
+      text-align: start;
+    }
+
+    .styleContainer{
+      margin-bottom: 3.5em;
+    }
 
 
   }
@@ -524,7 +526,7 @@
       min-width: auto;
       height: auto;
       max-height: fit-content;
-      margin-bottom: 2em;
+      margin-bottom: 1em;
     }
   
     .mainImages {
@@ -551,10 +553,24 @@
   
     .rowDotContainer {
       display: flex;
+      bottom: -250px;
     }
     .popImage{
         width: 100%;
     }
+    .detailContainer{
+      align-items: flex-start;
+      margin-top: 0;
+    }
+    .detailText{
+      margin-top: 0;
+    }
+    .detailPrice{
+      text-align: start;
+    }.styleContainer{
+      margin-bottom: 3.5em;
+    }
+
   }
   
   
