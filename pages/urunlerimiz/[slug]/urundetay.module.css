@@ -1,6 +1,6 @@
 
 .styleContainer{
-    width: 95%;
+    width: 80%;
     display: flex;
     margin: 0 auto;
     margin-top: 3em;
@@ -22,19 +22,26 @@
 .detailContainer {
     width: 50%;
     display: flex;
-    height: 100vh;
+    height: 110vh;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-left: 4rem;
+    align-items: center;
+    margin-left: 1rem;
     border: 1px solid rgba(30, 38, 192, 0);
-    overflow-y: auto;
     
+}
+
+.detailContent{
+  position: -webkit-sticky; /* For Safari */
+    position: sticky; 
+    top: 80px; /* Adjust the top offset as needed */
+    background: white; /* Optional: To ensure the content doesn't overlap with background */
+    padding: 10px; /* Optional: Adjust padding as necessary */
 }
 
   
 .altImages {
     margin-right: 1em;
+    position: relative;
     gap: 0.75em;
     display: flex;
     flex-direction: column;
@@ -51,7 +58,6 @@
     width: 100%;
     margin-bottom: 1em;
     height: 100%;
-    border-radius: 10px;
     display: block;
 
 }
@@ -61,7 +67,6 @@
 }
   
 .mainImages {
-    border-radius: 30px;
     width: 800px;
     height: auto;
     margin: 0;
@@ -109,6 +114,7 @@
 .detailPrice {
     color: black;
     border: 1px solid rgba(2, 14, 248, 0);
+    text-align: center;
     margin-top: 0;
 }
 
@@ -124,7 +130,6 @@
     text-align: center;
     padding: 20px;
     border: 1px solid #ff0000;
-    border-radius: 5px;
     margin: 20px auto;
     background-color: #ffcccc;
     max-width: 90%; /* Adjusted for smaller screens */
@@ -136,7 +141,6 @@
     text-align: center;
     padding: 20px;
     border: 1px solid #2e5077;
-    border-radius: 5px;
     margin: 20px auto;
     max-width: 90%; /* Adjusted for smaller screens */
   }
@@ -358,6 +362,7 @@
     
     
   }
+
   
   .nextArrow{
     bottom: 10px;
@@ -365,9 +370,42 @@
   
   
   
-  .altImages:hover .prevArrow,
-  .altImages:hover .nextArrow {
+  .altImage:hover .prevArrow,
+  .altImage:hover .nextArrow {
     opacity: 1;
+  }
+
+  .slickprev, .slicknext {
+    position: absolute;
+    z-index: 100;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    background-color: rgba(28, 58, 90, 0.6);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+  }
+  
+  .altImages:hover .slicknext,
+  .altImages:hover .slickprev {
+    opacity: 1;
+  }
+  
+  .slickprev {
+    top: 0; /* Arrow konumunu ayarlayın */
+    left: 50%; /* Arrow konumunu ayarlayın */
+    transform: translateX(-50%);
+  }
+  
+  .slicknext {
+    bottom: 0; /* Arrow konumunu ayarlayın */
+    left: 50%; /* Arrow konumunu ayarlayın */
+    transform: translateX(-50%);
   }
   
    /* altImages slider end */
@@ -375,6 +413,19 @@
 
 
 /* Media Queries */
+@media screen and (max-height: 700px) {
+  .rowDotContainer {
+    bottom:50px; /* Daha küçük ekran yüksekliklerinde alt konumu ayarlayın */
+  }
+}
+
+@media screen and (min-height: 701px){
+  .rowDotContainer{
+    bottom: 150px;
+  }
+}
+
+
 @media screen and (max-width: 576px) {
     .altImage, .altImages {
       display: none;
@@ -383,6 +434,7 @@
     .detailContainer {
       width: 100%;
       margin-left: 0;
+      margin-top: 0;
       overflow-y: none;
       height: auto;
     }
@@ -396,19 +448,20 @@
     }
   
     .styleContainer {
+      width: 100%;
       flex-wrap: wrap;
       margin-top: 1.5em;
     }
   
     .imgContainer {
-      width: 100%;
+      width: 95%;
       min-width: auto;
+      margin: 0 auto;
       height: auto;
       margin-bottom: 2em;
     }
   
     .mainImages {
-      border-radius: 20px;
       width: 100%;
       min-width: 0;
       height: auto;
@@ -422,8 +475,7 @@
     .mainImage {
       width: 100%;
       height: auto;
-      min-height: 800px;
-      object-fit: cover;
+      min-height: max-content;
     }
     
   
@@ -463,6 +515,7 @@
   
     .styleContainer {
       flex-wrap: wrap;
+      width: 100%;
       margin-top: 2em;
     }
   
@@ -475,7 +528,6 @@
     }
   
     .mainImages {
-      border-radius: 20px;
       width: 100%;
       min-width: 0;
       height: auto;
@@ -499,7 +551,6 @@
   
     .rowDotContainer {
       display: flex;
-      bottom: -250px;
     }
     .popImage{
         width: 100%;
@@ -530,7 +581,6 @@
     }
   
     .mainImages {
-      border-radius: 30px;
       width: 100%;
       min-width: 0;
       height: auto;
@@ -575,7 +625,6 @@
     }
   
     .mainImages {
-      border-radius: 30px;
       width: 100%;
       min-width: 0;
       height: auto;
@@ -675,7 +724,7 @@
   
     .detailText {
       font-size: 3rem;
-    }
+    } 
   
     .detailContainer p {
       line-height: 3em;

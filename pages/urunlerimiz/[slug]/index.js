@@ -13,6 +13,7 @@ import Image from 'next/image';
 import PopupWithZoom from '@/compenent/PopupWithZoom';
 
 import { FaArrowLeft, FaArrowRight, FaRegArrowAltCircleDown ,FaRegArrowAltCircleUp} from "react-icons/fa";
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const CustomPrevArrow = ({ onClick }) => (
   <div className={stylesSlider.customPrevArrow} onClick={onClick}>
@@ -26,6 +27,31 @@ const CustomNextArrow = ({ onClick }) => (
   </div>
 );
 
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={styles.slicknext}
+      style={{ ...style, display: 'block' }}
+      onClick={onClick}
+    >
+      <FaRegArrowAltCircleDown style={{ fontSize: '2em' }} />
+    </div>
+  );
+};
+
+const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={styles.slickprev}
+      style={{ ...style, display: 'block' }}
+      onClick={onClick}
+    >
+      <FaRegArrowAltCircleUp style={{ fontSize: '2em' }} />
+    </div>
+  );
+};
 const getDataById = async (slug) => {
   try {
     const productsResponse = await axios.get(
@@ -267,12 +293,13 @@ const scrollToImageX = (id) => {
     }
   }, [getImage]);
 
-
   const settings = {
     vertical: true,
     verticalSwiping: true,
     infinite: false,
-    arrows: false,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     slidesToShow: 5, // Aynı anda kaç öğe göstermek istediğinizi belirtin
     slidesToScroll: scrollAmount, // Dinamik kaydırma miktarını kullanın
     beforeChange: handleBeforeChange,
@@ -345,8 +372,7 @@ const scrollToImageX = (id) => {
         <div className={styles.styleContainer}>
             <div className={styles.imgContainer}>
                 <div className={styles.altImages}>
-                    {itemCount > 5 && (
-                    <div className={styles.prevArrow} onClick={() => sliderRef.current.slickPrev()}><FaRegArrowAltCircleUp /></div> )}
+               
                     <Slider
                         {...settings}
                         className={styles.slider}
@@ -371,12 +397,14 @@ const scrollToImageX = (id) => {
                         />
                         ))}
                     </Slider>
-                    {itemCount > 5 && (
-                    <div className={styles.nextArrow} onClick={() => sliderRef.current.slickNext()}><FaRegArrowAltCircleDown /></div>)}
+                   
                 </div>
-                
+                {/* {itemCount > 5 && (
+                    <div className={styles.prevArrow} onClick={() => sliderRef.current.slickPrev()}><FaRegArrowAltCircleUp /></div> )}
+                    {itemCount > 5 && (
+                      
+                    <div className={styles.nextArrow} onClick={() => sliderRef.current.slickNext()}><FaRegArrowAltCircleDown /></div>)} */}
                 <div className={styles.mainImages} ref={mainImagesRef}
-               
                 >
                     {getImage.map((img, index) => (
                             
@@ -408,13 +436,14 @@ const scrollToImageX = (id) => {
                 </div>
             </div>
             <div className={styles.detailContainer}>
-                    
+
+              <div className={styles.detailContent}>      
                         <p className={styles.detailText}>{getData.baslik}</p>
                         <p className={styles.detailPrice}>{getData.fiyat}</p>
                         {/* eğer ticaret sitesi ise */}
 
-                        
-                </div>
+              </div>      
+            </div>
 
                 <PopupWithZoom
               showPopup={showPopup}
