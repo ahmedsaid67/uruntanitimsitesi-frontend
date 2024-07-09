@@ -120,10 +120,13 @@ useEffect(() => {
                 <Navbar />
                 <div className={styles.pageContent}>{children}</div>                     
               </div>
-          </div>    
-          <div className={styles.altBar} >
-            <AltBar/>
-          </div>
+          </div> 
+             {/*
+             <div className={styles.altBar} >
+                <AltBar/>
+              </div>
+             */}
+          
           <Footer />
           
         </div>

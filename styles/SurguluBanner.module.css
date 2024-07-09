@@ -20,17 +20,17 @@
   top: 50%;
   transform: translate(0, -50%);
   font-size: 16px;
-  color: black;
+  color: #fff;
   z-index: 5;
   cursor: pointer;
-  background: #fff;
+  background: black;
   border-radius: 50%;
   padding: 9px 13.5px;
 }
 
 .rightArrow:hover, .leftArrow:hover {
-  background: black; /* Mavi arka plan */
-  color: #fff; /* Beyaz ok renk */
+  background: #fff; /* Mavi arka plan */
+  color: black; /* Beyaz ok renk */
 }
 
 .leftArrow {
@@ -172,4 +172,3 @@
   }
 
 }
-

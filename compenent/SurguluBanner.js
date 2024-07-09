@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
-import Link from 'next/link'; // Next.js Link bileşeni eklendi
+import Link from 'next/link';
 import { API_ROUTES } from '../utils/constants';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import styles from '../styles/SurguluBanner.module.css';
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 
 const NextArrow = ({ onClick, show }) => (
   <div
@@ -22,7 +22,7 @@ const PrevArrow = ({ onClick, show }) => (
     className={`${styles.leftArrow} ${show ? styles.show : ''}`}
     onClick={onClick}
   >
-    <FaArrowLeft />
+    <FaArrowLeft/>
   </div>
 );
 
@@ -30,14 +30,14 @@ const SurguluBanner = () => {
   const [slides, setSlides] = useState([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0); // State to track active dot index
 
-  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
   
-    handleResize(); // İlk renderda ekran boyutuna göre başlangıç durumunu ayarla
+    handleResize();
     window.addEventListener('resize', handleResize);
   
     return () => {
@@ -45,29 +45,24 @@ const SurguluBanner = () => {
     };
   }, []);
   
- 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        isMobile ? API_ROUTES.SLIDERS_ACTIVE_MOBILE : API_ROUTES.SLIDERS_ACTIVE_MASAUSTU
-      );
-      const sortedSlides = response.data.sort((a, b) => a.order - b.order);
-      setSlides(sortedSlides);
-      await preloadImages(sortedSlides);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
   useEffect(() => {
-    
-    if( isMobile !== null){
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          isMobile ? API_ROUTES.SLIDERS_ACTIVE_MOBILE : API_ROUTES.SLIDERS_ACTIVE_MASAUSTU
+        );
+        const sortedSlides = response.data.sort((a, b) => a.order - b.order);
+        setSlides(sortedSlides);
+        await preloadImages(sortedSlides);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    if (isMobile !== null) {
       fetchData();
     }
-    
   }, [isMobile]);
-  
-
 
   const preloadImages = async (slides) => {
     const promises = slides.map((slide) =>
@@ -82,15 +77,42 @@ const SurguluBanner = () => {
     setImagesLoaded(true);
   };
 
+  const sliderRef = useRef(null);
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (slider) {
+      const interval = setInterval(() => {
+        slider.slickNext();
+      }, 5000); // Her 5 saniyede bir slaytı ileri götür
+
+      return () => clearInterval(interval);
+    }
+  }, [slides]);
+
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000, // 5 saniye
     nextArrow: <NextArrow show={imagesLoaded} />,
     prevArrow: <PrevArrow show={imagesLoaded} />,
-    dotsClass: `slick-dots ${styles.customDots}` // Burada özel bir sınıf ekliyoruz
+    // appendDots: (dots) => (
+    //   <ul className={styles.customDots}>
+    //     {dots.map((dot, index) => (
+    //       <li
+    //         key={index}
+    //         className={`${styles.customDot} ${index === activeIndex ? styles.activeDot : ''}`}
+    //         onClick={() => {
+    //           sliderRef.current.slickGoTo(index);
+    //           setActiveIndex(index);
+    //         }}
+    //       ></li>
+    //     ))}
+    //   </ul>
+    // ),
   };
 
   return (
@@ -99,14 +121,11 @@ const SurguluBanner = () => {
         <div className={styles.placeholder}></div>
       ) : (
         <div className={styles.sliderContainer}>
-          <Slider {...settings}>
+          <Slider ref={sliderRef} {...settings}>
             {slides.map((slide, index) => (
               <div key={index}>
-                <Link href={slide.url}> {/* Link bileşeni ile sarıldı */}
-                    <img
-                      src={slide.img}
-                      alt={`Slide ${index + 1}`}
-                    />
+                <Link href={slide.url}>
+                  <img src={slide.img} alt={`Slide ${index + 1}`} />
                 </Link>
               </div>
             ))}
@@ -118,4 +137,4 @@ const SurguluBanner = () => {
 };
 
 export default SurguluBanner;
-  
+

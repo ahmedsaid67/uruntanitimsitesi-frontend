@@ -64,12 +64,13 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  gap: 5%;
 }
 
 .socialIcons a {
   overflow: hidden;
   border-radius: 60%;
-  margin-right: 5%;
+  
   margin-bottom: 10px;
 }
 
@@ -121,7 +122,7 @@
 
 @media (max-width: 768px) {
   .customFooter {
-    padding: 2.5% 0 20% 0;
+    padding: 2.5% 0 ;
   }
 
   .footerContent {
@@ -135,6 +136,7 @@
     text-align: center;
     padding-left: 0;
     margin-bottom: 0;
+    
   }
 
   .footerSection h3 {
