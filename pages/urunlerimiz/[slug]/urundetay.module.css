@@ -526,6 +526,17 @@
       margin-bottom: 3.5em;
     }
 
+    .boxContainer {
+      margin-top: 1.5em;
+    }
+    
+    .box {
+      width: 30px;
+      height: 30px;
+      font-size: 1em; /* Yazı boyutu */
+    }
+    
+
 
   }
   
@@ -605,6 +616,15 @@
       text-align: start;
     }.styleContainer{
       margin-bottom: 3.5em;
+    }
+    .boxContainer {
+      margin-top: 1.7em;
+    }
+    
+    .box {
+      width: 35px;
+      height: 35px;
+      font-size: 1.2em; /* Yazı boyutu */
     }
 
   }

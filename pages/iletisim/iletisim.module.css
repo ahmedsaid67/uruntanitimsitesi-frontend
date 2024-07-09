@@ -58,19 +58,27 @@
     text-align: center;
 }
 
+/* styles.module.css */
 .socialMedia {
     display: flex;
+    gap: 10px; /* İkonlar arasındaki boşluğu ayarlayın */
     justify-content: center;
-    gap: 10px; /* İkonlar arasındaki boşluk */
-    margin-top: 10px; /* Üst boşluk */
-}
-
-.icon {
-    width: 30px;
-    height: 30px;
-    transition: transform 0.2s; /* Hover efekti için geçiş */
-}
-
-.icon:hover {
-    transform: scale(1.1); /* Hover'da büyütme efekti */
-}
+  }
+  
+  .iconLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit; /* İkonların rengini ayarlayın */
+  }
+  
+  .icon {
+    font-size: 2em; /* İkon boyutunu ayarlayın */
+    transition: color 0.3s ease;
+  }
+  
+  .iconLink:hover .icon {
+    color: #1da1f2; /* İkonların üzerine gelindiğinde rengini değiştirin */
+  }
+  

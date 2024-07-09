@@ -5,6 +5,26 @@ import { API_ROUTES } from '@/utils/constants';
 import styles from './iletisim.module.css';
 import { CircularProgress } from '@mui/material';
 import BaslikGorsel from "@/compenent/BaslikGorsel";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faLinkedin,
+  faYoutube,
+  faGithub,
+} from '@fortawesome/free-brands-svg-icons'; // Bu paketi kullanın
+
+
+const getIcon = (url) => {
+  if (url.includes('facebook.com')) return faFacebook;
+  if (url.includes('https://x.com')) return faTwitter;
+  if (url.includes('instagram.com')) return faInstagram;
+  if (url.includes('linkedin.com')) return faLinkedin;
+  if (url.includes('youtube.com')) return faYoutube;
+  if (url.includes('github.com')) return faGithub;
+  return null;
+};
 
 const Iletisim = () => {
   const [email, setEmail] = useState('');
@@ -48,6 +68,8 @@ const Iletisim = () => {
       setIsLoading(false);
     }
   };
+
+
 
   useEffect(() => {
     getData();
@@ -101,11 +123,12 @@ const Iletisim = () => {
         <div className={styles.socialMedia}>
           {isLoading && <p>Yükleniyor...</p>}
           {hasError && <p>Bir hata oluştu.</p>}
+          
           {!isLoading && !hasError && socialMedia.length === 0 && <p>Veri bulunamadı.</p>}
           {socialMedia.map((media) => (
             media.durum ? ( // Sadece aktif olan sosyal medya hesaplarını göster
-              <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer">
-                <img src={media.img} alt={media.name} className={styles.icon} />
+              <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
+                <FontAwesomeIcon icon={getIcon(media.url)} className={styles.icon} />
               </a>
             ) : null
           ))}
