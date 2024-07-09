@@ -300,7 +300,7 @@ const scrollToImageX = (id) => {
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    slidesToShow: 5, // Aynı anda kaç öğe göstermek istediğinizi belirtin
+    slidesToShow: 5.5, // Aynı anda kaç öğe göstermek istediğinizi belirtin
     slidesToScroll: scrollAmount, // Dinamik kaydırma miktarını kullanın
     beforeChange: handleBeforeChange,
     afterChange: handleAfterChange,
@@ -439,10 +439,20 @@ const scrollToImageX = (id) => {
 
               <div className={styles.detailContent}>      
                         <p className={styles.detailText}>{getData.baslik}</p>
-                        <p className={styles.detailPrice}>{getData.fiyat}</p>
-                        {/* eğer ticaret sitesi ise */}
 
-              </div>      
+                         {getData.fiyat && <p className={styles.detailPrice}>{getData.fiyat}</p>}
+                        {/* eğer ticaret sitesi ise */}
+                        <div className={styles.boxContainer}>
+                          <span className={styles.box}>XS</span>
+                          <span className={styles.box}>S</span>
+                          <span className={styles.box}>M</span>
+                          <span className={styles.box}>L</span>
+                          <span className={styles.box}>XL</span>
+                        </div>
+                        
+              </div>    
+              
+  
             </div>
 
                 <PopupWithZoom
