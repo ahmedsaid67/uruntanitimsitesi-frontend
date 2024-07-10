@@ -3,6 +3,26 @@ import { API_ROUTES } from '../utils/constants';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faLinkedin,
+  faYoutube,
+  faGithub,
+} from '@fortawesome/free-brands-svg-icons'; // Bu paketi kullanın
+
+
+const getIcon = (url) => {
+  if (url.includes('facebook.com')) return faFacebook;
+  if (url.includes('https://x.com')) return faTwitter;
+  if (url.includes('instagram.com')) return faInstagram;
+  if (url.includes('linkedin.com')) return faLinkedin;
+  if (url.includes('youtube.com')) return faYoutube;
+  if (url.includes('github.com')) return faGithub;
+  return null;
+};
 
 const Footer = () => {
   const [socialMedia, setSocialMedia] = useState([]);
@@ -38,7 +58,7 @@ const Footer = () => {
   useEffect(() => {
     const fetchIletisim = async () => {
       try {
-        const response = await axios.get(API_ROUTES.ILETISIM.replace("id", 1));
+        const response = await axios.get(API_ROUTES.ILETISIM.replace("id", 5));
         setIletisim(response.data);
       } catch (error) {
         console.error('İletişim bilgileri yüklenirken bir hata oluştu:', error);
@@ -72,12 +92,14 @@ const Footer = () => {
         </div>
 
         <div className={styles.footerSection}>
-          <h3>Sosyal Medya</h3>
+          <h3>Sosyal Medya ve İlgili Kuruluşlar</h3>
           <div className={styles.socialIcons}>
-            {socialMedia.map(media => (
-              <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer">
-                <img src={media.img} alt={`${media.name} Icon`} className={styles.icon} />
-              </a>
+            {socialMedia.map((media) => (
+              media.durum ? ( // Sadece aktif olan sosyal medya hesaplarını göster
+                <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
+                  <FontAwesomeIcon icon={getIcon(media.url)} className={styles.icon} />
+                </a>
+              ) : null
             ))}
           </div>
         </div>
