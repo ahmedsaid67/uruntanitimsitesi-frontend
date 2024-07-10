@@ -88,7 +88,6 @@ const getImageById = async (slug) => {
 const getCategoryBySlug = async (slug) => {
   try {
     const url = API_ROUTES.URUNLER_KATEGORI_FILTER_PAGINATIONSUZ.replace("seciliKategori", slug);
-    console.log(url);
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -343,6 +342,7 @@ const scrollToImageX = (id) => {
       },
       {
         breakpoint: 1024,
+
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
@@ -393,9 +393,11 @@ const scrollToImageX = (id) => {
                             if (!isSliding) {
                                 scrollToImage(img.id);
                             }
+                            
                             }}
                         />
                         ))}
+                        
                     </Slider>
                    
                 </div>
@@ -418,7 +420,11 @@ const scrollToImageX = (id) => {
                         
                         ))}  
 
-                  <div className={styles.rowDotContainer}>
+                  
+                  
+
+                </div>
+                <div className={styles.rowDotContainer}>
                                       <>
                                             {getImage.map((img, index) => (
                                               <a
@@ -433,9 +439,6 @@ const scrollToImageX = (id) => {
                                             ))}
                                         </>
                                     </div>
-                  
-
-                </div>
                
                
             </div>

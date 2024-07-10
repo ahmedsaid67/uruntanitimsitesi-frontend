@@ -133,7 +133,7 @@
   flex-wrap: wrap; /* Kutuların yeni satıra geçmesine izin verir */
   gap: 10px; /* Her kutu arasında 10px boşluk bırakır */
   margin-top: 3.2em;
-  justify-content: start; /* Kutuları yatay olarak ortalar */
+  justify-content: flex-start; /* Kutuları yatay olarak ortalar */
   align-items: center;
   text-align:center;
   border-radius: 10px; /* Köşeleri yuvarlatır */
@@ -224,7 +224,7 @@
 
 .rowDotContainer {
   display: none;
-  position: absolute;
+  position:absolute;
   gap: 4px; /* Space between dots */
   left: 50%;
  
@@ -481,6 +481,7 @@
       margin: 0 auto;
       height: auto;
       margin-bottom: 1em;
+      position: relative;
     }
   
     .mainImages {
@@ -493,20 +494,21 @@
       flex-direction: row;
       background-color: rgba(255, 0, 0, 0);
     }
-  
+    
     .mainImage {
       width: 100%;
       height: auto;
       min-height: max-content;
-      display: block;
+      position: relative;
     }
     
-  
     .rowDotContainer {
-      display:-webkit-flex;
+      display: flex;
+      position: absolute;
       left: 50%;
-      bottom: 60px; /* Adjust this value to position the dots slightly above the bottom edge */
-      
+      bottom: 10px; /* Adjust this value to position the dots slightly above the bottom edge */
+      transform: translateX(-50%);
+      z-index: 3; /* Ensure this is higher than images */
     }
     
     .popImage{
@@ -568,6 +570,7 @@
       flex-wrap: wrap;
       width: 100%;
       margin-top: 2em;
+      position: relative;
     }
   
     .imgContainer {
@@ -602,7 +605,7 @@
   
     .rowDotContainer {
       display: flex;
-      bottom: -300px;
+      bottom: 200px;
     }
     .popImage{
         width: 100%;
