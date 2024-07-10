@@ -504,7 +504,6 @@
   
     .rowDotContainer {
       display: flex;
-      bottom: 150px;
     }
     
     .popImage{
@@ -600,7 +599,6 @@
   
     .rowDotContainer {
       display: flex;
-      bottom: -250px;
     }
     .popImage{
         width: 100%;
