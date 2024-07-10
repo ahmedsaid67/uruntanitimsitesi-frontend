@@ -50,7 +50,7 @@
 }
 
 .footerSection a:hover {
-  color: #0056b3;
+  color: #1da1f2;
   text-decoration: underline;
 }
 
@@ -62,7 +62,6 @@
 
 .socialIcons {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 5%;
 }
@@ -78,6 +77,7 @@
 .icon {
   font-size: 2em; /* İkon boyutunu ayarlayın */
   transition: color 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .iconLink:hover .icon {

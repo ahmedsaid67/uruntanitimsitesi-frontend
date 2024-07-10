@@ -29,7 +29,7 @@ const SosyalMedya = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`${API_ROUTES.SOSYAL_MEDYA}`);
+        const response = await axios.get(`${API_ROUTES.MEDYA_DETAIL}`);
         if (response.data) {
           setSocialMedia({
             twitter: response.data.twitter || '',
@@ -61,9 +61,9 @@ const SosyalMedya = () => {
     setIsLoading(true);
     try {
       if (id) {
-        await axios.put(`${API_ROUTES.SOSYAL_MEDYA}/${id}`, socialMedia);
+        await axios.put(API_ROUTES.MEDYA_DETAIL, socialMedia);
       } else {
-        await axios.post(API_ROUTES.SOSYAL_MEDYA, socialMedia);
+        await axios.post(API_ROUTES.MEDYA_DETAIL, socialMedia);
       }
       router.reload(); // Reload the page to reflect changes
     } catch (error) {

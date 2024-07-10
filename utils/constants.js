@@ -58,14 +58,10 @@ export const API_ROUTES = {
     ALBUM_IMAGES_DELETE : API_SERVER_URL + "/image/bulk_soft_delete/",
     ALBUM_IMAGES_KATEGORI_FILTER : API_SERVER_URL + `/image/?kategori=seciliKategori`,
 
-    // SOSYAL MEDYA
 
-    SOSYAL_MEDYA: API_SERVER_URL + "/sosyalmedya/",
-    SOSYAL_MEDYA_ACTIVE : API_SERVER_URL + "/sosyalmedya/get_active/",
-    SOSYAL_MEDYA_PAGINATIONS : API_SERVER_URL + "/sosyalmedya/?page=currentPage",
-    SOSYAL_MEDYA_DETAIL : API_SERVER_URL + "/sosyalmedya/id/",
-    SOSYAL_MEDYA_DELETE : API_SERVER_URL + "/sosyalmedya/bulk_soft_delete/",
+    // MEDYA
 
+    MEDYA_DETAIL: API_SERVER_URL + "/medya/1/",
     
     // REFERANSLAR
 

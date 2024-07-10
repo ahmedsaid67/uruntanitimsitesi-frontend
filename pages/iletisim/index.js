@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
 import styles from './iletisim.module.css';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Container, Alert } from '@mui/material';
 import BaslikGorsel from "@/compenent/BaslikGorsel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,17 +11,16 @@ import {
   faInstagram,
   faLinkedin,
   faYoutube,
-  faGithub,
-} from '@fortawesome/free-brands-svg-icons'; // Bu paketi kullanın
-
+  faTiktok
+} from '@fortawesome/free-brands-svg-icons'; 
 
 const getIcon = (url) => {
-  if (url.includes('facebook.com')) return faFacebook;
-  if (url.includes('https://x.com')) return faTwitter;
+  if (url.includes('x.com')) return faTwitter;
   if (url.includes('instagram.com')) return faInstagram;
+  if (url.includes('facebook.com')) return faFacebook;
   if (url.includes('linkedin.com')) return faLinkedin;
   if (url.includes('youtube.com')) return faYoutube;
-  if (url.includes('github.com')) return faGithub;
+  if (url.includes('tiktok.com')) return faTiktok;
   return null;
 };
 
@@ -59,8 +57,18 @@ const Iletisim = () => {
     setIsLoading(true);
     setHasError(false);
     try {
-      const response = await axios.get(API_ROUTES.SOSYAL_MEDYA);
-      setSocialMedia(response.data.results); // Verileri state'e kaydet
+      const response = await axios.get(API_ROUTES.MEDYA_DETAIL);
+      const result = response.data;
+      const socialMediaData = [];
+
+      if (result.twitter) socialMediaData.push({ id: 'twitter', url: result.twitter });
+      if (result.instagram) socialMediaData.push({ id: 'instagram', url: result.instagram });
+      if (result.facebook) socialMediaData.push({ id: 'facebook', url: result.facebook });
+      if (result.youtube) socialMediaData.push({ id: 'youtube', url: result.youtube });
+      if (result.linkedin) socialMediaData.push({ id: 'linkedin', url: result.linkedin });
+      if (result.tiktok) socialMediaData.push({ id: 'tiktok', url: result.tiktok });
+
+      setSocialMedia(socialMediaData); // Verileri state'e kaydet
     } catch (error) {
       setHasError(true);
       console.error('Veri çekme hatası:', error);
@@ -68,8 +76,6 @@ const Iletisim = () => {
       setIsLoading(false);
     }
   };
-
-
 
   useEffect(() => {
     getData();
@@ -88,7 +94,7 @@ const Iletisim = () => {
     return (
       <Container>
         <Alert severity="error">
-          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
+          Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
         </Alert>
       </Container>
     );
@@ -96,7 +102,7 @@ const Iletisim = () => {
 
   return (
     <div>
-      <BaslikGorsel slug="iletisim"/>
+      <BaslikGorsel slug="iletisim" />
 
       <div className={styles.mainContainer}>
         <div className={styles.detail}>
@@ -106,7 +112,6 @@ const Iletisim = () => {
         <div className={styles.detail}>
           <h2>Adres</h2>
           <p>{address || 'Veri bulunamadı'}</p>
-
         </div>
         <div className={styles.detail}>
           <h2>Telefon</h2>
@@ -119,21 +124,16 @@ const Iletisim = () => {
           )}
         </div>
         <div className={styles.detail}>
-        <h2>Sosyal Medya</h2>
-        <div className={styles.socialMedia}>
-          {isLoading && <p>Yükleniyor...</p>}
-          {hasError && <p>Bir hata oluştu.</p>}
-          
-          {!isLoading && !hasError && socialMedia.length === 0 && <p>Veri bulunamadı.</p>}
-          {socialMedia.map((media) => (
-            media.durum ? ( // Sadece aktif olan sosyal medya hesaplarını göster
+          <h2>Sosyal Medya</h2>
+          <div className={styles.socialMedia}>
+            {socialMedia.length === 0 && <p>Veri bulunamadı.</p>}
+            {socialMedia.map((media) => (
               <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
                 <FontAwesomeIcon icon={getIcon(media.url)} className={styles.icon} />
               </a>
-            ) : null
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
       </div>
 
       <div className={styles.map}>

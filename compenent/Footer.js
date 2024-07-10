@@ -3,23 +3,53 @@ import { API_ROUTES } from '../utils/constants';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faLinkedin,
+  faYoutube,
+  faTiktok
+} from '@fortawesome/free-brands-svg-icons'; 
+
+const getIcon = (url) => {
+  if (url.includes('x.com')) return faTwitter;
+  if (url.includes('instagram.com')) return faInstagram;
+  if (url.includes('facebook.com')) return faFacebook;
+  if (url.includes('linkedin.com')) return faLinkedin;
+  if (url.includes('youtube.com')) return faYoutube;
+  if (url.includes('tiktok.com')) return faTiktok;
+  return null;
+};
+
 
 const Footer = () => {
   const [socialMedia, setSocialMedia] = useState([]);
   const [hizliLinkler, setHizliLinkler] = useState([]);
   const [iletisim, setIletisim] = useState({});
 
-  useEffect(() => {
-    const fetchSocialMedia = async () => {
-      try {
-        const response = await axios.get(API_ROUTES.SOSYAL_MEDYA_ACTIVE);
-        setSocialMedia(response.data);
-      } catch (error) {
-        console.error('Sosyal medya bilgileri yüklenirken bir hata oluştu:', error);
-      }
-    };
+  const getSocialData = async () => {
+    try {
+      const response = await axios.get(API_ROUTES.MEDYA_DETAIL);
+      const result = response.data;
+      const socialMediaData = [];
 
-    fetchSocialMedia();
+      if (result.twitter) socialMediaData.push({ id: 'twitter', url: result.twitter });
+      if (result.instagram) socialMediaData.push({ id: 'instagram', url: result.instagram });
+      if (result.facebook) socialMediaData.push({ id: 'facebook', url: result.facebook });
+      if (result.youtube) socialMediaData.push({ id: 'youtube', url: result.youtube });
+      if (result.linkedin) socialMediaData.push({ id: 'linkedin', url: result.linkedin });
+      if (result.tiktok) socialMediaData.push({ id: 'tiktok', url: result.tiktok });
+
+      setSocialMedia(socialMediaData); // Verileri state'e kaydet
+    } catch (error) {
+      console.error('Veri çekme hatası:', error);
+    }
+  };
+
+  useEffect(() => {
+    getSocialData();
   }, []);
 
   useEffect(() => {
@@ -75,8 +105,8 @@ const Footer = () => {
           <h3>Sosyal Medya</h3>
           <div className={styles.socialIcons}>
             {socialMedia.map(media => (
-              <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer">
-                <img src={media.img} alt={`${media.name} Icon`} className={styles.icon} />
+              <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
+                <FontAwesomeIcon icon={getIcon(media.url)} className={styles.icon} />
               </a>
             ))}
           </div>
