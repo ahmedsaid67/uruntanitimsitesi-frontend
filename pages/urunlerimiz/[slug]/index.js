@@ -416,25 +416,30 @@ const scrollToImageX = (id) => {
                         onClick={() => handleImageClick(img.image, index)}
                         />
                         
-                        ))}       
-                </div>
+                        ))}  
 
-                <div className={styles.rowDotContainer}>
-                  <>
-                        {getImage.map((img, index) => (
-                          <a
-                          className={`${styles.rowDot} ${activeDot === img.id ? styles.active : ''}`}
-                            key={index}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              scrollToImageX(img.id);
-                              setMainImage(img.id);
-                            }}
-                          ></a>
-                        ))}
-                    </>
+                  <div className={styles.rowDotContainer}>
+                                      <>
+                                            {getImage.map((img, index) => (
+                                              <a
+                                              className={`${styles.rowDot} ${activeDot === img.id ? styles.active : ''}`}
+                                                key={index}
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  scrollToImageX(img.id);
+                                                  setMainImage(img.id);
+                                                }}
+                                              ></a>
+                                            ))}
+                                        </>
+                                    </div>
+                  
+
                 </div>
+               
+               
             </div>
+            
             <div className={styles.detailContainer}>
 
               <div className={styles.detailContent}>      

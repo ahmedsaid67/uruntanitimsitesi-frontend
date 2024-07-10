@@ -223,24 +223,23 @@
 /* rowDot style */
 
 .rowDotContainer {
-    position: absolute; /* Make it relative to the nearest positioned ancestor */
-    bottom: 10px; /* Adjust this value to control the distance from the bottom */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center it properly */
-    display: none; /* Use flex to align dots */
-    justify-content: center; /* Center dots horizontally */
-    z-index: 100; /* Ensure it appears above other content */
-  }
-  
-  .rowDot {
-    outline: none;
-    border: none;
-    width: 15px;
-    height: 15px;
-    background: #3c3131;
-    border-radius: 50%;
-    margin: 0 8px;
-  }
+  display: none;
+  position: absolute;
+  gap: 4px; /* Space between dots */
+  left: 50%;
+ 
+  transform: translateX(-50%);
+  z-index: 3; /* Ensure this is higher than images */
+}
+
+.rowDot {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(35, 2, 2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
   
   .rowDot:hover {
     background: gray;
@@ -499,11 +498,15 @@
       width: 100%;
       height: auto;
       min-height: max-content;
+      display: block;
     }
     
   
     .rowDotContainer {
-      display: flex;
+      display:-webkit-flex;
+      left: 50%;
+      bottom: 60px; /* Adjust this value to position the dots slightly above the bottom edge */
+      
     }
     
     .popImage{
@@ -599,6 +602,7 @@
   
     .rowDotContainer {
       display: flex;
+      bottom: -300px;
     }
     .popImage{
         width: 100%;
