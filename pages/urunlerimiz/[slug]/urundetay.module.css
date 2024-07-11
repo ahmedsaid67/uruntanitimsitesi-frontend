@@ -146,17 +146,13 @@
   width: 50px;
   height: 50px;
   background-color: #1c3a5a; /* Kutuların arka plan rengi */
-  color: white; /* Kutuların içindeki yazının rengi */
+  color: whitesmoke; /* Kutuların içindeki yazının rengi */
   font-size: 1.2em; /* Yazı boyutu */
   border-radius: 5px; /* Köşeleri yuvarlatır */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Hover efekti için geçiş ekler */
   cursor: pointer; /* Fare imlecini işaretçiye çevirir */
 }
 
-.box:hover {
-  background-color: #3a5a7a; /* Hover durumunda arka plan rengini değiştirir */
-  transform: scale(1.1); /* Hover durumunda kutuyu biraz büyütür */
-} 
+
 
 
 /* Error and Info Messages */
@@ -235,20 +231,19 @@
 .rowDot {
   width: 10px;
   height: 10px;
-  background-color: rgb(35, 2, 2);
+  background-color: rgb(146, 133, 133);
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s;
 }
   
   .rowDot:hover {
-    background: gray;
+    background: rgb(255, 249, 249);
   }
   
   
   .rowDot.active {
-    background-color: rgb(255, 255, 255);
-    border: 2px solid rgb(0, 0, 0);
+    background-color: whitesmoke;
   }
   
   
