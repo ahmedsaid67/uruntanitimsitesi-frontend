@@ -156,5 +156,3 @@ const Hakkimizda = () => {
 };
 
 export default Hakkimizda;
-
-

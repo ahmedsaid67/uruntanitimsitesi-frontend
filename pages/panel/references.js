@@ -495,7 +495,7 @@ export default function Referanslar() {
                 fullWidth
                 margin="normal"
             />
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px' ,marginTop:'20px'}}>
                 <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
                     {selectedItem && selectedItem.img ? (
                         <>
@@ -577,6 +577,7 @@ export default function Referanslar() {
         </IconButton>
       </DialogTitle>
       <DialogContent>
+        
         <TextField
           label="Ad"
           value={newItem.name}
@@ -584,13 +585,15 @@ export default function Referanslar() {
           fullWidth
           margin="normal"
         />
-        <div style={{ textAlign: 'center', marginBottom: '20px', border: '2px dashed grey', padding: '10px' }}>
+
+        <div style={{ textAlign: 'center', marginBottom: '20px', marginTop:'20px' }}>
+          <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
           {!newItem.img ? (
             <>
-             <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 150, left: 30 }}>
+             <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
                Görsel:
              </Typography>
-            <label htmlFor="imgInput">
+            <label htmlFor="fotografiInput">
               <IconButton
                 style={{ fontSize: '50px', color: 'green' }}
                 component="span"
@@ -601,33 +604,36 @@ export default function Referanslar() {
             </>
           ) : (
             <>
-                <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 150, left: 30  }}>
+                <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
                     Görsel:
                 </Typography>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                
                     <img
                         src={newItem.img}
-                        alt="img"
-                        style={{ maxWidth: '50%', maxHeight: '100px' }}
+                        alt="Fotoğraf"
+                        style={{ maxWidth: '50%', maxHeight: '100px', position: 'relative' }}
                     />
                     <IconButton
                         onClick={() => handleRemoveImageEkle('img')}
-                        style={{ fontSize: '20px', backgroundColor: 'transparent', color: 'red', position: 'absolute', top: -20, right: -20 }}
+                        style={{ fontSize: '20px', backgroundColor: 'transparent', color: 'red', position: 'absolute', top: 0, right: 0 }}
                     >
                         <CloseIcon />
                     </IconButton>
-                </div>
+                
             </>
 
           )}
+          </div>
         </div>
         <input
           type="file"
-          id="imgInput"
+          id="fotografiInput"
           accept="image/*"
           style={{ display: 'none' }}
           onChange={(e) => handleFileChangeEkle(e, "img")}
         />
+
+
         <TextField
             label="Bağlantı"
             value={newItem.url}

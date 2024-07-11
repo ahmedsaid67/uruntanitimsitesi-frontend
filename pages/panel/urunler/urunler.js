@@ -676,7 +676,7 @@ export default function FotoGaleri() {
                 margin="normal"
             />
             {/* Kapak Fotoğrafı */}
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px' ,marginTop:'20px'}}>
                 <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
                     {selectedItem && selectedItem.kapak_fotografi ? (
                         <>
@@ -721,6 +721,7 @@ export default function FotoGaleri() {
                     onChange={(e) => handleFileChange(e, "kapak_fotografi")}
                 />
             </div>
+
 
             <TextField
                 label="Fiyat"
@@ -886,7 +887,7 @@ export default function FotoGaleri() {
 
 
 
-         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+         <div style={{ textAlign: 'center', marginBottom: '20px' , marginTop:'20px' }}>
           <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
           {!newItem.kapakFotografi ? (
             <>

@@ -274,7 +274,7 @@ export default function BaslikGorsel() {
                 fullWidth
                 margin="normal"
             />
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px',marginTop:'20px' }}>
                 <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
                     {selectedItem && selectedItem.img ? (
                         <>

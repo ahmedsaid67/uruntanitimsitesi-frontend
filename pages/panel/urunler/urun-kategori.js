@@ -99,10 +99,7 @@ export default function UrunKategori() {
         setUyariMesajiEkle("");
         setSaveError("");
       
-        // setCreateResponse(true) işlemini 3 saniye sonra çalıştır
-        setTimeout(() => {
-          setCreateResponse(true);
-        }, 500); // 3000 milisaniye = 3 saniye
+       
       };
       
       
@@ -186,6 +183,11 @@ export default function UrunKategori() {
             
             
             handleCloseAddDialog();
+
+            // setCreateResponse(true) işlemini 3 saniye sonra çalıştır
+            setTimeout(() => {
+              setCreateResponse(true);
+            }, 500); // 3000 milisaniye = 3 saniye
 
             
           })
@@ -533,7 +535,7 @@ export default function UrunKategori() {
                 margin="normal"
             />
             
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px' ,marginTop:'20px'}}>
                 <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
                     {selectedItem && selectedItem.kapak_fotografi ? (
                         <>
@@ -712,8 +714,7 @@ export default function UrunKategori() {
       <StyledDialog
           open={createResponse}
           onClose={handleCreateResponse}
-          maxWidth="xs"
-          fullWidth
+
         >
           <DialogTitle>Ürün Kategorisi Başarıyla Oluşturuldu!</DialogTitle>
           <DialogContent dividers>
