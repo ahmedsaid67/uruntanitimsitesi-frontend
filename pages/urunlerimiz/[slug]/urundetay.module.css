@@ -3,6 +3,7 @@
     width: 80%;
     display: flex;
     margin: 0 auto;
+    justify-content: center;
     margin-top: 3em;
     margin-bottom: 5em;
 
@@ -20,9 +21,9 @@
 }
 
 .detailContainer {
-    width: 50%;
+    width: 35%;
     display: flex;
-    height: 110vh;
+    height: auto;
     flex-direction: column;
     align-items: center;
     margin-left: 3.2rem;

@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .kategoriBaslik {
@@ -41,14 +43,13 @@
   width: 100%;
   height: auto;
   border-radius: 5px;
-  max-height: 440px;
   
 }
 
 .kategoriBaslikContainer {
   text-align: center;
   font-size: 18px; /* Mobil için font boyutu */
-  margin: 5px auto 15px auto;
+  margin: 1em auto 1.5em auto;
   width: 90%; /* Başlık genişliği */
   font-weight: bold;
 }
@@ -144,7 +145,7 @@
   }
   .kategoriItem {
     width: calc(33.33% - 20px); /* Masaüstü için üç kart genişliği */
-    height: 575px; /* Masaüstü için yükseklik ayarı */
+    height: auto; /* Masaüstü için yükseklik ayarı */
   }
   .kesfetButon {
     padding: 10px 20px; /* Masaüstü için buton padding */
