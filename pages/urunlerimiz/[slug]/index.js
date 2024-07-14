@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import stylesSlider from '@/styles/Vitrin.module.css';
 import styles from "./urundetay.module.css";
-import { API_ROUTES } from '@/utils/constants';
+import { API_ROUTES, API_SERVER_URL } from '@/utils/constants';
 import CircularProgress from '@mui/material/CircularProgress'; 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -69,6 +69,24 @@ const getDataById = async (slug) => {
   }
 };
 
+const getBodySizeById = async (slug) => {
+  try {
+    // API_ROUTES.URUNE_AIT_BEDENLER içinde "id" kısmını slug ile değiştirmek için string interpolasyonu kullanılmalı
+    const url = API_ROUTES.URUNE_AIT_BEDENLER.replace("id", slug);
+    const bodySizeResponse = await axios.get(url);
+    console.log(bodySizeResponse);
+    return bodySizeResponse.data;
+  } catch (error) {
+    console.error("Veri yükleme sırasında bir hata oluştu:", error);
+    if (error.response && error.response.status === 404 && error.response.data.detail === "Invalid page.") {
+      console.log('Geçersiz sayfa. Bu sayfa mevcut değil veya sayfa numarası hatalı. Lütfen sayfa numarasını kontrol edin.');
+    } else {
+      console.log('Veriler yüklenirken beklenmeyen bir sorun oluştu. Lütfen daha sonra tekrar deneyin.');
+    }
+    throw error;
+  }
+};
+
 const getImageById = async (slug) => {
   try {
     const productsResponse = await axios.get(
@@ -117,6 +135,8 @@ const UrunDetay = () => {
   const [activeImage, setActiveImage] = useState(null);
   const [getMainImage, setMainImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [bodySizes, setBodySizes] = useState([]);
 
   const itemCount = getImage.length;
 
@@ -261,6 +281,10 @@ const scrollToImageX = (id) => {
 
         const resultNew = await getCategoryBySlug(result.urun_kategori.slug);
         setProducts(resultNew.results);
+
+        const resultBodySize = await getBodySizeById(id);
+        const filteredSizes = resultBodySize.filter(size => size.durum);
+        setBodySizes(filteredSizes);
        
 
         setError(null);
@@ -451,11 +475,11 @@ const scrollToImageX = (id) => {
                          {getData.fiyat && <p className={styles.detailPrice}>{getData.fiyat}</p>}
                         {/* eğer ticaret sitesi ise */}
                         <div className={styles.boxContainer}>
-                          <span className={styles.box}>XS</span>
-                          <span className={styles.box}>S</span>
-                          <span className={styles.box}>M</span>
-                          <span className={styles.box}>L</span>
-                          <span className={styles.box}>XL</span>
+                        {bodySizes.map(size => (
+                          <span key={size.id} className={styles.box}>
+                            {size.numara}
+                          </span>
+                        ))}
                         </div>
                         
               </div>    
