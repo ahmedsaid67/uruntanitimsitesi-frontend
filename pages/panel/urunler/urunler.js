@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useMemo } from 'react';
-import { Container,InputAdornment , Typography, Paper,Pagination, Table,Tooltip, TableBody, TableCell, TableHead, TableRow, Button, Dialog, DialogTitle, DialogContent, TextField, Checkbox, FormControlLabel, DialogActions } from '@mui/material';
+import { Container,InputAdornment , Typography, Paper,Pagination, Table,Tooltip, TableBody, TableCell, TableHead, TableRow, Button, Dialog, DialogTitle, DialogContent, TextField, Checkbox,FormLabel,FormGroup, FormControlLabel, DialogActions } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
@@ -43,6 +43,8 @@ export default function FotoGaleri() {
     const [urunVitrin, setUrunVitrin] = useState([]);
     const [selectedVitrin, setSelectedVitrin] = useState("");
 
+    const [bedenler,setBedenler] = useState([])
+
 
     const [isSaving, setIsSaving] = useState(false);
 
@@ -62,6 +64,7 @@ export default function FotoGaleri() {
     }, [albumImages, createImageAlbum]);
 
 
+    const beden = Array.from({ length: 9 }, (_, index) => ({ numara: 30 + index * 2, durum: false }));
 
 
     const getResData = async () => {
@@ -150,6 +153,15 @@ export default function FotoGaleri() {
 
 
 
+    //beden düzenleme function
+    const handleCheckboxChange = (index) => {
+      const updatedBedenler = [...bedenler];
+      updatedBedenler[index].durum = !updatedBedenler[index].durum;
+      setBedenler(updatedBedenler);
+    };
+
+
+
 
 
     const handlePageChange = (event, value) => {
@@ -169,6 +181,7 @@ export default function FotoGaleri() {
         setSelectedKategori("");
         setCreateImageAlbum([]);
         setSelectedVitrin("");
+        setBedenler(beden)
         setOpenAddDialog(true);
       };
 
@@ -203,6 +216,13 @@ export default function FotoGaleri() {
         axios.get(API_ROUTES.ALBUM_IMAGES_KATEGORI_FILTER.replace("seciliKategori", item.id)) 
         .then(response => {
             setAlbumImages(response.data);
+        })
+        .catch(error => setSaveError("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."));
+
+        // İlgili albüm resimlerini yükle
+        axios.get(API_ROUTES.URUNE_AIT_BEDENLER.replace("id", item.id)) 
+        .then(response => {
+            setBedenler(response.data);
         })
         .catch(error => setSaveError("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."));
 
@@ -244,6 +264,8 @@ export default function FotoGaleri() {
             formData.append("fiyat", editedItem["fiyat"]);
           }
 
+
+
           setIsSaving(true);
       
           const response = await axios.put(API_ROUTES.URUNLER_DETAIL.replace("id",editedItem.id), formData)
@@ -267,6 +289,9 @@ export default function FotoGaleri() {
       
             await Promise.all(promises);
           }
+
+
+          const responseBeden = await axios.post(API_ROUTES.URUNE_AIT_BEDEN_GUNCELLEME.replace("id",editedItem.id), {list:bedenler})
 
 
       
@@ -297,12 +322,11 @@ export default function FotoGaleri() {
         formData.append("baslik", newItem["baslik"]);
         formData.append("fiyat", newItem["fiyat"]);
         formData.append("urun_kategori_id", kategoriId);
+        
         if (selectedId){
             formData.append("vitrin_kategori_id", selectedId);
         }
 
-
-        
 
 
         setIsSaving(true);
@@ -326,6 +350,9 @@ export default function FotoGaleri() {
       
             await Promise.all(promises);
           }
+
+
+          const responseBeden = await axios.post(API_ROUTES.URUNE_AIT_BEDEN_EKLEME.replace("id",newUrunId), {list:bedenler})
       
           handleCloseAddDialog();
         } catch (error) {
@@ -370,6 +397,7 @@ export default function FotoGaleri() {
       }
     };
   
+    
     const handleCloseDeleteConfirm = () => {
       setDeleteConfirmOpen(false);
     };
@@ -507,12 +535,8 @@ export default function FotoGaleri() {
             reader.onload = (e) => {
                 setCreateImageAlbum(prevItem => ([
                     ...prevItem,
-                    {frontFile: e.target.result, backFile: file}
-
-                    
+                    {frontFile: e.target.result, backFile: file}  
                 ]));
-
-
             };
             reader.readAsDataURL(file);
             event.target.value = '';
@@ -811,6 +835,40 @@ export default function FotoGaleri() {
 
 
 
+            <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+                <Typography variant="h6" gutterBottom style={{ marginBottom: '15px', textAlign: 'center', fontWeight: 'bold', color: '#555' }}>Bedenler</Typography>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+                    {bedenler.map((beden, index) => (
+                        <div key={beden.id} style={{ 
+                            flex: '0 1 calc(33.3333% - 20px)',
+                            marginBottom: '10px',
+                            backgroundColor: '#fff',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            padding: '10px',
+                            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={beden.durum}
+                                        onChange={() => handleCheckboxChange(index)}
+                                        style={{ padding: '0 10px' }}
+                                    />
+                                }
+                                label={beden.numara}
+                            />
+                            {/* Buraya istediğiniz ekstra içerik veya mesaj ekleyebilirsiniz */}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+
+
 
 
             <FormControl fullWidth margin='normal'>
@@ -1010,6 +1068,39 @@ export default function FotoGaleri() {
                     
                 </div>
                 
+            </div>
+
+
+            <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+                <Typography variant="h6" gutterBottom style={{ marginBottom: '15px', textAlign: 'center', fontWeight: 'bold', color: '#555' }}>Bedenler</Typography>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+                    {bedenler.map((beden, index) => (
+                        <div key={beden.id} style={{ 
+                            flex: '0 1 calc(33.3333% - 20px)',
+                            marginBottom: '10px',
+                            backgroundColor: '#fff',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            padding: '10px',
+                            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={beden.durum}
+                                        onChange={() => handleCheckboxChange(index)}
+                                        style={{ padding: '0 10px' }}
+                                    />
+                                }
+                                label={beden.numara}
+                            />
+                            {/* Buraya istediğiniz ekstra içerik veya mesaj ekleyebilirsiniz */}
+                        </div>
+                    ))}
+                </div>
             </div>
 
 

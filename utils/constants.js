@@ -99,7 +99,14 @@ export const API_ROUTES = {
 
     // ADET
 
-    ADET: API_SERVER_URL + "/adet/"
+    ADET: API_SERVER_URL + "/adet/",
+
+
+    // BEDENLER
+
+    URUNE_AIT_BEDENLER : API_SERVER_URL + "/bedenler/urun/id/",
+    URUNE_AIT_BEDEN_GUNCELLEME : API_SERVER_URL + "/bedenler/urun/id/update-durum/",
+    URUNE_AIT_BEDEN_EKLEME : API_SERVER_URL + "/bedenler/urun/id/create/",
 
 
 }
