@@ -312,6 +312,7 @@ const scrollToImageX = (id) => {
       const initialImage = getImage[0].id;
       setMainImage(initialImage);
       setActiveDot(initialImage);
+      setActiveImage(initialImage);
     }
   }, [getImage]);
 
