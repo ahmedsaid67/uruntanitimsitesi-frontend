@@ -404,7 +404,7 @@ const scrollToImageX = (id) => {
                         onMouseUp={handleMouseUp}
                     >
                         {getImage.map((img, index) => (
-                        <Image
+                        <img
                             key={index}
                             src={img.image}
                             alt=""
@@ -433,7 +433,7 @@ const scrollToImageX = (id) => {
                 >
                     {getImage.map((img, index) => (
                             
-                        <Image key={index} src={img.image} alt={img.id}  id={img.id}
+                        <img key={index} src={img.image} alt={img.id}  id={img.id}
                         className={styles.mainImage}
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
