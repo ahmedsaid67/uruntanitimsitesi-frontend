@@ -61,29 +61,26 @@ const Hakkimizda = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedData = { content };
-
+  
     try {
-      const method = id ? 'PUT' : 'POST'; // id varsa PUT, yoksa POST
+      const method = id ? 'put' : 'post'; // id varsa PUT, yoksa POST
       const url = id ? `${API_ROUTES.HAKKIMIZDA.replace("id/", "")}${id}/` : API_ROUTES.HAKKIMIZDA.replace("id/", "");
-      
-      const response = await fetch(url, {
+  
+      const response = await axios({
         method: method,
+        url: url,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedData),
+        data: updatedData,
       });
-      if (response.ok) {
-        const result = await response.json();
-        console.log('İşlem başarılı:', result);
-        getData(); // Güncellenmiş veriyi tekrar al
-      } else {
-        console.error('İşlem hatası:', response.statusText);
-      }
+  
+      console.log('İşlem başarılı:', response.data);
+      getData(); // Güncellenmiş veriyi tekrar al
     } catch (error) {
-      console.error('İşlem hatası:', error);
+      console.error('İşlem hatası:', error.response ? error.response.data : error.message);
     }
-  };
+  };  
 
   if (isLoading) {
     return (

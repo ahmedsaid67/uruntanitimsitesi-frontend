@@ -74,7 +74,6 @@ const getBodySizeById = async (slug) => {
     // API_ROUTES.URUNE_AIT_BEDENLER içinde "id" kısmını slug ile değiştirmek için string interpolasyonu kullanılmalı
     const url = API_ROUTES.URUNE_AIT_BEDENLER.replace("id", slug);
     const bodySizeResponse = await axios.get(url);
-    console.log(bodySizeResponse);
     return bodySizeResponse.data;
   } catch (error) {
     console.error("Veri yükleme sırasında bir hata oluştu:", error);
@@ -128,7 +127,7 @@ const UrunDetay = () => {
   const [isSliding, setIsSliding] = useState(false);
   const [scrollAmount, setScrollAmount] = useState(1); // Dinamik kaydırma miktarını tutacak state
   const sliderRef = useRef(null);
-  const startYRef = useRef(0); // Kaydırma başlangıç pozisyonunu tutacak ref
+  const startXRef = useRef(0); // Kaydırma başlangıç pozisyonunu tutacak ref
   const startXRefMain = useRef(0);
 
   const [activeDot, setActiveDot] = useState(null);
@@ -149,12 +148,12 @@ const UrunDetay = () => {
   };
 
   const handleMouseDown = (e) => {
-    startYRef.current = e.clientY; // Kaydırma başlangıç pozisyonunu kaydedin
+    startXRef.current = e.clientY; // Kaydırma başlangıç pozisyonunu kaydedin
   };
 
   const handleMouseUp = (e) => {
     const endY = e.clientY; // Kaydırma bitiş pozisyonunu alın
-    const distance = Math.abs(endY - startYRef.current); // Kaydırma mesafesini hesaplayın
+    const distance = Math.abs(endY - startXRef.current); // Kaydırma mesafesini hesaplayın
     const itemsToScroll = Math.ceil(distance / 100); // Mesafeye göre kaydırılacak öğe sayısını belirleyin
     setScrollAmount(itemsToScroll); // Dinamik kaydırma miktarını ayarlayın
 
@@ -165,12 +164,12 @@ const UrunDetay = () => {
 
 // touch move
   const handleTouchStart = (e) => {
-    startYRef.current = e.touches[0].clientX; // Track horizontal start position
+    startXRef.current = e.touches[0].clientX; // Track horizontal start position
   };
   
   const handleTouchMove = (e) => {
     const endX = e.touches[0].clientX; // Get horizontal end position
-    const distance = endX - startYRef.current; // Positive for swipe right, negative for swipe left
+    const distance = endX - startXRef.current; // Positive for swipe right, negative for swipe left
   
     if (Math.abs(distance) > 50) { // Threshold for swipe
       if (distance > 0) {
@@ -180,7 +179,7 @@ const UrunDetay = () => {
         // Swipe left
         scrollToImageXNew(activeDot - 1); // Move to the next image
       }
-      startYRef.current = endX; // Reset start position for continuous swiping
+      startXRef.current = endX; // Reset start position for continuous swiping
     }
   };
   
@@ -313,6 +312,7 @@ const scrollToImageX = (id) => {
       const initialImage = getImage[0].id;
       setMainImage(initialImage);
       setActiveDot(initialImage);
+      setActiveImage(initialImage);
     }
   }, [getImage]);
 
@@ -405,7 +405,7 @@ const scrollToImageX = (id) => {
                         onMouseUp={handleMouseUp}
                     >
                         {getImage.map((img, index) => (
-                        <Image
+                        <img
                             key={index}
                             src={img.image}
                             alt=""
@@ -434,7 +434,7 @@ const scrollToImageX = (id) => {
                 >
                     {getImage.map((img, index) => (
                             
-                        <Image key={index} src={img.image} alt={img.id}  id={img.id}
+                        <img key={index} src={img.image} alt={img.id}  id={img.id}
                         className={styles.mainImage}
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
