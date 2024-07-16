@@ -26,8 +26,6 @@ export default function BaslikGorsel() {
     const [saveError, setSaveError] = useState("");
     const [uyariMesaji, setUyariMesaji] = useState("");
     const [isSaving, setIsSaving] = useState(false);
-    const [deleteError, setDeleteError] = useState('');
-
 
     const user = useSelector((state) => state.user);
     const router = useRouter();
@@ -202,7 +200,6 @@ export default function BaslikGorsel() {
         <>
              <>
              <Container maxWidth="lg" style={{  position: 'relative' }}>
-             {deleteError && <div style={{ color: '#f44336', textAlign: 'center', marginBottom: '10px', fontSize: '0.75rem' }}>{deleteError}</div>}
                 <Paper elevation={2} style={{ padding: '15px', overflowX: 'auto', backgroundColor: 'white' }}>
                   
                   <Table size="small">
@@ -210,7 +207,7 @@ export default function BaslikGorsel() {
                       <TableRow style={{ backgroundColor: '#1976d2' }}> 
                         
                         <TableCell style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Sayfa İsmi</TableCell>
-                        <TableCell style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' }}>Görsel</TableCell>
+                        <TableCell style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' }}>Ana Görsel</TableCell>
                         <TableCell style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' }}>Durum</TableCell>
                         <TableCell style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' }}>Detaylar</TableCell>
                       </TableRow>
@@ -267,19 +264,22 @@ export default function BaslikGorsel() {
         </DialogTitle>
         <DialogContent>
 
-            <TextField
-                label="Ad"
-                value={selectedItem ? selectedItem.name : ''}
-                onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })}
-                fullWidth
-                margin="normal"
-            />
+        <TextField
+              label="Sayfa İsmi"
+              value={selectedItem ? selectedItem.name : ''}
+              fullWidth
+              margin="normal"
+              disabled
+              InputProps={{
+                  readOnly: true,  // Make the field readonly
+              }}
+          />
             <div style={{ textAlign: 'center', marginBottom: '20px',marginTop:'20px' }}>
                 <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
                     {selectedItem && selectedItem.img ? (
                         <>
                             <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
-                                Görsel:
+                                Ana Görsel:
                             </Typography>
                             <img
                                 src={selectedItem.img}
@@ -296,7 +296,7 @@ export default function BaslikGorsel() {
                         </>
                     ) : (<>
                         <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
-                                Görsel:
+                                Ana Görsel:
                         </Typography>
                         <label htmlFor="imgInput">
                             <IconButton
@@ -322,7 +322,17 @@ export default function BaslikGorsel() {
 
 
             
-            <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Aktif" />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedItem ? selectedItem.durum : false}
+                  onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })}
+                  disabled  // Bu özellik ile checkbox devre dışı bırakılır
+                />
+              }
+              label="Aktif"
+            />
+
           </DialogContent>
           {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
           {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}

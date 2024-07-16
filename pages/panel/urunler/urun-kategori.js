@@ -583,7 +583,7 @@ export default function UrunKategori() {
 
 
             
-            <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Durum" />
+            <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Aktif" />
           </DialogContent>
           {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
           {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}
@@ -664,7 +664,7 @@ export default function UrunKategori() {
         
         <FormControlLabel
           control={<Checkbox checked={newItem.durum || false} onChange={(e) => setNewItem({ ...newItem, durum: e.target.checked })} />}
-          label="Durum"
+          label="Aktif"
         />
       </DialogContent>
       {uyariMesajiEkle && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesajiEkle}</p>}
@@ -712,41 +712,40 @@ export default function UrunKategori() {
 
 
       <StyledDialog
-          open={createResponse}
-          onClose={handleCreateResponse}
+        open={createResponse}
+        onClose={handleCreateResponse}
+      >
+        <DialogTitle>Ürün Kategorisi Başarıyla Oluşturuldu!</DialogTitle>
+        <DialogContent dividers>
+          <StyledTypography paragraph>
+            Yeni ürün kategoriniz başarıyla oluşturuldu ve aşağıdaki adımlar tamamlandı:
+          </StyledTypography>
+          <StyledTypography>
+            <strong>Menüler Güncellendi:</strong> Yeni kategoriniz, "Ürünlerimiz" menüsüne alt kategori olarak eklenmiştir.
+          </StyledTypography>
+          <StyledTypography>
+            <strong>Kategori Sayfası Oluşturuldu:</strong> Yeni kategori için "Sayfalar" sekmesine bir giriş yapılmıştır.
+          </StyledTypography>
+          <StyledTypography>
+            <strong>İlgili Sayfayı Güncellemek İçin:</strong>
+          </StyledTypography>
+          <StyledTypography>
+            - Yönetim panelinde "Sayfalar" sekmesine gidin.
+          </StyledTypography>
+          <StyledTypography>
+            - İlgili sayfayı seçin.
+          </StyledTypography>
+          <StyledTypography>
+          - Düzenleme butonuna tıklayarak açılan pop-up'ta sayfa için gerekli olan ana görseli yükleyin veya güncelleyin.
 
-        >
-          <DialogTitle>Ürün Kategorisi Başarıyla Oluşturuldu!</DialogTitle>
-          <DialogContent dividers>
-            <StyledTypography paragraph>
-              Yeni ürün kategoriniz başarıyla oluşturuldu ve şu adımlar tamamlandı:
-            </StyledTypography>
-            <StyledTypography>
-              <strong>Menüler Güncellendi:</strong> Yeni kategoriniz "Ürünlerimiz" menüsünde alt öge olarak eklendi.
-            </StyledTypography>
-            <StyledTypography>
-              <strong>Başlık Görsel Eklendi:</strong> Kategori sayfanız için başlık görseli tablosuna yeni bir giriş yapıldı.
-            </StyledTypography>
-            <StyledTypography>
-              <strong>Başlık Görseli Güncellemek İçin:</strong>
-            </StyledTypography>
-            <StyledTypography>
-              - Yönetim panelinden "Başlık Görsel" sekmesine gidin.
-            </StyledTypography>
-            <StyledTypography>
-              - Yeni kategoriyi seçin.
-            </StyledTypography>
-            <StyledTypography>
-              - İlgili görseli yükleyin veya güncelleyin.
-            </StyledTypography>
-          </DialogContent>
-          <DialogActions>
-            <StyledButton onClick={handleCreateResponse} color="primary" variant="contained">
-              Tamam
-            </StyledButton>
-          </DialogActions>
-        </StyledDialog>
-
+          </StyledTypography>
+        </DialogContent>
+        <DialogActions>
+          <StyledButton onClick={handleCreateResponse} color="primary" variant="contained">
+            Tamam
+          </StyledButton>
+        </DialogActions>
+      </StyledDialog>
 
     </>
 

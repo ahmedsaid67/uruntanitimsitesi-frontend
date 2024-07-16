@@ -53,6 +53,7 @@ const Iletisim = () => {
       });
     }else{
       getData()
+      console.log("user:",user.id)
     }
   }, [user,currentPage]);
 

@@ -6,7 +6,7 @@ import styles from '../styles/Sidebar.module.css';
 import { useSelector,useDispatch } from 'react-redux';
 import { submitLogout } from '../context/features/auth/loginSlice';
 import CircularProgress from '@mui/material/CircularProgress';
-import { faAddressCard,  faCircleInfo, faFile, faHandshake, faHashtag, faHouse, faImage, faLink, faList, faMap, faSliders } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard,faShoppingCart,  faCircleInfo, faFile, faHandshake, faHashtag, faHouse, faImage, faLink, faList, faMap, faSliders } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -40,7 +40,7 @@ const MenuListItems = [
   },
   {
     id: 6,
-    text: <><span className={styles.icon}><FontAwesomeIcon icon={faImage} /></span> Başlık Görsel</>,
+    text: <><span className={styles.icon}><FontAwesomeIcon icon={faFile} /></span> Sayfalar</>,
     url: '/panel/baslik-gorsel',
   },
   {
@@ -50,7 +50,7 @@ const MenuListItems = [
   },
   {
     id: 8,
-    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faFile} /></span> Ürünler</>,
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faShoppingCart} /></span> Ürünler</>,
 
     children: [
       { id: 81, text: 'Ürün Kategori', url: '/panel/urunler/urun-kategori' },

@@ -910,7 +910,7 @@ export default function FotoGaleri() {
 
 
 
-            <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Durum" />
+            <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Aktif" />
           </DialogContent>
           {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
           {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}
@@ -1150,7 +1150,7 @@ export default function FotoGaleri() {
 
         <FormControlLabel
           control={<Checkbox checked={newItem.durum || false} onChange={(e) => setNewItem({ ...newItem, durum: e.target.checked })} />}
-          label="Durum"
+          label="Aktif"
         />
       </DialogContent>
 
