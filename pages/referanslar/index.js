@@ -5,6 +5,8 @@ import axios from 'axios';
 import Link from "next/link";
 import BaslikGorsel from "../../compenent/BaslikGorsel";
 import { CircularProgress } from "@mui/material";
+import Head from "next/head";
+
 
 
 const getReferences = async () => {
@@ -31,7 +33,7 @@ const Referans = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-
+  const referans = references.map(referance => referance.name).join(', ');
   useEffect(() => {
     // Component yüklendiğinde referansları al
     const fetchReferences = async () => {
@@ -40,9 +42,7 @@ const Referans = () => {
       try {
         
         const data = await getReferences();
-        console.log(data);
         setReferences(data); // Veriyi state'e kaydet
-        console.log(data);
       } catch (error) {
         console.error("Referanslar alınırken bir hata oluştu:", error);
         setHasError(true);
@@ -78,6 +78,16 @@ const Referans = () => {
 
   return (
     <>
+    <Head>
+        <title>Flexsoft | Referanslar</title>
+        <meta name="description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yönelik referanslarımız: ${referans}.`} />
+        <meta name="keywords" content={`e-ticaret, yazılım, butik, giyim mağazaları, referanslar,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları ${referans}`} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Flexsoft | Referanslar" />
+        <meta property="og:description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yönelik referanslarımız: ${referans}.`} />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
     <BaslikGorsel slug="referanslar"/>
 

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import PopupWithZoom from '@/compenent/PopupWithZoom';
+import Head from 'next/head';
 
 import { FaArrowLeft, FaArrowRight, FaRegArrowAltCircleDown ,FaRegArrowAltCircleUp} from "react-icons/fa";
 import { faL } from '@fortawesome/free-solid-svg-icons';
@@ -393,6 +394,14 @@ const scrollToImageX = (id) => {
 
   return (
     <div>
+      <Head>
+        <title>Flexsoft | {getData.baslik}</title>
+        <meta name="description" content="Flexsoft bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yöneliktir." />
+        <meta name="keywords" content={`e-ticaret, yazılım, butik, giyim mağazaları,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları, ${getData.baslik}, ${getData.urun_kategori.baslik}`} />
+        <meta property="og:title" content={`Flexsoft | ${getData.baslik}`} />
+        <meta property="og:description" content={`Flexsoft bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yöneliktir. Ürün: ${getData.baslik}, Kategori: ${getData.urun_kategori.baslik}`} />
+        <meta property="og:type" content="website" />
+      </Head>
         <div className={styles.styleContainer}>
             <div className={styles.imgContainer}>
                 <div className={styles.altImages}>

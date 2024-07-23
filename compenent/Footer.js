@@ -114,7 +114,7 @@ const Footer = () => {
       </div>
 
       <div className={styles.footerBottom}>
-        <p>&copy; 2024 ASD</p>
+        <p>&copy; 2024 FlexSoft</p>
       </div>
     </footer>
   );
