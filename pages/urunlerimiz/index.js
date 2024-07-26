@@ -236,10 +236,8 @@ function Urunlerimiz() {
 
         if (totalTabsWidth -16 > containerWidth) {     //-17 sebebi gap sadece eleman arasına 1rem fark verıyor 6 eleman var ise 5 kere yanı ondan -1 gerekıyor
           setVariant('scrollable');
-          console.log('scrollable')
         } else {
           setVariant('fullWidth');
-          console.log('fullWidth')
         }
       }
     };
@@ -305,16 +303,19 @@ function Urunlerimiz() {
 
   return (
     <>
-      <BaslikGorsel slug={slug}/>
+      
 
       { categoriesLoading ? (
-        <div className={styles.loader}>
+        <div className={styles.loaderMain}>
         <CircularProgress style={{ color: 'black' }}/> 
         </div>)
         : categoriesError ? (
         <div className={styles.errorMessage}>{categoriesError}</div>
       )
       : kategoriler.length > 0 ? (
+
+        <>
+        <BaslikGorsel slug={slug}/>
 
       <div className={styles.container}>
 
@@ -446,6 +447,7 @@ function Urunlerimiz() {
           </div>
         </div>
       </div>
+      </>
       ): (
         <div className={styles.infoMessage}>Kayıtlı Ürün Kategori verisi bulunmamaktadır.</div>)
       }
