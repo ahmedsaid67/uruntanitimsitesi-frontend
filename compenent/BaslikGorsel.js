@@ -29,7 +29,7 @@ function BaslikGorsel({ slug }) {
     return (
         <div className={styles.bannerImageContainer}>
             <div className={styles.aspectRatioBox}>
-                {isLoading ? (
+                {isLoading || !slug ? (
                     <div className={styles.loader}>
                         <CircularProgress style={{ color: 'black' }} />
                     </div>
@@ -42,3 +42,4 @@ function BaslikGorsel({ slug }) {
 }
 
 export default memo(BaslikGorsel);
+// isLoading || !slug   ---> slugu da ekledık.slug stateı 3 renderda dondugunden o tam gekene kadar loadıng devam etmelıdır.

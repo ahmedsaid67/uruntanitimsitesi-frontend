@@ -315,16 +315,18 @@ function Urunlerimiz() {
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <BaslikGorsel slug={slug}/>
 
       { categoriesLoading ? (
-        <div className={styles.loader}>
+        <div className={styles.loaderMain}>
         <CircularProgress style={{ color: 'black' }}/> 
         </div>)
         : categoriesError ? (
         <div className={styles.errorMessage}>{categoriesError}</div>
       )
       : kategoriler.length > 0 ? (
+
+        <>
+        <BaslikGorsel slug={slug}/>
 
       <div className={styles.container}>
 
@@ -456,6 +458,7 @@ function Urunlerimiz() {
           </div>
         </div>
       </div>
+      </>
       ): (
         <div className={styles.infoMessage}>Kayıtlı Ürün Kategori verisi bulunmamaktadır.</div>)
       }

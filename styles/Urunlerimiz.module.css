@@ -173,11 +173,18 @@
   max-width: 90%; /* Adjusted for smaller screens */
 }
 
+.loaderMain { 
+  display: flex;
+  justify-content: center; /* Loader'ı yatay olarak ortala */
+  align-items: center; /* Loader'ı dikey olarak ortala */
+  height: 100vh; /* Loader'ın yüksekliğini viewport yüksekliğine eşitle */
+}
+
 .loader {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
+  justify-content: center; /* Loader'ı yatay olarak ortala */
+  align-items: center; /* Loader'ı dikey olarak ortala */
+  height: 60vh ; /* bunu şimdilik koydum ust contaırın olcusu netlesınce burayı daha saglıklı yapacagız*/
 }
 
 .noDataMessage {
