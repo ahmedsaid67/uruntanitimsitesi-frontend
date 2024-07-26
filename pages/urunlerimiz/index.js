@@ -315,7 +315,6 @@ function Urunlerimiz() {
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <BaslikGorsel slug={slug}/>
 
       { categoriesLoading ? (
         <div className={styles.loaderMain}>
