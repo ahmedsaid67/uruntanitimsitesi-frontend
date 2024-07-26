@@ -13,6 +13,7 @@ import {
   faYoutube,
   faTiktok
 } from '@fortawesome/free-brands-svg-icons'; 
+import Head from 'next/head';
 
 const getIcon = (url) => {
   if (url.includes('x.com')) return faTwitter;
@@ -102,6 +103,16 @@ const Iletisim = () => {
 
   return (
     <div>
+      <Head>
+        <title>Flexsoft | İletişim</title>
+        <meta name="description" content="Flexsoft, bir demo e-ticaret ve yazılım şirketidir. Şu anda İstanbul, Eyüpsultan'da bulunmaktadır." />
+        <meta name="keywords" content="Flexsoft, iletişim, e-ticaret, yazılım, Eyüpsultan, Şişli,Gaziosmanpaşa,Bayrampaşa,Kağıthane,Sultangazi,Arnavutköy,İstanbul,,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Flexsoft | İletişim" />
+        <meta property="og:description" content="Flexsoft, bir demo e-ticaret ve yazılım şirketidir. Şu anda İstanbul, Eyüpsultan'da bulunmaktadır." />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <BaslikGorsel slug="iletisim" />
 
       <div className={styles.mainContainer}>

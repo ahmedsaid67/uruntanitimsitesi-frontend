@@ -5,6 +5,7 @@ import { API_ROUTES } from '@/utils/constants';
 import React, { useState, useEffect } from 'react';
 import { CircularProgress } from "@mui/material";
 import BaslikGorsel from "@/compenent/BaslikGorsel";
+import Head from "next/head";
 
 const Hakkimizda = () => {
   const [content, setContent] = useState('');
@@ -59,6 +60,16 @@ const Hakkimizda = () => {
 
   return (
     <>
+    <Head>
+        <title>Flexsoft | Hakkımızda</title>
+        <meta name="description" content="Flexsoft hakkında bilgi. E-ticaret ve yazılım hizmetleri sunan bir firma." />
+        <meta name="keywords" content="Flexsoft, hakkımızda, e-ticaret, yazılım, firma,,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Flexsoft | Hakkımızda" />
+        <meta property="og:description" content="Flexsoft hakkında bilgi. E-ticaret ve yazılım hizmetleri sunan bir firma." />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <BaslikGorsel slug="hakkimizda"/>
     <div className={styles.container}>
       <div className={styles.detail}>

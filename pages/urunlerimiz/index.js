@@ -10,6 +10,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
 import BaslikGorsel from '@/compenent/BaslikGorsel';
+import Head from 'next/head';
+
 
 function Urunlerimiz() {
   const [kategoriler, setKategoriler] = useState([]);
@@ -37,7 +39,7 @@ function Urunlerimiz() {
 
   const [slug,setSlug] = useState("")
 
-    
+  const kategoriBasliklari = kategoriler.map(category => category.baslik).join(', ');
 
   useEffect(() => {
     const fetchCategoriesAndValidateTab = async () => {
@@ -302,8 +304,18 @@ function Urunlerimiz() {
 
 
   return (
-    <>
-      
+      <>
+      <Head>
+        <title>Flexsoft | Ürünlerimiz</title>
+        <meta name="description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Kategorilerimiz: ${kategoriBasliklari}.`} />
+        <meta name="keywords" content={`e-ticaret, yazılım, butik, giyim mağazaları,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları, ${kategoriBasliklari}`} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Flexsoft | Ürünlerimiz" />
+        <meta property="og:description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Kategorilerimiz: ${kategoriBasliklari}.`} />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <BaslikGorsel slug={slug}/>
 
       { categoriesLoading ? (
         <div className={styles.loaderMain}>

@@ -122,7 +122,7 @@ const Navbar = () => {
       <nav className={styles.navbar}>
         <Link href="/">
         <div className={styles.logo} onClick={handleLogoClick}>
-          ASD
+          FlexSoft
         </div>
         </Link>
         {isMobile && (
