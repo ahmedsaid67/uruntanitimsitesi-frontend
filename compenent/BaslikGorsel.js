@@ -13,6 +13,7 @@ function BaslikGorsel({ slug }) {
         try {
             const response = await axios.get(API_ROUTES.BASLIK_GORSEL_GET_GORSEL.replace("data", slug));
             setData(response.data);
+            console.log("response:",response.data)
         } catch (error) {
             console.error("İstek sırasında bir hata oluştu:", error);
         } finally {
