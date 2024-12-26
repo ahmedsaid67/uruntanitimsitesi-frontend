@@ -130,7 +130,7 @@ export default function FotoGaleri() {
       try {
         const response = await axios.get(API_ROUTES.URUNLER_PAGINATIONS.replace("currentPage",currentPage))
         setData(response.data.results);
-        setTotalPages(Math.ceil(response.data.count / 10));
+        setTotalPages(Math.ceil(response.data.count / 20));
       } catch (error) {
         setHasError(true);
         // Opsiyonel: Hata detaylarını loglayabilir veya kullanıcıya gösterebilirsiniz.

@@ -63,7 +63,7 @@ export default function URUN_VITRIN_LIST() {
       try {
         const response = await axios.get(API_ROUTES.URUN_VITRIN_PAGINATIONS.replace("currentPage",currentPage))
         setData(response.data.results);
-        setTotalPages(Math.ceil(response.data.count / 10));
+        setTotalPages(Math.ceil(response.data.count / 20));
       } catch (error) {
         setHasError(true);
         // Opsiyonel: Hata detaylarını loglayabilir veya kullanıcıya gösterebilirsiniz.

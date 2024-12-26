@@ -4,15 +4,17 @@ import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
 import React, { useState, useEffect } from 'react';
 import { CircularProgress } from "@mui/material";
-import BaslikGorsel from "@/compenent/BaslikGorsel";
 import Head from "next/head";
+import Link from "next/link";
+import {useRouter } from 'next/navigation';
 
 const Hakkimizda = () => {
   const [content, setContent] = useState('');
   const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [id, setId] = useState(null);
+  const router = useRouter();
 
   // Veriyi API'den al
   const getData = async () => {
@@ -30,6 +32,7 @@ const Hakkimizda = () => {
     } catch (error) {
       setHasError(true);
       console.error('Veri çekme hatası:', error);
+      router.push('/hata-sayfasi');
     } finally {
       setIsLoading(false);
     }
@@ -39,24 +42,6 @@ const Hakkimizda = () => {
     getData();
   }, []);
 
-  if (isLoading) {
-    return (
-
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </div>
-    );
-  }
-
-  if (hasError) {
-    return (
-      <Container>
-        <Alert severity="error">
-          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
-        </Alert>
-      </Container>
-    );
-  }
 
   return (
     <>
@@ -64,20 +49,31 @@ const Hakkimizda = () => {
         <title>Flexsoft | Hakkımızda</title>
         <meta name="description" content="Flexsoft hakkında bilgi. E-ticaret ve yazılım hizmetleri sunan bir firma." />
         <meta name="keywords" content="Flexsoft, hakkımızda, e-ticaret, yazılım, firma,,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Flexsoft | Hakkımızda" />
-        <meta property="og:description" content="Flexsoft hakkında bilgi. E-ticaret ve yazılım hizmetleri sunan bir firma." />
-        <meta property="og:type" content="website" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-    <BaslikGorsel slug="hakkimizda"/>
-    <div className={styles.container}>
-      <div className={styles.detail}>
-        <h2>Hakkımızda</h2>
-        {/* HTML içeriği güvenli bir şekilde render et */}
-        <div className={styles.content} dangerouslySetInnerHTML={{ __html: content }}></div>
-      </div>
-    </div>
+
+      {isLoading ? (
+        <div className={styles.loadingOverlay}>
+          <CircularProgress sx={{ color: 'rgb(29,29,31)' }} />
+        </div>
+        ):( 
+          <div className={styles.container}>
+            <div className={styles.siteMap}>
+              <Link href="/">
+                <div className={styles.mapText}>Ana Sayfa</div>
+              </Link>
+              <span className={styles.icon}>/</span>
+              <div className={`${styles.mapText} ${styles.activeText}`}>Hakkimizda</div>
+            </div>
+      
+            <div className={styles.baslikContainer}>
+              <h1>Hakkımızda</h1>
+            </div>
+      
+            <div className={styles.content} dangerouslySetInnerHTML={{ __html: content }}>
+              
+            </div>
+          </div>
+      )}
   </>
   );
 };

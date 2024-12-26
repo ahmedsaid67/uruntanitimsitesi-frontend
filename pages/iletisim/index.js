@@ -3,7 +3,6 @@ import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
 import styles from './iletisim.module.css';
 import { CircularProgress, Container, Alert } from '@mui/material';
-import BaslikGorsel from "@/compenent/BaslikGorsel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFacebook,
@@ -14,6 +13,9 @@ import {
   faTiktok
 } from '@fortawesome/free-brands-svg-icons'; 
 import Head from 'next/head';
+import Link from 'next/link';
+import {useRouter } from 'next/navigation';
+
 
 const getIcon = (url) => {
   if (url.includes('x.com')) return faTwitter;
@@ -30,8 +32,9 @@ const Iletisim = () => {
   const [socialMedia, setSocialMedia] = useState([]);
   const [address, setAddress] = useState('');
   const [phones, setPhones] = useState(['', '']);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const router = useRouter();
 
   // Veriyi API'den al
   const getData = async () => {
@@ -49,6 +52,7 @@ const Iletisim = () => {
     } catch (error) {
       setHasError(true);
       console.error('Veri çekme hatası:', error);
+      router.push('/hata-sayfasi');
     } finally {
       setIsLoading(false);
     }
@@ -83,23 +87,7 @@ const Iletisim = () => {
     getSocialData();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </div>
-    );
-  }
 
-  if (hasError) {
-    return (
-      <Container>
-        <Alert severity="error">
-          Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
-        </Alert>
-      </Container>
-    );
-  }
 
   return (
     <div>
@@ -107,57 +95,67 @@ const Iletisim = () => {
         <title>Flexsoft | İletişim</title>
         <meta name="description" content="Flexsoft, bir demo e-ticaret ve yazılım şirketidir. Şu anda İstanbul, Eyüpsultan'da bulunmaktadır." />
         <meta name="keywords" content="Flexsoft, iletişim, e-ticaret, yazılım, Eyüpsultan, Şişli,Gaziosmanpaşa,Bayrampaşa,Kağıthane,Sultangazi,Arnavutköy,İstanbul,,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Flexsoft | İletişim" />
-        <meta property="og:description" content="Flexsoft, bir demo e-ticaret ve yazılım şirketidir. Şu anda İstanbul, Eyüpsultan'da bulunmaktadır." />
-        <meta property="og:type" content="website" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <BaslikGorsel slug="iletisim" />
 
-      <div className={styles.mainContainer}>
-        <div className={styles.detail}>
-          <h2>E-mail</h2>
-          <p>{email || 'Veri bulunamadı'}</p>
+
+      {isLoading ? (
+        <div className={styles.loadingOverlay}>
+          <CircularProgress sx={{ color: 'rgb(29,29,31)' }} />
         </div>
-        <div className={styles.detail}>
-          <h2>Adres</h2>
-          <p>{address || 'Veri bulunamadı'}</p>
-        </div>
-        <div className={styles.detail}>
-          <h2>Telefon</h2>
-          {phones.filter(phone => phone).length > 0 ? (
-            phones.filter(phone => phone).map((phone, index) => (
-              <p key={index}>{phone}</p>
-            ))
-          ) : (
-            <p>Veri bulunamadı</p>
-          )}
-        </div>
-        <div className={styles.detail}>
-          <h2>Sosyal Medya</h2>
-          <div className={styles.socialMedia}>
-            {socialMedia.length === 0 && <p>Veri bulunamadı.</p>}
-            {socialMedia.map((media) => (
-              <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
-                <FontAwesomeIcon icon={getIcon(media.url)} className={styles.icon} />
-              </a>
-            ))}
+        ):( 
+
+        <div className={styles.container}>
+          <div className={styles.siteMap}>
+            <Link href="/">
+              <div className={styles.mapText}>Ana Sayfa</div>
+            </Link>
+            <span className={styles.icon}>/</span>
+            <div className={`${styles.mapText} ${styles.activeText}`}>İletişim</div>
+          </div>
+        
+          <div className={styles.baslikContainer}>
+            <h1>İletişim</h1>
+          </div>
+
+
+          <div className={styles.altContainer}>
+            <div className={styles.infoContainer}>
+              <h2>E-mail</h2>
+              <p>{email || 'Henüz içerik eklenmemiştir.'}</p>
+              <h2>Adres</h2>
+              <p>{address || 'Henüz içerik eklenmemiştir.'}</p>
+              <h2>Telefon</h2>
+              {phones.filter(phone => phone).length > 0 ? (
+                phones.filter(phone => phone).map((phone, index) => (
+                  <p key={index}>{phone}</p>
+                ))
+              ) : (
+                <p>Henüz içerik eklenmemiştir.</p>
+              )}
+              <h2>Sosyal Medya</h2>
+              <div className={styles.socialMedia}>
+                {socialMedia.length === 0 && <p>Henüz içerik eklenmemiştir.</p>}
+                {socialMedia.map((media) => (
+                  <a key={media.id} href={media.url} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
+                    <FontAwesomeIcon icon={getIcon(media.url)} className={styles.iconSosyal} />
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className={styles.haritaContainer}>
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1504.250113643521!2d28.9210027661942!3d41.05805709525544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e1d1224d96a7119%3A0x8cbe1c9940dac826!2sGaziosmanpa%C5%9Fa%20Monavet%20Veteriner%20Klini%C4%9Fi!5e0!3m2!1str!2str!4v1719593685137!5m2!1str!2str" 
+                width="600" 
+                height="450" 
+                style={{ border: 0 }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className={styles.map}>
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1504.250113643521!2d28.9210027661942!3d41.05805709525544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e1d1224d96a7119%3A0x8cbe1c9940dac826!2sGaziosmanpa%C5%9Fa%20Monavet%20Veteriner%20Klini%C4%9Fi!5e0!3m2!1str!2str!4v1719593685137!5m2!1str!2str" 
-          width="600" 
-          height="450" 
-          style={{ border: 0 }} 
-          allowFullScreen="" 
-          loading="lazy" 
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
+        )}
     </div>
   );
 };

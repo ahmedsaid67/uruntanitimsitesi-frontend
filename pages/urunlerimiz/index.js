@@ -1,467 +1,473 @@
 import React, { useState, useEffect, useRef  } from 'react';
-import { Pagination} from '@mui/material';
-import TabPanel from '../../compenent/TabPanel'
+import { Pagination,PaginationItem } from '@mui/material';
 import styles from '../../styles/Urunlerimiz.module.css';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import {API_ROUTES} from "../../utils/constants"
-import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress'; 
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
-import BaslikGorsel from '@/compenent/BaslikGorsel';
 import Head from 'next/head';
+import { FaChevronRight, FaChevronLeft} from 'react-icons/fa';
+import { useSearchParams, useRouter } from 'next/navigation';
+
 
 
 function Urunlerimiz() {
   const [kategoriler, setKategoriler] = useState([]);
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState({baslik:"",slug:""});
   const [prodcuts, setProducts] = useState([]);
-  const [orientation, setOrientation] = useState('vertical');
+
   const router = useRouter();
-  const [isScrolTab, setIsScrolTab] = useState(false);
-  const [variant, setVariant] = useState('scrollable');
 
   const [categoriesError, setCategoriesError] = useState(null)
   const [categoriesLoading,setCategoriesLoading] = useState(true)
   const [totalPages, setTotalPages] = useState(0);
-  const currentPage = parseInt(router.query.page || '1', 10);
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Yükleme durumu için state
 
-  const scrollContainerRef = useRef(null);
-  
-  const [isLeftArrowVisible, setIsLeftArrowVisible] = useState(false);
-  const [isRightArrowVisible, setIsRightArrowVisible] = useState(false);
-  
-  const [isHorizontalContainerHovered, setIsHorizontalContainerHovered] = useState(false);
 
-  const [slug,setSlug] = useState("")
 
   const kategoriBasliklari = kategoriler.map(category => category.baslik).join(', ');
 
-  useEffect(() => {
-    const fetchCategoriesAndValidateTab = async () => {
-      if (!router.isReady) return;
+
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [buttonStatus,setButtonStatus] = useState(false)
+  const containerRef = useRef(null);
+  const searchParams = useSearchParams();
+
+  const page = parseInt(searchParams.get("page")) || 1
   
-      setCategoriesLoading(true);
+
+
+
+  // Fetch categories and set loading state
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(API_ROUTES.URUN_KATEGORI_ACTIVE);
-        const categories = response.data;
-        setKategoriler(categories);
-  
-        const tabUrlFriendly = router.query.tab ? router.query.tab : null;
-  
-        const isValidTab = categories.some(category => category.slug === tabUrlFriendly);
+        const res = response.data;
+        setKategoriler(res);
 
-  
-        if (tabUrlFriendly && !isValidTab) {
-          router.push('/hata-sayfasi');
-          const fakeInitialTab = categories.length > 0 ? categories[0].slug : '';
-          setActiveTab(fakeInitialTab);
-        } else {
-          const initialTab = tabUrlFriendly || categories[0]?.slug;
-          setActiveTab(initialTab);
-          
-        }
-  
-        setCategoriesError(null);
-      } catch (error) {
-        console.error('Kategoriler yüklenirken hata:', error);
-        setCategoriesError('Veriler yüklenirken beklenmeyen bir sorun oluştu. Lütfen daha sonra tekrar deneyin.');
-      } finally {
+        
+        handleActiveCategory(res);
         setCategoriesLoading(false);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        router.push('/hata-sayfasi');
       }
+    
     };
-  
-    fetchCategoriesAndValidateTab();
-  }, [router.isReady]);
+
+    if (kategoriler.length>0){
+      handleActiveCategory(kategoriler)
+    }else{
+      fetchData();
+    }
+  }, [searchParams]);
 
 
+  const handleActiveCategory = (categories) => {
+    const pathSlug = searchParams.get('tab'); // Get the 'tab' query parameter
+    const fullUrl = `${window.location.pathname}${window.location.search}`;
 
+    if(pathSlug || fullUrl==="/urunlerimiz"){
+      let activeCat = categories.find((category) => category.slug === pathSlug);
+      const page = parseInt(searchParams.get("page")) || 1
 
-  const fetchBooks = async (kategoriSlug,page) => {
-    setIsLoading(true)
-    try {
-      const productsResponse = await axios.get(API_ROUTES.URUNLER_KATEGORI_FILTER.replace("seciliKategori", kategoriSlug).replace("currentPage",page));
-      setProducts(productsResponse.data.results);
-      setTotalPages(Math.ceil(productsResponse.data.count / 10));
-      setError(null);
-    } catch (error) {
-      console.error("Veri yükleme sırasında bir hata oluştu:", error);
-      if (error.response && error.response.status === 404 && error.response.data.detail === "Invalid page.") {
-        // 'Invalid page' detayını kontrol eden ve buna göre hata mesajı döndüren koşul
-        setError('Geçersiz sayfa. Bu sayfa mevcut değil veya sayfa numarası hatalı. Lütfen sayfa numarasını kontrol edin.');
-      } else {
-        setError('Veriler yüklenirken beklenmeyen bir sorun oluştu. Lütfen daha sonra tekrar deneyin.');
+      if(!activeCat && fullUrl==="/urunlerimiz"){
+        activeCat = categories[0]
+      }else if (!activeCat){
+        router.push('/404');
+        return;
       }
-    }finally {
-      setIsLoading(false); // Yükleme işlemi tamamlandığında veya hata oluştuğunda
+      
+      setActiveTab({baslik:activeCat.baslik,slug:activeCat.slug});
+      fetchMedications(activeCat.slug,page);
     }
   };
 
 
 
-  // Aktif tab veya kategoriler değiştiğinde personellerı fetch etme
-  useEffect(() => {
-    if (activeTab && kategoriler.length > 0) {
-      const selectedKategori = kategoriler.find(k => k.slug === activeTab);
-      if (selectedKategori) {
-        fetchBooks(selectedKategori.slug,currentPage);
-        setSlug(selectedKategori.slug)
-      }
-      
-    }
-  }, [kategoriler]);
+const fetchMedications = async (kategoriSlug,page) => {
+      setIsLoading(true); // Set medications loading state to true
+      try {
 
-  useEffect(() => {
-    if (router.query.tab && kategoriler.length > 0) {
-      const selectedKategori = kategoriler.find(k => k.slug === router.query.tab);
-      if (selectedKategori) {
-        fetchBooks(selectedKategori.slug,currentPage);
-        setSlug(selectedKategori.slug)
-      }
-      
-    }
-  }, [kategoriler,currentPage]);
+        const response = await axios.get(API_ROUTES.URUNLER_KATEGORI_FILTER.replace("seciliKategori", kategoriSlug).replace("currentPage",page))
+        // console.log(response.data.results)
+        
 
-
-
-  useEffect(() => {
-    if (router.query.tab && kategoriler.length > 0) {
-      setActiveTab(router.query.tab)
-      const selectedKategori = kategoriler.find(k => k.slug === router.query.tab);
-      if (selectedKategori) {
-        fetchBooks(selectedKategori.slug,currentPage);
-        setSlug(selectedKategori.slug)
-      }
-    }else if (router && kategoriler.length > 0){
-      
-      const selectedKategori = kategoriler[0];
-      const initialTab = selectedKategori?.slug;
-      setActiveTab(initialTab);
-      fetchBooks(selectedKategori.slug,currentPage);
-      setSlug(selectedKategori.slug)
-    }
-  }, [router]);
-
-  useEffect(() => {
-    const checkAndScrollTabIntoView = () => {
-        const activeTabElement = document.querySelector(`.${styles.kategoriItemTitle}[data-slug='${activeTab}']`);
-  
-        if (activeTabElement && orientation === 'horizontal') {
-            const tabStartX = activeTabElement.getBoundingClientRect().x;
-            const tabEndX = tabStartX + activeTabElement.offsetWidth;
-            const containerWidth = window.innerWidth;
-            const tabPadding = 16; // Padding değeri
-            const tabMargin = 0; // Margin değeri
-  
-            // Eğer sekmenin başlangıç veya bitiş x değeri ekranın dışındaysa, kaydırma yap
-            if (tabStartX < 0 || tabEndX > containerWidth) {
-                let scrollAmount = 0;
-                if (tabStartX < 0) {
-                    // Sekmenin başlangıç x değeri ekranın solunda ise, başlangıç x değerini ekranın soluna getir
-                    scrollAmount = tabStartX - tabPadding - tabMargin;
-                } else if (tabEndX > containerWidth) {
-                    // Sekmenin bitiş x değeri ekranın sağında ise, bitiş x değerini ekranın sağında getir
-                    scrollAmount = tabEndX - containerWidth + tabPadding + tabMargin;
-                }
-  
-                // Kaydırma işlemi
-                if (scrollContainerRef.current) {
-                    scrollContainerRef.current.style.transition = 'left 0.5s'; // Animasyon süresi 0.5 saniye
-                    scrollContainerRef.current.scrollLeft += scrollAmount;
-                }
-            }
+        setTotalPages(Math.ceil(response.data.count / 20));
+        setProducts(response.data.results);
+      } catch (error) {
+        console.error('Error fetching medications:', error);
+        if (error.response && error.response.data.detail === "Invalid page.") {
+          // Redirect to the 404 page if invalid page error is encountered
+          router.push('/404');
         }
+        router.push("/heta-sayfasi");
+      } finally {
+        setIsLoading(false); // Set medications loading state to false
+      }
+    };
+
+
+
+
+  const handleScroll = () => {
+    if (containerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 3);
+    }
+  };
+
+
+  const smoothScroll = (start, end, duration) => {
+    const change = end - start;
+    const startTime = performance.now();
+  
+    const animateScroll = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1); // 0 ile 1 arasında bir değer
+      const easeInOutQuad = progress < 0.5 
+        ? 2 * progress * progress 
+        : -1 + (4 - 2 * progress) * progress; // Yumuşak animasyon eğrisi
+  
+      const scrollValue = start + change * easeInOutQuad;
+      containerRef.current.scrollLeft = scrollValue;
+  
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
     };
   
-    checkAndScrollTabIntoView();
-  }, [activeTab, orientation]);
-  
-  
-
-  const handleTabChange = (newValue) => {
-   
-
-    router.push(`/urunlerimiz?tab=${newValue}`, undefined, { shallow: true });
-};
-
-
-  const handlePageChange = (event, value) => {
-    router.push(`/urunlerimiz?tab=${activeTab}&page=${value}`);
+    requestAnimationFrame(animateScroll);
   };
+  
 
   const handleScrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const scrollContainer = scrollContainerRef.current;
-      const containerWidth = window.innerWidth;
-      const currentScrollLeft = scrollContainer.scrollLeft;
-
-      // Calculate the new scroll position based on container width
-      const newScrollLeft = Math.max(currentScrollLeft - containerWidth * 0.8, 0); // 80% of the container width
-      scrollContainer.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
-
-
+    if (containerRef.current) {
+      const { scrollLeft, clientWidth } = containerRef.current;
+      const scrollAmount = clientWidth * 0.8;
+      const targetScroll = Math.max(scrollLeft - scrollAmount, 0);
+  
+      smoothScroll(scrollLeft, targetScroll, 500); // 500ms'lik animasyon
     }
   };
-
+  
   const handleScrollRight = () => {
-    if (scrollContainerRef.current) {
-      const scrollContainer = scrollContainerRef.current;
-      const containerWidth = window.innerWidth;
-      const currentScrollLeft = scrollContainer.scrollLeft;
-      const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+    if (containerRef.current) {
+      const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+      const scrollAmount = clientWidth * 0.8;
+      const maxScrollLeft = scrollWidth - clientWidth;
+      const targetScroll = Math.min(scrollLeft + scrollAmount, maxScrollLeft);
   
-      // Calculate the new scroll position based on container width
-      const newScrollLeft = Math.min(currentScrollLeft + containerWidth * 0.8, maxScrollLeft); // 80% of the container width
-      scrollContainer.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
-  
-      
+      smoothScroll(scrollLeft, targetScroll, 500); // 500ms'lik animasyon
     }
   };
 
+  const handleCategoryClick = (category) => {
+
+    setActiveTab({baslik:category.baslik,slug:category.slug})
+
+    
   
-
-
-  useEffect(() => {
-    const calculateTabWidths = () => {
-      if (kategoriler.length > 0 && scrollContainerRef.current) {
-        const containerWidth = window.innerWidth -16; 
-        const kategoriItems = scrollContainerRef.current.querySelectorAll(`.${styles.kategoriItemTitle}`);
-
-        let totalTabsWidth = 0;
-        kategoriItems.forEach((item) => {
-          totalTabsWidth += item.offsetWidth + 16;
-        });
-
-        if (totalTabsWidth -16 > containerWidth) {     //-17 sebebi gap sadece eleman arasına 1rem fark verıyor 6 eleman var ise 5 kere yanı ondan -1 gerekıyor
-          setVariant('scrollable');
-        } else {
-          setVariant('fullWidth');
-        }
-      }
-    };
-
-    // Calculate tab widths after DOM updates
-    calculateTabWidths();
-    window.addEventListener('resize', calculateTabWidths);
-    return () => {
-      window.removeEventListener('resize', calculateTabWidths);
-    };
-  }, [kategoriler]);
-
-
-  useEffect(() => {
-    const updateArrowVisibility = () => {
-      if (scrollContainerRef.current) {
-        const scrollContainer = scrollContainerRef.current;
-        const isAtLeft = Math.abs(scrollContainer.scrollLeft) < 1;
-        const isAtRight = Math.abs(scrollContainer.scrollLeft - (scrollContainer.scrollWidth - scrollContainer.clientWidth)) < 1;
-
-
-
-        setIsLeftArrowVisible(!isAtLeft);
-        setIsRightArrowVisible(!isAtRight);
-      }
-    };
+    const container = containerRef.current;
+    const categoryElement = document.getElementById(`category-${category.slug}`);
+    const leftButton = document.querySelector(`.${styles.scrollButtonLeft}`);
+    const rightButton = document.querySelector(`.${styles.scrollButtonRight}`);
   
-    if (scrollContainerRef.current) {
-      updateArrowVisibility();
-      scrollContainerRef.current.addEventListener('scroll', updateArrowVisibility);
+    if (container && categoryElement) {
+      const containerRect = container.getBoundingClientRect();
+      const categoryRect = categoryElement.getBoundingClientRect();
+  
+      // Buton genişliklerini al
+      const leftButtonWidth = leftButton ? leftButton.getBoundingClientRect().width : 0;
+      const rightButtonWidth = rightButton ? rightButton.getBoundingClientRect().width : 0;
+  
+      if (
+        categoryRect.left >= containerRect.left &&
+        categoryRect.right <= containerRect.right
+      ) {
+        return; // Zaten görünüyorsa, kaydırmaya gerek yok
+      }
+  
+      const spacing = 32; // Ek boşluk
+      let scrollAmount;
+  
+      if (categoryRect.left < containerRect.left) {
+        // Sol tarafa kaydır
+        scrollAmount = categoryRect.left - containerRect.left - spacing - leftButtonWidth;
+      } else {
+        // Sağ tarafa kaydır
+        scrollAmount = categoryRect.right - containerRect.right + spacing + rightButtonWidth;
+      }
+  
+      // Mevcut pozisyon ve hedef pozisyon
+      const start = container.scrollLeft;
+      const targetScroll = start + scrollAmount;
+  
+      // Animasyonu uygula
+      smoothScroll(start, targetScroll, 500); // 500ms'lik animasyon
     }
-  
-    return () => {
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.removeEventListener('scroll', updateArrowVisibility);
+  };
+
+  useEffect(()=>{
+
+    if(activeTab){
+      const category=activeTab
+
+      const container = containerRef.current;
+      const categoryElement = document.getElementById(`category-${category.slug}`);
+      const leftButton = document.querySelector(`.${styles.scrollButtonLeft}`);
+      const rightButton = document.querySelector(`.${styles.scrollButtonRight}`);
+    
+      if (container && categoryElement) {
+        const containerRect = container.getBoundingClientRect();
+        const categoryRect = categoryElement.getBoundingClientRect();
+    
+        // Buton genişliklerini al
+        const leftButtonWidth = leftButton ? leftButton.getBoundingClientRect().width : 0;
+        const rightButtonWidth = rightButton ? rightButton.getBoundingClientRect().width : 0;
+    
+        if (
+          categoryRect.left >= containerRect.left &&
+          categoryRect.right <= containerRect.right
+        ) {
+          return; // Zaten görünüyorsa, kaydırmaya gerek yok
+        }
+    
+        const spacing = 32; // Ek boşluk
+        let scrollAmount;
+    
+        if (categoryRect.left < containerRect.left) {
+          // Sol tarafa kaydır
+          scrollAmount = categoryRect.left - containerRect.left - spacing - leftButtonWidth;
+        } else {
+          // Sağ tarafa kaydır
+          scrollAmount = categoryRect.right - containerRect.right + spacing + rightButtonWidth;
+        }
+    
+        // Mevcut pozisyon ve hedef pozisyon
+        const start = container.scrollLeft;
+        const targetScroll = start + scrollAmount;
+    
+        // Animasyonu uygula
+        smoothScroll(start, targetScroll, 500); // 500ms'lik animasyon
       }
-    };
-  }, [scrollContainerRef, kategoriler]);
-  
-  
-  
+
+    }
+
+  },[containerRef.current])
 
 
-  useEffect(() => {
-    const handleResize = () => {
-      setOrientation(window.innerWidth <= 1023 ? 'horizontal' : 'vertical');
 
+  useEffect(()=>{
 
-      const checkIsScrollTab = () => typeof window !== "undefined" && window.innerWidth <= 1023;
-  
-      setIsScrolTab(checkIsScrollTab());
-    };
+    const calculateTotalWidth = () => {
+      if (containerRef.current) {
+        const {clientWidth } = containerRef.current;
+        // console.log("clientWidth:",clientWidth+29)
+        const categories = containerRef.current.children; // Container'ın altındaki tüm elemanlar
+        const total = Array.from(categories).reduce((acc, category) => {
+            return acc + category.offsetWidth; // Her bir elemanın genişliğini topla
+        }, 0);
+        // console.log("total:",total)
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
+        const spacing = (categories.length - 1) * 16;
+        // console.log("spacing:",spacing)
+        const adjustedTotal = total + spacing;
 
+        // console.log("total (adjusted):", adjustedTotal);
+
+        // Buton durumunu belirle
+        setButtonStatus(adjustedTotal > clientWidth+29);
+      
+      }
+
+    }
+
+    calculateTotalWidth(); // İlk render'da genişliği hesapla
+
+    // Ekran boyutu değişirse genişliği yeniden hesapla
+    window.addEventListener("resize", calculateTotalWidth);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", calculateTotalWidth);
     };
-  }, []);
+
+
+  },[containerRef.current])
+
+  
+  
+  
 
 
 
   return (
       <>
-      <Head>
-        <title>Flexsoft | Ürünlerimiz</title>
-        <meta name="description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Kategorilerimiz: ${kategoriBasliklari}.`} />
-        <meta name="keywords" content={`e-ticaret, yazılım, butik, giyim mağazaları,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları, ${kategoriBasliklari}`} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Flexsoft | Ürünlerimiz" />
-        <meta property="og:description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Kategorilerimiz: ${kategoriBasliklari}.`} />
-        <meta property="og:type" content="website" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+        <Head>
+          <title>Flexsoft | Ürünlerimiz</title>
+          <meta name="description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Kategorilerimiz: ${kategoriBasliklari}.`} />
+          <meta name="keywords" content={`e-ticaret, yazılım, butik, giyim mağazaları,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları, ${kategoriBasliklari}`} />
+        </Head>
 
-      { categoriesLoading ? (
-        <div className={styles.loaderMain}>
-        <CircularProgress style={{ color: 'black' }}/> 
-        </div>)
-        : categoriesError ? (
-        <div className={styles.errorMessage}>{categoriesError}</div>
-      )
-      : kategoriler.length > 0 ? (
 
-        <>
-        <BaslikGorsel slug={slug}/>
-
-      <div className={styles.container}>
-
-        
-
-        <div className={styles.mainContainer}>
-          
-          <div className={styles.leftContainer}>
-            <div className={styles.LeftBoxContainer}>
-              <div className={styles.baslik}>Kategoriler</div>
-              <div
-                className={orientation === 'vertical' ? styles.verticalContainer : variant === 'scrollable' ? styles.horizontalContainer : styles.horizontalContainerFullWidth}
-                onMouseEnter={() => {
-                  if (orientation === 'horizontal') {
-                    setIsHorizontalContainerHovered(true);
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (orientation === 'horizontal') {
-                    setIsHorizontalContainerHovered(false);
-                  }
-                }}
-              >
-                {variant === 'scrollable' && (
-                  <div  className={styles.leftArrow} onClick={handleScrollLeft}  
-                        style={{
-                          display: (isLeftArrowVisible && isHorizontalContainerHovered) ? 'block' : 'none',
-                        }}>
-                    <FaArrowLeft />
-                  </div>
-                )}
-                <div className={orientation === 'vertical' ? null : variant === 'scrollable' ? styles.scrollable : styles.fullWidht} ref={scrollContainerRef}>
-                  { kategoriler.map((kategori, index) => (
-                    <div key={index}
-                      className={orientation === 'horizontal' ? styles.horizontalCLick : null}
-                      style={{ 
-                        borderBottom: kategori.slug === activeTab && orientation !== 'vertical' ? '3px solid black' : 'none'
-                      }}
-                      onClick={orientation === 'horizontal' ? () => handleTabChange(kategori.slug) : null}
-                    >
-                      <span
-                        className={orientation === 'horizontal' ? styles.kategoriItemTitleHorizantal : styles.kategoriItemTitle}
-                        data-slug={kategori.slug} 
-                        style={{ 
-                          color: kategori.slug === activeTab ? 'black' : '#666',
-                          fontWeight: kategori.slug === activeTab ? 'bold' : 'normal',
-                        }}
-                        onClick={orientation === 'vertical' ? () => handleTabChange(kategori.slug) : null}
-                      >
-                        {kategori.baslik}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                {variant === 'scrollable' && (
-                  <div 
-                    className={styles.rightArrow} 
-                    onClick={handleScrollRight} 
-                    style={{
-                      display: (isRightArrowVisible && isHorizontalContainerHovered) ? 'block' : 'none',
-                  }}>
-                    <FaArrowRight />
-                  </div>
-                )}
-              </div>
-
-             
-            </div>
-          </div>
-
-          <div className={styles.rightContainer}>
-            <div className={styles.verticalTabsContent}>
-              {kategoriler.map(kategori => (
-                <TabPanel key={kategori.id} value={activeTab} index={kategori.slug}>
-                  {isLoading ? (
-                      <div className={styles.loader}>
-                        <CircularProgress style={{ color: 'black' }}/> {/* Yükleme göstergesi */}
-                      </div>
-                      ) : error ? (
-                        <div className={styles.errorMessage}>{error}</div>
-                      ) : prodcuts.length > 0 ? (
-                      <div className={styles.productContainer}>
-                        {prodcuts.map(product => (
-                          <div key={product.id} className={styles.productItem}>
-                            <Link href={`/urunlerimiz/${(product.slug)}`} >
-                              <img
-                              className={styles.productItemImage}
-                              src={product.kapak_fotografi}
-                              alt={product.baslik}
-                            />
-                            </Link>
-                            <Link href={`/urunlerimiz/${(product.slug)}`} >
-                              <p className={styles.productItemTitle}>{product.baslik}</p>
-                            </Link>
-                              <p className={styles.productItemPrice}>{product.fiyat ? `${product.fiyat} TL` : ''}</p>
-                          </div>
-                          ))}
-                      </div>
-                  ) : (
-                    <div className={styles.noDataMessage}>Kayıtlı veri bulunmamaktadır.</div> // Veri yoksa bu mesaj gösterilir
-                  )
-                  
-                  }
-                  {!isLoading && !error && totalPages > 0 && (
-                      <Stack spacing={2} alignItems="center" className={styles.paginationContainer}>
-                        <Pagination
-                          count={totalPages}
-                          page={currentPage}
-                          onChange={handlePageChange}
-                          variant="outlined"
-                          shape="rounded"
-                          sx={{
-                            '& .MuiPaginationItem-root': { color: 'inherit' },
-                            '& .MuiPaginationItem-page.Mui-selected': {
-                              backgroundColor: 'black',
-                              color: '#fff',
-                              '&:hover': {
-                                backgroundColor: '#555',
-                              },
-                            },
-                          }}
-                        />
-                      </Stack>
-                    )}
-                    
-                </TabPanel>
-              ))}
-            </div>
-          </div>
+        {categoriesLoading ? (
+        <div className={styles.loadingOverlay}>
+          <CircularProgress sx={{ color: 'rgb(29,29,31)' }} />
         </div>
-      </div>
-      </>
-      ): (
-        <div className={styles.infoMessage}>Kayıtlı Ürün Kategori verisi bulunmamaktadır.</div>)
-      }
+        ):(
+
+          <div className={styles.container}>
+
+            <div className={styles.siteMap}>
+              <Link href="/">
+                <div className={styles.mapText}>Ana Sayfa</div>
+              </Link>
+              <span className={styles.icon}>/</span>
+              <Link href="/urunlerimiz">
+                <div className={styles.mapText}>Ürünlerimiz</div>
+              </Link>
+              <span className={styles.icon}>/</span>
+              <div className={`${styles.mapText} ${styles.activeText}`}>{activeTab.baslik}</div>
+            </div>
+
+            <div className={styles.baslikContainer}>
+              <h1>{activeTab.baslik}</h1>
+            </div>
+
+            <div className={styles.categoryContainer}>
+              <div className={styles.scrollContainer} ref={containerRef} onScroll={handleScroll}>
+                { kategoriler.map((kategori, index) => (
+                  <Link
+                    key={kategori.id} // Add the key here for the Link component
+                    href={`/urunlerimiz?tab=${kategori.slug}&page=1`}
+                    passHref
+                    onClick={() => handleCategoryClick(kategori)}
+                  >
+                    <div
+                      id={`category-${kategori.slug}`}
+                      className={
+                        activeTab.slug === kategori.slug
+                          ? styles.ItemActiveContainer
+                          : styles.ItemContainer
+                      }
+                    >
+                      <p>{kategori.baslik}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            {buttonStatus && (
+              <div className={styles.directionContainer}>
+                
+                  <button
+                    className={`${styles.buttonLeft} ${!canScrollLeft ? styles.disabled : ''}`}
+                    onClick={canScrollLeft ? handleScrollLeft : undefined}
+                    disabled={!canScrollLeft}
+                  >
+                    <FaChevronLeft className={styles.directionIcon} />
+                  </button>
+              
+
+                  <button
+                    className={`${styles.buttonRight} ${!canScrollRight ? styles.disabled : ''}`}
+                    onClick={canScrollRight ? handleScrollRight : undefined}
+                    disabled={!canScrollRight}
+                  >
+                    <FaChevronRight className={styles.directionIcon}/>
+                  </button>
+              </div>
+            )}
+
+           <div className={styles.altContainer}>
+
+              {isLoading ? (
+                <div className={styles.contextContainerAlternative}>
+                  <CircularProgress sx={{ color: 'rgb(29,29,31)' }} />
+                </div>
+              ) : prodcuts.length === 0 ? ( // Ürün sayısı sıfırsa, içerik eklenmemiş mesajı
+                <div className={styles.icerikYok}>
+                  Henüz içerik eklenmemiştir.
+                </div>
+              ) : (
+                <>
+                  <div className={styles.productContainer}>
+                    {prodcuts.map(product => (
+                      <div key={product.id} className={styles.productItem}>
+                        <Link href={`/urunlerimiz/${product.slug}`}>
+                          <img
+                            className={styles.productItemImage}
+                            src={product.kapak_fotografi}
+                            alt={product.baslik}
+                          />
+                        </Link>
+                        <Link href={`/urunlerimiz/${product.slug}`}>
+                          <p className={styles.productItemTitle}>{product.baslik}</p>
+                        </Link>
+                        <p className={styles.productItemPrice}>
+                          {product.fiyat ? `${product.fiyat} TL` : ''}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {prodcuts.length > 0 && (
+                    <div
+                      style={{
+                        marginTop: '2rem',
+                        marginBottom: '2rem',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Pagination
+                        count={totalPages} // Toplam sayfa sayısı
+                        page={page} // Geçerli sayfa
+                        color="primary"
+                        sx={{
+                          '.MuiPaginationItem-root': {
+                            fontSize: '1rem',
+                            fontWeight: 500,
+                            padding: '0.5rem 1rem',
+                            borderRadius: '8px',
+                            backgroundColor: '#d6d6d6', // Aktif olmayan buton arka plan rengi (biraz daha koyu)
+                            color: '#333', // Yazı rengi
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              backgroundColor: '#bdbdbd', // Hover sırasında biraz daha koyu bir gri
+                            },
+                          },
+                          '.Mui-selected': {
+                            backgroundColor: 'rgb(29, 29, 31) !important', // Aktif sayfa arka plan rengi
+                            color: '#fff', // Aktif sayfa yazı rengi
+                            fontWeight: 'bold',
+                            '&:hover': {
+                              backgroundColor: 'rgb(29, 29, 31) !important', // Hover sırasında aynı renk
+                              boxShadow: '0px 6px 8px rgba(0, 0, 0, 0.3)',
+                            },
+                          },
+                        }}
+                        renderItem={item => (
+                          <Link
+                            href={`/urunlerimiz?tab=${activeTab.slug}&page=${item.page}`}
+                            passHref
+                          >
+                            <PaginationItem {...item} />
+                          </Link>
+                        )}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
     </>
   );
 }

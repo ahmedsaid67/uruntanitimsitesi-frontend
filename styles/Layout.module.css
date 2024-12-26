@@ -17,7 +17,7 @@
   .pageContent,
   .panelContent {
     flex: 1;
-    margin-top: 80px;
+    margin-top: 4rem;
   }
 
 
@@ -25,8 +25,13 @@
     display: none;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .altBar {
       display: block;
     }
+    .pageContent,
+    .panelContent {
+      margin-top: 3.5rem;
+    }
+  
   }

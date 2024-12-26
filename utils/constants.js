@@ -9,10 +9,6 @@ export const API_ROUTES = {
     CHECK_TOKEN : API_SERVER_URL + "/check-token/",
     USER_INFO : API_SERVER_URL + "/user-info/",
 
-    // MENÜ
-    MENU : API_SERVER_URL + "/menuitems/menu/selected/",
-    MENU_ACTIVE : API_SERVER_URL + "/menuitems/menu/selected/get_active/",
-    MENU_UPDATE : API_SERVER_URL + "/menuitems/menu/selected/update_status/",
 
     // SLİDERS
 
@@ -66,7 +62,7 @@ export const API_ROUTES = {
     // REFERANSLAR
 
     REFERENCES: API_SERVER_URL + "/references/",
-    REFERENCES_ACTIVE : API_SERVER_URL + "/references/get_active/",
+    REFERENCES_ACTIVE : API_SERVER_URL + "/references/get_active/?page=currentPage",
     REFERENCES_PAGINATIONS : API_SERVER_URL + "/references/?page=currentPage",
     REFERENCES_DETAIL : API_SERVER_URL + "/references/id/",
     REFERENCES_DELETE : API_SERVER_URL + "/references/bulk_soft_delete/",
@@ -88,14 +84,6 @@ export const API_ROUTES = {
     
     HAKKIMIZDA : API_SERVER_URL + "/hakkimizda/id/",
 
-    // BAŞLIK GÖRSEL
-
-    BASLIK_GORSEL: API_SERVER_URL + "/baslikgorsel/",
-    BASLIK_GORSEL_ACTIVE : API_SERVER_URL + "/baslikgorsel/get_active/",
-    BASLIK_GORSEL_PAGINATIONS : API_SERVER_URL + "/baslikgorsel/?page=currentPage",
-    BASLIK_GORSEL_DETAIL : API_SERVER_URL + "/baslikgorsel/id/",
-    BASLIK_GORSEL_DELETE : API_SERVER_URL + "/baslikgorsel/bulk_soft_delete/",
-    BASLIK_GORSEL_GET_GORSEL: API_SERVER_URL + "/baslikgorsel/get-by-name/data/",
 
     // ADET
 

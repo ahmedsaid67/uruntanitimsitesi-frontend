@@ -114,13 +114,13 @@ useEffect(() => {
               <Sidebar>
                 {children}
               </Sidebar>):(
-        <div className={styles.container}>
-          <div className={styles.contentWrapper}>
-              <div className={styles.pageContainer}>
-                <Navbar />
-                <div className={styles.pageContent}>{children}</div>                     
-              </div>
-          </div> 
+              <div className={styles.container}>
+                <div className={styles.contentWrapper}>
+                    <div className={styles.pageContainer}>
+                      <Navbar />
+                      <div className={styles.pageContent}>{children}</div>                     
+                    </div>
+                </div> 
              {/*
              <div className={styles.altBar} >
                 <AltBar/>

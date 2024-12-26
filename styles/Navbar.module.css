@@ -1,248 +1,213 @@
-.navbar {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 1rem;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1001;
-    position: fixed;
-    width: 100%; 
-    top: 0; 
-  }
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 4rem;
+  position: fixed;
+  top: 0; /* Üstten mesafeyi sıfır yapar */
+  left: 0; /* Soldan sıfır */
+  width: 100%; /* Tam genişlik */
+  z-index: 1000; /* Üstte görünmesini sağlar */
+  border-bottom: 1px solid #D9D9D9;
+  background-color: #fff;
+}
+
+
+.logoContainer {
+  font-size: 1.5rem;
+  font-weight: 900; /* Daha kalın yazı tipi */
+}
+
+.hamburgerContainer {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: rgb(29, 29, 31);
+}
+
+.itemContainer {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+.itemContainer p{
+  font-weight: 600;
+}
+
+.itemContainer p:hover {
+  color: #1D64F2; /* Hafif renk değişimi */
+}
+
+.menuItem {
+  position: relative;
+}
+
+.menuItem p {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  color: rgb(29, 29, 31);
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+/* Hafif Hover efekti */
+.menuItem p:hover, .mobileMenuContent p:hover {
+  color: #1D64F2; /* Hafif renk değişimi */
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 10;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow for better definition */
+  border-radius: 0.75rem;
+  overflow: hidden;
+  z-index: 1000;
+  min-width: 15rem;
+  padding-left: 2rem;
+}
+
+.menuItem:hover .dropdown {
+  display: block;
+}
+
+.dropdown p {
+  display: block;
+  text-decoration: none;
+  color: rgb(29, 29, 31);
+  transition: color 0.2s ease;
+  font-weight: normal;
+}
+
+/* Hafif Hover efekti */
+.dropdown p:hover {
+  color: #1D64F2; /* Hafif renk değişimi */
+}
+
+/* Mobil Menü */
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.mobileMenuContent {
+  background-color: rgb(245, 245, 247);
+  width: 100%;
+  height: 100vh;
+}
+
+.mobilMenuItemContainer {
+  margin: 0 5%;
+  max-height: 85vh;
+  overflow-y: auto;
   
-  .hamburgerButton {
-    background: none;
-    border: none;
-    font-size: 24px;
-    display: none;
-    z-index: 1002;
-    cursor: pointer;
-  }
-  
-  .hamburgermenu {
-    width: 20px;
-    height: 3px;
-    background-color: black;
-    margin: 3px 0;
-  }
-  
-  .navMenu {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: none; /* Başlangıçta gizli */
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    text-align: left;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 60px);
-    background-color: #ffffff;
-    padding-left: 10%;
-    z-index: 1000;
-    padding-right: 10px;
-  
-  
-  }
-  
-  
-  
-  
-  .navItem {
-    font-size: 16px; /* Masaüstünde font boyutu */
-    font-weight: bold;
-    margin: 0 5px;
-    position: relative;
-    cursor: pointer;
-    padding-bottom: 11px; /* Alt padding ekle */
-    transition: color 0.3s, padding-bottom 0.3s; /* Renk ve padding değişimine geçiş efekti ekle */
-  }
-  
-  .navItem:hover {
-    border-bottom: 3px solid black; /* Mavi çizgi ekle */
-    
-  }
-  
-  
-  
-  .subMenu {
-    list-style-type: none;
-    padding: 0;
-    display: none; /* Başlangıçta gizli */
-    position: absolute;
-    top: 100%; /* Alt menüyü parent itemin altından aç */
-    left: 50%; /* Alt menüyü yatayda ortala */
-    transform: translateX(-50%); /* Yatayda ortalamak için */
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    min-width: 200px; /* Min genişlik */
-    z-index: 1002;
-    text-align: center;
-  }
-  
-  .subNavItem {
-    border-bottom: 1px solid #f0f0f0; /* Alt çizgi rengini hafiflet */
-    color: #333;
-    font-size: 12px; /* Font boyutunu koru */
-  }
-  
-  
-  
-  .linkContainer {
-    width: 100%;
-    height: 100%;
-    padding: 10px 20px; /* Daha fazla iç boşluk */
-  }
-  
-  .subNavItem:hover {
-    background-color: #f7f7f7; /* Üzerine gelindiğinde arka planı değiştir */
-  }
-  
-  
-  
-  .subNavItem:last-child {
-    border-bottom: none; /* Son öğenin alt çizgisini kaldır */
-  }
-  
-  .expandIcon {
-    display: inline-block;
-    width: 16px; /* İkon genişliği */
-    height: 16px; /* İkon yüksekliği */
-    background-image: url('/büyüktüricon.png'); /* İkon resmi */
-    background-size: cover;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    position: absolute; /* Mutlak konumlandırma */
-    right: 10px; /* Sağ kenardan 10px içeri */
-    top: 50%; /* Dikey olarak ortala */
-    transform: translateY(-50%); /* Y ekseni üzerinde ortala */
-  }
-  
-  
-  
-  .backButton {
-    display: inline-block;
-    width: 16px; /* İkon genişliğini artır */
-    height: 16px; /* İkon yüksekliğini artır */
-    background-image: url('/kücüktüricon.png');
-    background-size: contain; /* İkonun tamamının gösterilmesini sağla */
-    background-repeat: no-repeat;
-    cursor: pointer;
-    border: none;
-    background-color: transparent; /* Arka plan rengini şeffaf yap */
-    padding: 0; /* Padding'i sıfırla */
-  }
-  
-  
-  .active {
-    display: flex; /* Menüyü aktif et */
-  }
-  
-  .navItemTitle {
-    font-weight: bold; /* Yazı tipini kalın yapın */
-    margin-top: 20px; /* Üstten marjin ekle */
-    
-  
+}
+
+/* Scrollbar için */
+.mobilMenuItemContainer::-webkit-scrollbar {
+  width: 0.2rem; /* Kaydırma çubuğunun genişliği */
+}
+
+.mobilMenuItemContainer::-webkit-scrollbar-thumb {
+  background-color: #888; /* Kaydırma çubuğu rengi */
+  border-radius: 0.5rem; /* Yuvarlatılmış köşeler */
+}
+
+.mobilMenuItemContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Hover'daki renk */
+}
+
+
+
+
+
+.closeIconContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6%;
+  height: 4rem;
+}
+
+.mobileMenuContent p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  border-bottom: 1px solid #dbdbdb;
+  transition: color 0.2s ease;
+}
+
+/* Hafif Hover efekti */
+.mobileMenuContent p:hover {
+  color: #1D64F2; /* Hafif renk değişimi */
+}
+
+.mobileMenuContent p svg {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+/* Additional style for "İlaçlar" and "Besin Takviyeleri" dropdown arrows */
+.menuItem p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menuItem p svg {
+  font-size: 0.8rem;
+  margin-left: 0.4rem;
+  color: rgb(29, 29, 31);
+}
+
+.mobileMenuContent p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+@media (max-width: 767px) {
+
+  .navbarContainer {
+    padding: 0 5%;
+    height: 3.5rem;
   }
 
-  .logo {
-    font-size: 40px;
-    font-weight: "bold";
+  .logoContainer {
+    font-size: 1.25rem;
+    font-weight: 800;
   }
-  
-  
-  
-  @media (min-width: 1101px) {
-    .navbar {
-      justify-content: space-between; /* This ensures the logo and the menu are on opposite ends */
-    }
-  
-    .logo {
-      margin-left: 20px; /* Adds space from the left edge */
-    }
-  
-    .navMenu {
-      display: flex;
-      position: static;
-      flex-direction: row;
-      height: auto;
-      background-color: transparent;
-      align-items: center;
-      width: auto;
-      z-index: 0;
-      padding-right: 20px; /* Adds space from the right edge */
-    }
-  
-    .navItem {
-      font-size: 16px;
-      padding: 0 12px;
-      margin: 0 5px;
-      text-align: center;
-    }
-  
-    .navItem:hover .subMenu {
-      display: block;
-    }
-  
-    .menuItemContainer {
-      display: inline-block;
-      position: relative;
-    }
-  
-    .menuItemContainer:hover .subMenu {
-      display: block;
-    }
-  
-    .hamburgerButton, .overlay {
-      display: none; /* Ensure that the hamburger menu is not displayed on PC screens */
-    }
+
+  .closeIconContainer{
+    padding: 0 5%;
+    height: 3.5rem;
   }
-  
-  
-  
+  .hamburgerContainer {
+    font-size: 1.25rem;
+    
+  }
+  .mobileMenuContent p {
+    font-size: 1rem;
+  }
   
 
- 
-  
-  
-  @media (max-width: 1100px) {
-    .navbar{
-      justify-content: space-between;
-    }
-  
-    .hamburgerButton {
-      display: block;
-    }
-  
-    .navMenu {
-      display: block;
-    }
-  
-    .navItem {
-      font-weight: bold;
-      padding: 0;
-      border-bottom: 1px solid #ddd;
-    }
-  
-    .linkMobilContainer{
-      width: 100%;
-      height: 100%;
-      padding: 15px 20px;
-      
-    }
-    .linkMobilContainerParent{
-      width: 100%;
-      height: 100%;
-      padding: 15px 0;
-      
-    }
-  
-  
-    .navItem:hover {
-      border-bottom: none;
-    }
+  .itemContainer p {
+    font-weight: 550;
+    font-size: 0.9rem;
   }
+}  

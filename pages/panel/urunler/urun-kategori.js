@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Paper,Pagination, Table, TableBody,Tooltip, TableCell, TableHead, TableRow, Button, Dialog, DialogTitle, DialogContent, TextField, Checkbox, FormControlLabel, DialogActions } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 import AddIcon from '@mui/icons-material/Add';
@@ -36,7 +35,6 @@ export default function UrunKategori() {
     const [uyariMesajiEkle, setUyariMesajiEkle] = useState("");
     const [isSaving, setIsSaving] = useState(false);
 
-    const [createResponse, setCreateResponse] = useState(false);
 
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
@@ -56,7 +54,7 @@ export default function UrunKategori() {
       try {
         const response = await axios.get(API_ROUTES.URUN_KATEGORI_PAGINATIONS.replace("currentPage",currentPage))
         setData(response.data.results);
-        setTotalPages(Math.ceil(response.data.count / 10));
+        setTotalPages(Math.ceil(response.data.count / 20));
       } catch (error) {
         setHasError(true);
         // Opsiyonel: Hata detaylarını loglayabilir veya kullanıcıya gösterebilirsiniz.
@@ -179,15 +177,8 @@ export default function UrunKategori() {
           .then(response => {
             setData(response.data.results);
             setTotalPages(Math.ceil(response.data.count / 10));
-      
-            
             
             handleCloseAddDialog();
-
-            // setCreateResponse(true) işlemini 3 saniye sonra çalıştır
-            setTimeout(() => {
-              setCreateResponse(true);
-            }, 500); // 3000 milisaniye = 3 saniye
 
             
           })
@@ -227,11 +218,6 @@ export default function UrunKategori() {
     const handleCloseWarningDialog = () => {
       setWarningDialogOpen(false);
     };
-
-    const handleCreateResponse = () => {
-      setCreateResponse(false);
-    };
-
 
     const handleOpenDeleteConfirm = () => {
       const ids = Object.keys(selectedRows).filter(id => selectedRows[id]);
@@ -377,49 +363,6 @@ export default function UrunKategori() {
       function truncateText(text, maxLength) {
         return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
       }
-
-
-      
-
-      const StyledDialog = styled(Dialog)(({ theme }) => ({
-        '& .MuiPaper-root': {
-          borderRadius: theme.spacing(1),
-        },
-        '& .MuiDialogTitle-root': {
-          backgroundColor: theme.palette.primary.main,
-          color: theme.palette.common.white,
-          padding: theme.spacing(1.5),
-          textAlign: 'center',
-          fontSize: '1.3rem', // Başlık font boyutu küçültüldü
-        },
-        '& .MuiDialogContent-root': {
-          padding: theme.spacing(2),
-        },
-        '& .MuiDialogActions-root': {
-          padding: theme.spacing(1.5, 2),
-          borderTop: `1px solid ${theme.palette.grey[300]}`,
-          justifyContent: 'flex-end',
-        },
-      }));
-      
-      const StyledTypography = styled(Typography)(({ theme }) => ({
-        marginBottom: theme.spacing(1),
-        lineHeight: '1.5', // Metinler arası çizgi yüksekliği ayarlandı
-        fontSize: '1rem', // Metin font boyutu küçültüldü
-      }));
-      
-      const StyledButton = styled(Button)(({ theme }) => ({
-        color: theme.palette.common.white,
-        backgroundColor: theme.palette.primary.main,
-        '&:hover': {
-          backgroundColor: theme.palette.primary.dark,
-        },
-        borderRadius: theme.spacing(1),
-        padding: theme.spacing(1, 3), // Buton padding (iç boşluklar) ayarlandı
-        fontSize: '0.9rem', // Buton font boyutu küçültüldü
-      }));
-      
-      
 
 
 
@@ -710,42 +653,6 @@ export default function UrunKategori() {
         </DialogActions>
       </Dialog>
 
-
-      <StyledDialog
-        open={createResponse}
-        onClose={handleCreateResponse}
-      >
-        <DialogTitle>Ürün Kategorisi Başarıyla Oluşturuldu!</DialogTitle>
-        <DialogContent dividers>
-          <StyledTypography paragraph>
-            Yeni ürün kategoriniz başarıyla oluşturuldu ve aşağıdaki adımlar tamamlandı:
-          </StyledTypography>
-          <StyledTypography>
-            <strong>Menüler Güncellendi:</strong> Yeni kategoriniz, "Ürünlerimiz" menüsüne alt kategori olarak eklenmiştir.
-          </StyledTypography>
-          <StyledTypography>
-            <strong>Kategori Sayfası Oluşturuldu:</strong> Yeni kategori için "Sayfalar" sekmesine bir giriş yapılmıştır.
-          </StyledTypography>
-          <StyledTypography>
-            <strong>İlgili Sayfayı Güncellemek İçin:</strong>
-          </StyledTypography>
-          <StyledTypography>
-            - Yönetim panelinde "Sayfalar" sekmesine gidin.
-          </StyledTypography>
-          <StyledTypography>
-            - İlgili sayfayı seçin.
-          </StyledTypography>
-          <StyledTypography>
-          - Düzenleme butonuna tıklayarak açılan pop-up'ta sayfa için gerekli olan ana görseli yükleyin veya güncelleyin.
-
-          </StyledTypography>
-        </DialogContent>
-        <DialogActions>
-          <StyledButton onClick={handleCreateResponse} color="primary" variant="contained">
-            Tamam
-          </StyledButton>
-        </DialogActions>
-      </StyledDialog>
 
     </>
 

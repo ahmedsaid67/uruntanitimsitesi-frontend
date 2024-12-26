@@ -1,108 +1,145 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from 'next/navigation';
 import styles from "./referans.module.css";
 import { API_ROUTES } from '@/utils/constants';
 import axios from 'axios';
 import Link from "next/link";
-import BaslikGorsel from "../../compenent/BaslikGorsel";
 import { CircularProgress } from "@mui/material";
 import Head from "next/head";
+import { Pagination,PaginationItem } from '@mui/material';
 
-
-
-const getReferences = async () => {
-  try {
-    const referencesResponse = await axios.get(API_ROUTES.REFERENCES);
-    return referencesResponse.data.results; // API'den dönen JSON verisini döndürür
-  } catch (error) {
-    if (error.response) {
-      // Sunucu tarafından bir hata dönerse
-      console.error("Sunucudan hata döndü:", error.response.data);
-    } else if (error.request) {
-      // İstek yapıldı ama cevap alınamadıysa
-      console.error("Cevap alınamadı:", error.request);
-    } else {
-      // İstek yaparken bir hata oluştu
-      console.error("İstek sırasında bir hata oluştu:", error.message);
-    }
-    throw error; // Hatanın yeniden fırlatılması
-  }
-};
 
 const Referans = () => {
   const [references, setReferences] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const page = parseInt(searchParams.get("page")) || 1
+  const [totalPages, setTotalPages] = useState(0);
 
-  const referans = references.map(referance => referance.name).join(', ');
+
   useEffect(() => {
-    // Component yüklendiğinde referansları al
     const fetchReferences = async () => {
       setIsLoading(true);
-      setHasError(false);
       try {
-        
-        const data = await getReferences();
-        setReferences(data); // Veriyi state'e kaydet
+        const referencesResponse = await axios.get(API_ROUTES.REFERENCES_ACTIVE.replace("currentPage",page));
+        const data= referencesResponse.data.results; 
+        setTotalPages(Math.ceil(referencesResponse.data.count / 20));
+        setReferences(data);
       } catch (error) {
         console.error("Referanslar alınırken bir hata oluştu:", error);
-        setHasError(true);
-        console.error('Veri çekme hatası:', error);
-      }
-      finally{
+        router.push("/hata-sayfasi");
+      } finally {
         setIsLoading(false);
       }
     };
 
-    fetchReferences(); // fetchReferences fonksiyonunu çağırın
+    fetchReferences();
+  }, [searchParams]);
 
-  }, []); // useEffect'in sadece bir kez çalışması için boş bağımlılık dizisi
-
-  if (isLoading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </div>
-    );
-  }
-
-  if (hasError) {
-    return (
-      <Container>
-        <Alert severity="error">
-          Menü öğeleri alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
-        </Alert>
-      </Container>
-    );
-  }
 
 
   return (
     <>
-    <Head>
+      <Head>
         <title>Flexsoft | Referanslar</title>
-        <meta name="description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yönelik referanslarımız: ${referans}.`} />
-        <meta name="keywords" content={`e-ticaret, yazılım, butik, giyim mağazaları, referanslar,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları ${referans}`} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Flexsoft | Referanslar" />
-        <meta property="og:description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yönelik referanslarımız: ${referans}.`} />
-        <meta property="og:type" content="website" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yönelik referanslarımız: ${references.map(ref => ref.name).join(', ')}.`}
+        />
       </Head>
 
-    <BaslikGorsel slug="referanslar"/>
+        {isLoading ? (
+          <div className={styles.loadingOverlay}>
+            <CircularProgress sx={{ color: 'rgb(29,29,31)' }} />
+          </div>
+          ):( 
+          <div className={styles.container}>
+            <div className={styles.siteMap}>
+              <Link href="/">
+                <div className={styles.mapText}>Ana Sayfa</div>
+              </Link>
+              <span className={styles.icon}>/</span>
+              <div className={`${styles.mapText} ${styles.activeText}`}>Referanslar</div>
+            </div>
 
+            <div className={styles.baslikContainer}>
+              <h1>Referanslar</h1>
+            </div>
 
-    <div className={styles.container}>
-      {references.map((ref, index) => (
-        <Link href={ref.url} key={ref.id} target="blank">
-        <div key={index} className={styles.imgCont}>
-          <img src={ref.img} alt={ref.name} width={300} height={300} key={ref.id} className={styles.box}/>
-          <p>{ref.name}</p>
-        </div>
-        </Link>
-      ))}
-    </div>
+            <div className={styles.altContainer}>
 
+              {references.length > 0 ? (
+                <div className={styles.productContainer}>
+                  {references.map(product => (
+                    <div key={product.id} className={styles.productItem}>
+                        <img
+                        className={styles.productItemImage}
+                        src={product.img}
+                        alt={product.name}
+                    />
+                        <a href={product.url}>
+                          <p className={styles.productItemTitle}>{product.name}</p>
+                        </a>
+                    </div>
+                    ))}
+                </div>
+              ) : (
+                <div className={styles.icerikYok}>
+                  Henüz içerik eklenmemiştir.
+                </div>
+              )}
+
+              {references.length > 0 && (
+                <div
+                  style={{
+                    marginTop: '2rem',
+                    marginBottom: '2rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Pagination
+                    count={totalPages} // Toplam sayfa sayısı
+                    page={page} // Geçerli sayfa
+                    color="primary"
+                    sx={{
+                      '.MuiPaginationItem-root': {
+                        fontSize: '1rem',
+                        fontWeight: 500,
+                        padding: '0.5rem 1rem',
+                        borderRadius: '8px',
+                        backgroundColor: '#d6d6d6', // Aktif olmayan buton arka plan rengi (biraz daha koyu)
+                        color: '#333', // Yazı rengi
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          backgroundColor: '#bdbdbd', // Hover sırasında biraz daha koyu bir gri
+                        },
+                      },
+                      '.Mui-selected': {
+                        backgroundColor: 'rgb(29, 29, 31) !important', // Aktif sayfa arka plan rengi
+                        color: '#fff', // Aktif sayfa yazı rengi
+                        fontWeight: 'bold',
+                        '&:hover': {
+                          backgroundColor: 'rgb(29, 29, 31) !important', // Hover sırasında aynı renk
+                          boxShadow: '0px 6px 8px rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                    }}
+                    renderItem={(item) => (
+                      <Link
+                        href={`/referanslar/?page=${item.page}`}
+                        passHref
+                      >
+                        <PaginationItem {...item} />
+                      </Link>
+                    )}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+      )}
     </>
   );
 };
