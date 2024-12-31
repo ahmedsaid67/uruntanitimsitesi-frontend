@@ -8,9 +8,9 @@
 }
 
 .kategoriBaslik {
-  margin-bottom: 0.9rem;
+  margin-bottom: 1.25rem;
   text-align: center;
-  font-size: 1rem; /* Daha küçük mobil font boyutu */
+  font-size: 1.5rem; /* 24px */
   color: black;
   font-weight: bold;
 }
@@ -53,7 +53,9 @@
 .kategoriGorsel {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* contain yerine cover kullanarak tam kaplama */
+  object-fit: contain; /* cover yerine contain kullandık */
+  object-position: center;
+  background-color: white;
   border-radius: 0; /* Kenar yuvarlaklığını kaldırdık */
 }
 
@@ -91,10 +93,10 @@
     height: 35rem; /* Mobil için yaklaşık 560px */
   }
   .kategoriBaslik {
-    font-size: 18px; /* Daha küçük mobil font boyutu */
+    font-size: 1.125rem; /* 18px */
   }
   .kategoriBaslikContainer {
-    font-size: 16px; /* Mobil için font boyutu */
+    font-size: 1rem; /* 16px */
   }
   .kategoriContainer {
     padding: 1.25rem 1rem;
@@ -116,8 +118,8 @@
 
 @media (min-width: 768px) {
   .kategoriBaslik {
-    font-size: 28px;
-    margin-bottom: 30px;
+    font-size: 1.75rem; /* 28px */
+    margin-bottom: 1.875rem; /* 30px */
   }
   
   .kategoriItem {
@@ -127,7 +129,7 @@
   
   
   .kategoriBaslikContainer {
-    font-size: 22px;
+    font-size: 1.375rem; /* 22px */
   }
 }
 
