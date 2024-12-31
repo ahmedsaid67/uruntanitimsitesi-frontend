@@ -1,136 +1,57 @@
-.kategoriContainer {
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin: 0 auto;
+.container {
+  padding: 1.25rem; /* 20px */
 }
 
 .kategoriBaslik {
-  margin-bottom: 1.25rem;
-  text-align: center;
   font-size: 1.5rem; /* 24px */
-  color: black;
   font-weight: bold;
+  margin-bottom: 1.25rem; /* 20px */
+  text-align: center;
 }
 
 .kategoriListesi {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 100%;
-}
-
-.kategoriListesi > :first-child:nth-last-child(odd) {
-  grid-column: 1 / -1;
-  max-width: 100%;
+  gap: 1rem; /* 16px */
 }
 
 .kategoriItem {
-  flex: 0 0 calc(50% - 0.75rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0; /* Padding'i kaldırdık */
-  background-color: white;
-  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 67.25rem; /* Yaklaşık 720px */
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  overflow: hidden; /* Taşan içeriği gizle */
+  position: relative;
+  overflow: hidden;
 }
 
-.kategoriItem:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-}
-
-.kategoriGorsel {
-  width: auto;
-  height: 100%;
-  object-fit: contain; /* cover yerine contain kullandık */
-  object-position: center;
-  background-color: rgb(255, 0, 0);
-  border-radius: 0; /* Kenar yuvarlaklığını kaldırdık */
-}
-
-.kategoriBaslikContainer {
-  text-align: center;
-  font-size: 1rem;
-  margin: 1em auto 0 auto;
-  width: 90%;
-  font-weight: bold;
-  color: black;
-}
-
-
-
-.placeholder {
+.kategoriItem img {
   width: 100%;
-  height: 800px; /* Varsayılan yükseklik, ihtiyaca göre ayarlayın */
-  background: #fff;
-
+  height: auto;
+  object-fit: cover;
 }
 
 .kategoriItemFull {
-  flex: 0 0 100% !important;
-  max-width: 100% !important;
+  width: 100%;
 }
 
-.kategoriItemFull .kategoriGorsel {
-  height: 100%;
+.kategoriItemHalf {
+  width: calc(50% - 0.5rem); /* 8px */
 }
 
-@media (max-width: 767px) {
+.kategoriBaslikItem {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-align: center;
+  padding: 0.5rem 0; /* 8px */
+}
+
+/* Mobil Görünüm */
+@media (max-width: 48rem) { /* 768px */
   .kategoriItem {
-    width: 100%; /* Mobilde tek kart genişliği */
-    margin-bottom: 1.25rem;
-    height: 35rem; /* Mobil için yaklaşık 560px */
+    width: 100% !important;
   }
-  .kategoriBaslik {
-    font-size: 1.125rem; /* 18px */
-  }
-  .kategoriBaslikContainer {
-    font-size: 1rem; /* 16px */
-  }
-  .kategoriContainer {
-    padding: 1.25rem 1rem;
-  }
-  .kategoriListesi {
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-  .kategoriListesi > :first-child:nth-last-child(odd) {
-    max-width: 100%;
-  }
-  .kategoriItemFull .kategoriGorsel {
-    height: 400px; /* Mobil için tam genişlikteki kategori görsel yüksekliği */
+
+  .kategoriItem img {
+    height: auto;
   }
 }
-
-@media (min-width: 768px) {
-  .kategoriBaslik {
-    font-size: 1.75rem; /* 28px */
-    margin-bottom: 1.875rem; /* 30px */
-  }
-  
-  .kategoriItem {
-    width: calc(50% - 10px);
-  }
-  
-  .kategoriBaslikContainer {
-    font-size: 1.375rem; /* 22px */
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .kategoriItem {
-    height: 40rem; /* Tablet için yaklaşık 640px */
-  }
-}
-
