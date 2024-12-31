@@ -29,8 +29,9 @@ const AnaSayfaKategori = () => {
             <div className={styles.kategoriBaslik}>Kategoriler</div>
             <div className={styles.kategoriListesi}>
               {kategoriler.map((kategori, index) => (
-                <div 
-                  key={kategori.id} 
+                <Link 
+                  href={`/urunlerimiz?tab=${kategori.slug}`}
+                  key={kategori.id}
                   className={`${styles.kategoriItem} ${
                     index === 0 && kategoriler.length % 2 !== 0 ? styles.kategoriItemFull : ''
                   }`}
@@ -40,12 +41,7 @@ const AnaSayfaKategori = () => {
                     alt={kategori.baslik}
                     className={styles.kategoriGorsel}
                   />
-                  <p className={styles.kategoriBaslikContainer}>{kategori.baslik}</p>
-                  <Link href={`/urunlerimiz?tab=${kategori.slug}`}>
-                    <button className={styles.kesfetButon}><div className={styles.kesfetFont}>Keşfet </div></button>
-                  </Link>
-
-                </div>
+                </Link>
               ))}
             </div>
           </div>

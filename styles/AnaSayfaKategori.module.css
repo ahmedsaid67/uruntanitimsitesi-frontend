@@ -1,5 +1,5 @@
 .kategoriContainer {
-  padding: 40px 2rem;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,9 +8,9 @@
 }
 
 .kategoriBaslik {
-  margin-bottom: 20px;
+  margin-bottom: 0.9rem;
   text-align: center;
-  font-size: 24px; /* Daha küçük mobil font boyutu */
+  font-size: 1rem; /* Daha küçük mobil font boyutu */
   color: black;
   font-weight: bold;
 }
@@ -19,7 +19,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px;
+  gap: 1rem;
   width: 100%;
 }
 
@@ -29,16 +29,20 @@
 }
 
 .kategoriItem {
-  flex: 0 0 calc(50% - 10px);
+  flex: 0 0 calc(50% - 0.75rem);
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* İçerikleri dikey olarak yay */
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 0; /* Padding'i kaldırdık */
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 700px; /* Daha fazla yükseklik */
+  height: 45rem; /* Yaklaşık 720px */
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  overflow: hidden; /* Taşan içeriği gizle */
 }
 
 .kategoriItem:hover {
@@ -48,32 +52,21 @@
 
 .kategoriGorsel {
   width: 100%;
-  height: 500px; /* Görsel yüksekliğini artırdık */
-  object-fit: contain; /* cover yerine contain kullanıyoruz */
+  height: 100%;
+  object-fit: cover; /* contain yerine cover kullanarak tam kaplama */
+  border-radius: 0; /* Kenar yuvarlaklığını kaldırdık */
 }
 
 .kategoriBaslikContainer {
   text-align: center;
-  font-size: 18px; /* Mobil için font boyutu */
-  margin: 1em auto 1.5em auto;
-  width: 90%; /* Başlık genişliği */
+  font-size: 1rem;
+  margin: 1em auto 0 auto;
+  width: 90%;
   font-weight: bold;
+  color: black;
 }
 
-.kesfetButon {
-  padding: 8px 16px;
-  background-color: black;
-  color: #fff;
-  font-weight: normal; /* Less bold */
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: auto; /* Butonu alt kenara yapıştır */
-}
 
-.kesfetButon:hover {
-  background-color: #555; /* Farklı bir gri tonu */
-}
 
 .placeholder {
   width: 100%;
@@ -88,14 +81,14 @@
 }
 
 .kategoriItemFull .kategoriGorsel {
-  height: 500px; /* Tam genişlikteki kategori için daha büyük görsel */
+  height: 100%;
 }
 
 @media (max-width: 767px) {
   .kategoriItem {
     width: 100%; /* Mobilde tek kart genişliği */
-    margin-bottom: 20px;
-    height: 600px; /* Mobil için yükseklik */
+    margin-bottom: 1.25rem;
+    height: 35rem; /* Mobil için yaklaşık 560px */
   }
   .kategoriBaslik {
     font-size: 18px; /* Daha küçük mobil font boyutu */
@@ -104,10 +97,11 @@
     font-size: 16px; /* Mobil için font boyutu */
   }
   .kategoriContainer {
-    padding: 20px 1rem;
+    padding: 1.25rem 1rem;
   }
   .kategoriListesi {
     flex-direction: column;
+    gap: 1.25rem;
   }
   .kategoriListesi > :first-child:nth-last-child(odd) {
     max-width: 100%;
@@ -130,10 +124,7 @@
     width: calc(50% - 10px);
   }
   
-  .kesfetButon {
-    padding: 12px 24px;
-    font-size: 18px;
-  }
+  
   
   .kategoriBaslikContainer {
     font-size: 22px;
@@ -142,7 +133,7 @@
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .kategoriItem {
-    height: 650px; /* Tablet için yükseklik */
+    height: 40rem; /* Tablet için yaklaşık 640px */
   }
   .kategoriGorsel {
     height: 450px; /* Tablet için görsel yüksekliği */
