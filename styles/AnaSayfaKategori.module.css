@@ -38,7 +38,7 @@
   background-color: white;
   box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 45rem; /* Yaklaşık 720px */
+  height: 67.25rem; /* Yaklaşık 720px */
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -51,11 +51,11 @@
 }
 
 .kategoriGorsel {
-  width: 100%;
+  width: auto;
   height: 100%;
   object-fit: contain; /* cover yerine contain kullandık */
   object-position: center;
-  background-color: white;
+  background-color: rgb(255, 0, 0);
   border-radius: 0; /* Kenar yuvarlaklığını kaldırdık */
 }
 
@@ -108,9 +108,6 @@
   .kategoriListesi > :first-child:nth-last-child(odd) {
     max-width: 100%;
   }
-  .kategoriGorsel {
-    height: 400px; /* Mobil için görsel yüksekliği */
-  }
   .kategoriItemFull .kategoriGorsel {
     height: 400px; /* Mobil için tam genişlikteki kategori görsel yüksekliği */
   }
@@ -126,8 +123,6 @@
     width: calc(50% - 10px);
   }
   
-  
-  
   .kategoriBaslikContainer {
     font-size: 1.375rem; /* 22px */
   }
@@ -136,9 +131,6 @@
 @media (min-width: 768px) and (max-width: 1024px) {
   .kategoriItem {
     height: 40rem; /* Tablet için yaklaşık 640px */
-  }
-  .kategoriGorsel {
-    height: 450px; /* Tablet için görsel yüksekliği */
   }
 }
 
