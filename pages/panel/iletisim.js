@@ -114,7 +114,7 @@ const Iletisim = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          width: '850px',
+          width: '98%',
           height:'350px',
           margin: ' 0 20px',
           padding: '20px',

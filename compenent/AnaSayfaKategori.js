@@ -28,8 +28,13 @@ const AnaSayfaKategori = () => {
           <div className={styles.kategoriContainer}>
             <div className={styles.kategoriBaslik}>Kategoriler</div>
             <div className={styles.kategoriListesi}>
-              {kategoriler.map(kategori => (
-                <div key={kategori.id} className={styles.kategoriItem}>
+              {kategoriler.map((kategori, index) => (
+                <div 
+                  key={kategori.id} 
+                  className={`${styles.kategoriItem} ${
+                    index === 0 && kategoriler.length % 2 !== 0 ? styles.kategoriItemFull : ''
+                  }`}
+                >
                   <img
                     src={kategori.kapak_fotografi}
                     alt={kategori.baslik}

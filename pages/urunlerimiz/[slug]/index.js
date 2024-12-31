@@ -6,15 +6,13 @@ import 'slick-carousel/slick/slick-theme.css';
 import stylesSlider from '@/styles/Vitrin.module.css';
 import styles from "./urundetay.module.css";
 import { API_ROUTES, API_SERVER_URL } from '@/utils/constants';
-import CircularProgress from '@mui/material/CircularProgress'; 
+
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import PopupWithZoom from '@/compenent/PopupWithZoom';
 import Head from 'next/head';
 
 import { FaArrowLeft, FaArrowRight, FaRegArrowAltCircleDown ,FaRegArrowAltCircleUp} from "react-icons/fa";
-import { faL } from '@fortawesome/free-solid-svg-icons';
+
 
 const CustomPrevArrow = ({ onClick }) => (
   <div className={stylesSlider.customPrevArrow} onClick={onClick}>
@@ -123,22 +121,15 @@ const UrunDetay = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const mainImagesRef = useRef(null);
-  const [showPopup, setShowPopup] = useState(false);
+  const sliderRefMain = useRef(null);
 
   const [isSliding, setIsSliding] = useState(false);
-  const [scrollAmount, setScrollAmount] = useState(1); // Dinamik kaydırma miktarını tutacak state
   const sliderRef = useRef(null);
-  const startXRef = useRef(0); // Kaydırma başlangıç pozisyonunu tutacak ref
-  const startXRefMain = useRef(0);
 
-  const [activeDot, setActiveDot] = useState(null);
   const [activeImage, setActiveImage] = useState(null);
-  const [getMainImage, setMainImage] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   const [bodySizes, setBodySizes] = useState([]);
 
-  const itemCount = getImage.length;
 
   const handleBeforeChange = (current, next) => {
     setIsSliding(true);
@@ -148,92 +139,11 @@ const UrunDetay = () => {
     setIsSliding(false);
   };
 
-  const handleMouseDown = (e) => {
-    startXRef.current = e.clientY; // Kaydırma başlangıç pozisyonunu kaydedin
-  };
-
-  const handleMouseUp = (e) => {
-    const endY = e.clientY; // Kaydırma bitiş pozisyonunu alın
-    const distance = Math.abs(endY - startXRef.current); // Kaydırma mesafesini hesaplayın
-    const itemsToScroll = Math.ceil(distance / 100); // Mesafeye göre kaydırılacak öğe sayısını belirleyin
-    setScrollAmount(itemsToScroll); // Dinamik kaydırma miktarını ayarlayın
-
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(itemsToScroll, true); // Kaydırma işlemini gerçekleştirin
-    }
-  };
-
-// touch move
-  const handleTouchStart = (e) => {
-    startXRef.current = e.touches[0].clientX; // Track horizontal start position
-  };
-  
-  const handleTouchMove = (e) => {
-    const endX = e.touches[0].clientX; // Get horizontal end position
-    const distance = endX - startXRef.current; // Positive for swipe right, negative for swipe left
-  
-    if (Math.abs(distance) > 50) { // Threshold for swipe
-      if (distance > 0) {
-        // Swipe right
-        scrollToImageXNew(activeDot + 1); // Move to the previous image
-      } else {
-        // Swipe left
-        scrollToImageXNew(activeDot - 1); // Move to the next image
-      }
-      startXRef.current = endX; // Reset start position for continuous swiping
-    }
-  };
   
 
-  const [lastScrollTime, setLastScrollTime] = useState(0);
-
-const scrollToImageXNew = (id) => {
-  const now = Date.now();
-  if (now - lastScrollTime < 500) { // Prevent multiple scrolls within 500ms
-    return;
-  }
-  setLastScrollTime(now);
-
-  // Ensure id is within the valid range of image IDs
-  const validId = getImage.find(img => img.id === id);
-  if (validId && mainImagesRef.current) {
-    const element = document.getElementById(id);
-    if (element) {
-      const offsetLeft = element.offsetLeft - mainImagesRef.current.offsetLeft;
-      mainImagesRef.current.scrollTo({
-        left: offsetLeft,
-        behavior: 'smooth',
-      });
-
-      // Update activeDot
-      setActiveDot(id);
-      setMainImage(id);
-    }
-  }
-};
-
-
+  
   
 
-  const handleImageClick = (img, index) => {
-    setMainImage(img);
-    setCurrentIndex(index);
-    setShowPopup(true);
-    
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    setCurrentIndex(0);
-
-  };
-
-  const handlePopupClick = (e) => {
-    if (e.target.className.includes(styles.popup)) {
-      handleClosePopup();
-    }
-  };
-  
 
   
 
@@ -248,18 +158,6 @@ const scrollToImageXNew = (id) => {
       });
     }
     setActiveImage(id);
-};
-
-const scrollToImageX = (id) => {
-    const element = document.getElementById(id);
-    if (element && mainImagesRef.current) {
-      const offsetLeft = element.offsetLeft - mainImagesRef.current.offsetLeft;
-      mainImagesRef.current.scrollTo({
-        left: offsetLeft,
-        behavior: 'smooth',
-      });
-    }
-    setActiveDot(id);
 };
 
 
@@ -298,24 +196,6 @@ const scrollToImageX = (id) => {
     loadData();
   }, [slug]);
 
-  useEffect(() => {
-    if (showPopup) {
-      // Pop-up açıldığında ve ana sayfada scroll yapılmasını durdur
-      document.body.style.overflow = 'hidden';
-    } else {
-      // Pop-up kapandığında ve ana sayfada scroll yapılmasına izin ver
-      document.body.style.overflow = 'auto';
-    }
-  }, [showPopup]);
-
-  useEffect(() => {
-    if (getImage.length > 0) {
-      const initialImage = getImage[0].id;
-      setMainImage(initialImage);
-      setActiveDot(initialImage);
-      setActiveImage(initialImage);
-    }
-  }, [getImage]);
 
   const settings = {
     vertical: true,
@@ -325,7 +205,6 @@ const scrollToImageX = (id) => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     slidesToShow: 5.5, // Aynı anda kaç öğe göstermek istediğinizi belirtin
-    slidesToScroll: scrollAmount, // Dinamik kaydırma miktarını kullanın
     beforeChange: handleBeforeChange,
     afterChange: handleAfterChange,
     responsive: [
@@ -340,12 +219,34 @@ const scrollToImageX = (id) => {
   };
 
   const settingsMain = {
-    vertical: true,
-    verticalSwiping: true,
+    dots: true, // Noktalar her zaman aktif
     infinite: false,
-    arrows: false,
+    speed: 300,
     slidesToShow: 1,
-  }
+    slidesToScroll: 1,
+    arrows: false,
+    vertical: true, // Varsayılan olarak masaüstü dikey
+    verticalSwiping: true,
+    responsive: [
+      {
+        breakpoint: 768, // Tablet ve altı cihazlar için
+        settings: {
+          dots: true,
+          vertical: false, // Tablet ve mobilde yatay düzen
+          verticalSwiping: false,
+        },
+      },
+      {
+        breakpoint: 576, // Mobil cihazlar için
+        settings: {
+          dots: true,
+          vertical: false, // Mobilde de yatay düzen
+          verticalSwiping: false,
+        },
+      },
+    ],
+  };
+  
 
   const sliderSettings = {
     dots: false,
@@ -410,8 +311,6 @@ const scrollToImageX = (id) => {
                         {...settings}
                         className={styles.slider}
                         ref={sliderRef}
-                        onMouseDown={handleMouseDown}
-                        onMouseUp={handleMouseUp}
                     >
                         {getImage.map((img, index) => (
                         <img
@@ -425,6 +324,7 @@ const scrollToImageX = (id) => {
                             e.preventDefault();
                             if (!isSliding) {
                                 scrollToImage(img.id);
+                                sliderRefMain.current.slickGoTo(index);
                             }
                             
                             }}
@@ -434,45 +334,25 @@ const scrollToImageX = (id) => {
                     </Slider>
                    
                 </div>
-                {/* {itemCount > 5 && (
-                    <div className={styles.prevArrow} onClick={() => sliderRef.current.slickPrev()}><FaRegArrowAltCircleUp /></div> )}
-                    {itemCount > 5 && (
-                      
-                    <div className={styles.nextArrow} onClick={() => sliderRef.current.slickNext()}><FaRegArrowAltCircleDown /></div>)} */}
-                <div className={styles.mainImages} ref={mainImagesRef}
-                >
-                    {getImage.map((img, index) => (
+                
+                 <div className={styles.mainImages} ref={mainImagesRef}>
+                    <Slider {...settingsMain} ref={sliderRefMain}>
+                        {getImage.map((img, index) => (
                             
-                        <img key={index} src={img.image} alt={img.id}  id={img.id}
-                        className={styles.mainImage}
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        width={600} height={900}
-                        onClick={() => handleImageClick(img.image, index)}
-                        />
-                        
-                        ))}  
+                            <img key={index} src={img.image} alt={img.id}  id={img.id}
+                            className={styles.mainImage}
+                            
+                            width={800} height={1200}
+                            />
+                            
+                            ))}  
+                    </Slider>
 
                   
                   
 
                 </div>
-                <div className={styles.rowDotContainer}>
-                                      <>
-                                            {getImage.map((img, index) => (
-                                              <a
-                                              className={`${styles.rowDot} ${activeDot === img.id ? styles.active : ''}`}
-                                                key={index}
-                                                onClick={(e) => {
-                                                  e.preventDefault();
-                                                  scrollToImageX(img.id);
-                                                  setMainImage(img.id);
-                                                }}
-                                              ></a>
-                                            ))}
-                                        </>
-                                    </div>
-               
+                
                
             </div>
             
@@ -496,14 +376,7 @@ const scrollToImageX = (id) => {
   
             </div>
 
-                <PopupWithZoom
-              showPopup={showPopup}
-              handleClosePopup={handleClosePopup}
-              handlePopupClick={handlePopupClick}
-              getMainImage={getMainImage}
-              imageSet={getImage}
-              currentIndex={currentIndex} // Pass currentIndex to PopupWithZoom
-            />
+              
         </div>
         
 

@@ -1,9 +1,9 @@
 .kategoriContainer {
-  padding: 60px 1rem;
+  padding: 40px 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -18,20 +18,27 @@
 .kategoriListesi {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.kategoriListesi > :first-child:nth-last-child(odd) {
+  grid-column: 1 / -1;
+  max-width: 100%;
 }
 
 .kategoriItem {
+  flex: 0 0 calc(50% - 10px);
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* İçerikleri dikey olarak yay */
   align-items: center;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 20px;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 700px; /* Daha fazla yükseklik */
 }
 
 .kategoriItem:hover {
@@ -41,9 +48,8 @@
 
 .kategoriGorsel {
   width: 100%;
-  height: auto;
-  border-radius: 5px;
-  
+  height: 500px; /* Görsel yüksekliğini artırdık */
+  object-fit: contain; /* cover yerine contain kullanıyoruz */
 }
 
 .kategoriBaslikContainer {
@@ -60,7 +66,6 @@
   color: #fff;
   font-weight: normal; /* Less bold */
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: auto; /* Butonu alt kenara yapıştır */
@@ -77,10 +82,20 @@
 
 }
 
+.kategoriItemFull {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+}
+
+.kategoriItemFull .kategoriGorsel {
+  height: 500px; /* Tam genişlikteki kategori için daha büyük görsel */
+}
+
 @media (max-width: 767px) {
   .kategoriItem {
-    width: calc(50% - 5px); /* Mobilde iki kart genişliği */
-    height: auto;
+    width: 100%; /* Mobilde tek kart genişliği */
+    margin-bottom: 20px;
+    height: 600px; /* Mobil için yükseklik */
   }
   .kategoriBaslik {
     font-size: 18px; /* Daha küçük mobil font boyutu */
@@ -89,87 +104,48 @@
     font-size: 16px; /* Mobil için font boyutu */
   }
   .kategoriContainer {
-    padding: 10% 1rem;
-
+    padding: 20px 1rem;
   }
-
-}
-
-
-@media (max-width: 650px) {
-  .kategoriItem {
-    width: calc(50% - 5px); /* Mobilde iki kart genişliği */
-    height: auto;
+  .kategoriListesi {
+    flex-direction: column;
   }
-
-
-}
-
-
-
-@media (max-width: 590px) {
-  .kategoriItem {
-    width: calc(50% - 5px); /* Mobilde iki kart genişliği */
-    height: auto;
+  .kategoriListesi > :first-child:nth-last-child(odd) {
+    max-width: 100%;
   }
-
-
-
-}
-
-
-@media (max-width: 500px) {
-  .kategoriItem {
-    width: calc(50% - 5px); /* Mobilde iki kart genişliği */
-    height: auto;
+  .kategoriGorsel {
+    height: 400px; /* Mobil için görsel yüksekliği */
   }
-
-}
-
-
-
-
-@media (max-width: 400px) {
-  .kategoriItem {
-    width: calc(50% - 5px); /* Mobilde iki kart genişliği */
-    height: auto;
+  .kategoriItemFull .kategoriGorsel {
+    height: 400px; /* Mobil için tam genişlikteki kategori görsel yüksekliği */
   }
-
 }
-
 
 @media (min-width: 768px) {
   .kategoriBaslik {
-    font-size: 24px; /* Masaüstü için font boyutu */
-    margin-bottom: 20px; /* Masaüstü için alt boşluk */
+    font-size: 28px;
+    margin-bottom: 30px;
   }
+  
   .kategoriItem {
-    width: calc(33.33% - 20px); /* Masaüstü için üç kart genişliği */
-    height: auto; /* Masaüstü için yükseklik ayarı */
+    width: calc(50% - 10px);
   }
+  
   .kesfetButon {
-    padding: 10px 20px; /* Masaüstü için buton padding */
-    font-size: 16px; /* Masaüstü için buton font boyutu */
+    padding: 12px 24px;
+    font-size: 18px;
   }
-
-
+  
+  .kategoriBaslikContainer {
+    font-size: 22px;
+  }
 }
 
-@media (min-width: 768px) and (max-width: 1299px) {
-
-  .kategoriBaslik {
-    font-size: 24px; /* Masaüstü için font boyutu */
-    margin-bottom: 20px; /* Masaüstü için alt boşluk */
-  }
-
-  .kesfetButon {
-    padding: 10px 20px; /* Masaüstü için buton padding */
-    font-size: 16px; /* Masaüstü için buton font boyutu */
-  }
-
+@media (min-width: 768px) and (max-width: 1024px) {
   .kategoriItem {
-    width: calc(33.33% - 20px); /* Masaüstü için üç kart genişliği */
-    height: auto;
+    height: 650px; /* Tablet için yükseklik */
+  }
+  .kategoriGorsel {
+    height: 450px; /* Tablet için görsel yüksekliği */
   }
 }
 

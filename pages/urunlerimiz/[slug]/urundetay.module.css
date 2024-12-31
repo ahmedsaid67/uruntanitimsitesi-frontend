@@ -11,13 +11,12 @@
 
 
 .imgContainer {
-    width: 35%;
-    height: 100%;
+    width: 50%;
+    height: auto;
     max-height: var(--IMG-H);
-    min-width: 700px;
-    max-width: 900px;
     display: flex;
     flex-direction: row;
+    background-color: red;
 }
 
 .detailContainer {
@@ -72,7 +71,7 @@
 }
   
 .mainImages {
-    width: 800px;
+    width: 100%;
     height: auto;
     margin: 0;
     border: 1px solid rgba(194, 211, 7, 0);
@@ -487,7 +486,6 @@
       margin: 0;
       border: 1px solid rgba(194, 211, 7, 0);
       display: flex;
-      flex-direction: row;
       background-color: rgba(255, 0, 0, 0);
     }
     
@@ -584,14 +582,13 @@
       margin: 0;
       border: 1px solid rgba(194, 211, 7, 0);
       display: flex;
-      flex-direction: row;
+      
       background-color: rgba(255, 0, 0, 0);
     }
   
     .mainImage {
       width: 100%;
       height: auto;
-      min-height: 1100px;
       object-fit: cover;
     }
   
