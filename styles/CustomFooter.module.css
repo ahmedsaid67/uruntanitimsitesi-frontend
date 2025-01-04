@@ -50,7 +50,7 @@
 }
 
 .footerSection a:hover {
-  color: #1da1f2;
+  color: #1D64F2;
   text-decoration: underline;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .iconLink:hover .icon {
-  color: #1da1f2; /* İkonların üzerine gelindiğinde rengini değiştirin */
+  color: #1D64F2; /* İkonların üzerine gelindiğinde rengini değiştirin */
 }
 
 
