@@ -1,4 +1,3 @@
-
 .styleContainer{
     width: 80%;
     display: flex;
@@ -16,7 +15,6 @@
     max-height: var(--IMG-H);
     display: flex;
     flex-direction: row;
-    background-color: red;
 }
 
 .detailContainer {
@@ -47,10 +45,10 @@
     flex-direction: column;
     width: 10%;
     min-width: 100px;
-    height: auto; /* Görüntülemek istediğiniz yüksekliği belirtin */
+    max-height: 100vh; /* Set a maximum height */
     border: 1px solid rgba(255, 0, 0, 0);
     cursor: grab;
-    overflow: hidden; /* overflow'u hidden olarak ayarlayın */
+    overflow-y: none; /* Enable vertical scrolling */
   }
   
   
@@ -536,6 +534,7 @@
     
 
 
+
   }
   
   
@@ -568,7 +567,7 @@
     }
   
     .imgContainer {
-      width: 100%;
+      width: 98%;
       min-width: auto;
       height: auto;
       max-height: fit-content;
@@ -743,7 +742,6 @@
     .mainImage {
       width: 100%;
     }
-  
   
     .detailText {
       font-size: 2rem;

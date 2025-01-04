@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Button, Typography, Box, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { API_ROUTES } from '@/utils/constants';
-import dynamic from 'next/dynamic';
+
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
+import dynamic from 'next/dynamic';
 // Dinamik olarak TextEditor bileşenini yükle
 const TextEditor = dynamic(() => import('@/compenent/Editor'), { ssr: false });
 

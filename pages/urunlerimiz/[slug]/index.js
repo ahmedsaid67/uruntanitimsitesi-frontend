@@ -131,6 +131,7 @@ const UrunDetay = () => {
   const [bodySizes, setBodySizes] = useState([]);
 
 
+
   const handleBeforeChange = (current, next) => {
     setIsSliding(true);
   };
@@ -204,22 +205,21 @@ const UrunDetay = () => {
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    slidesToShow: 5.5, // Aynı anda kaç öğe göstermek istediğinizi belirtin
+    slidesToShow: 4.5, // Aynı anda kaç öğe göstermek istediğinizi belirtin
     beforeChange: handleBeforeChange,
     afterChange: handleAfterChange,
     responsive: [
-        {
-          breakpoint: 1200, // For screens 1200px and up
-          settings: {
-            slidesToShow: 8
-          }
-        },
+      {
+        breakpoint: 1200, // For screens 1200px and up
+        settings: {
+          slidesToShow: 4.5 // Adjusted to match the default setting
+        }
+      },
     ],
-  
   };
 
   const settingsMain = {
-    dots: true, // Noktalar her zaman aktif
+    dots: false, // Noktalar her zaman aktif
     infinite: false,
     speed: 300,
     slidesToShow: 1,
@@ -231,7 +231,6 @@ const UrunDetay = () => {
       {
         breakpoint: 768, // Tablet ve altı cihazlar için
         settings: {
-          dots: true,
           vertical: false, // Tablet ve mobilde yatay düzen
           verticalSwiping: false,
         },
@@ -239,7 +238,6 @@ const UrunDetay = () => {
       {
         breakpoint: 576, // Mobil cihazlar için
         settings: {
-          dots: true,
           vertical: false, // Mobilde de yatay düzen
           verticalSwiping: false,
         },
@@ -361,9 +359,17 @@ const UrunDetay = () => {
               <div className={styles.detailContent}>      
                         <p className={styles.detailText}>{getData.baslik}</p>
 
+                        {getData.aciklama && (
+                          <div
+                            className={styles.detailDescription}
+                            dangerouslySetInnerHTML={{ __html: getData.aciklama }}
+                          />
+                        )}
                          {getData.fiyat && <p className={styles.detailPrice}>{getData.fiyat}</p>}
                         {/* eğer ticaret sitesi ise */}
+                        
                         <div className={styles.boxContainer}>
+                        
                         {bodySizes.map(size => (
                           <span key={size.id} className={styles.box}>
                             {size.numara}

@@ -14,6 +14,11 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { API_ROUTES } from '@/utils/constants';
 
+import dynamic from 'next/dynamic';
+import { Box } from '@mui/system';
+// Dinamik olarak TextEditor bileşenini yükle
+const TextEditor = dynamic(() => import('@/compenent/Editor'), { ssr: false });
+
 
 
 export default function FotoGaleri() {
@@ -22,13 +27,16 @@ export default function FotoGaleri() {
     const [openAddDialog, setOpenAddDialog] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [newItem, setNewItem] = useState({
+      aciklama: '',
       baslik: '',
       kapakFotografi: null,
       fiyat: '',
       durum: true
     });
+    const [content, setContent] = useState('');
     const [selectedRows, setSelectedRows] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchPage, setSearchPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -66,6 +74,62 @@ export default function FotoGaleri() {
 
     const beden = Array.from({ length: 9 }, (_, index) => ({ numara: 30 + index * 2, durum: false }));
 
+    // search box değişkenleri
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [itemsPerPage, setItemsPerPage] = useState(1);
+    const [displayedData, setDisplayedData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+
+
+    useEffect(() => {
+      const normalizeString = (str) => {
+        return str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+      };
+    
+      const filtered = data.filter(item => normalizeString(item.baslik).includes(normalizeString(searchQuery)));
+      setFilteredData(filtered);
+      // Paginate based on the search page
+      const newDisplayedData = filtered.slice((searchPage - 1) * itemsPerPage, searchPage * itemsPerPage);
+      setDisplayedData(newDisplayedData);
+    
+      // Update total pages
+      setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+    }, [searchQuery, data, searchPage, itemsPerPage]);
+    
+    const handleSearchChange = (event) => {
+      const { value } = event.target;
+      setSearchQuery(value);
+      setSearchPage(1); // Reset search page to 1 when a new search is performed
+    };
+
+
+    const handleItemsPerPageChange = async (event) => {
+      const newItemsPerPage = event.target.value;
+      setItemsPerPage(newItemsPerPage);
+    
+      // Verileri güncelle
+      try {
+        const response = await axios.get(API_ROUTES.URUNLER_ACTIVE_FULL);
+        const totalCount = response.data.length || 0;
+        const totalPages = Math.ceil(totalCount / newItemsPerPage);
+    
+        // Mevcut sayfayı kontrol et ve uygun sayfayı ayarla
+        let updatedPage = currentPage;
+        if (totalPages < currentPage) {
+          updatedPage = totalPages > 0 ? totalPages : 1;
+        }
+    
+        // Verileri güncellenmiş sayfadan al
+        await fetchData(updatedPage);
+        
+        // Toplam sayfa sayısını güncelle
+        setTotalPages(totalPages);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
 
     const getResData = async () => {
 
@@ -92,7 +156,7 @@ export default function FotoGaleri() {
       }else{
         getResData()
       }
-    }, [user]);
+    }, [user,currentPage]);
 
 
     const getRes2Data = async () => {
@@ -124,20 +188,21 @@ export default function FotoGaleri() {
 
 
 
-    const getData = async () => {
-      setIsLoading(true); // Veri yükleme başlamadan önce
-      setHasError(false);
-      try {
-        const response = await axios.get(API_ROUTES.URUNLER_PAGINATIONS.replace("currentPage",currentPage))
-        setData(response.data.results);
-        setTotalPages(Math.ceil(response.data.count / 20));
-      } catch (error) {
-        setHasError(true);
-        // Opsiyonel: Hata detaylarını loglayabilir veya kullanıcıya gösterebilirsiniz.
-      } finally {
-        setIsLoading(false); // Veri yükleme tamamlandığında veya hata oluştuğunda
+      const getData = async () => {
+        setIsLoading(true); // Veri yükleme başlamadan önce
+        setHasError(false);
+        try {
+          const response = await axios.get(API_ROUTES.URUNLER_ACTIVE_FULL)
+          console.log(response.data);
+          setData(response.data);
+          setTotalPages(Math.ceil(response.data.length / itemsPerPage));
+        } catch (error) {
+          setHasError(true);
+          // Opsiyonel: Hata detaylarını loglayabilir veya kullanıcıya gösterebilirsiniz.
+        } finally {
+          setIsLoading(false); // Veri yükleme tamamlandığında veya hata oluştuğunda
+        }
       }
-    }
 
 
     useEffect(() => {
@@ -160,17 +225,28 @@ export default function FotoGaleri() {
       setBedenler(updatedBedenler);
     };
 
-
+    
 
 
 
     const handlePageChange = (event, value) => {
+      if (searchQuery) {
+        setSearchPage(value);
+      } else {
         setCurrentPage(value);
-      };
+      }
+  
+      // Scroll smoothly to the top of the page
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    };
     
       const handleOpenAddDialog = () => {
         // State'leri sıfırla, sonra dialogu aç
         setNewItem({
+          aciklama: "",
           baslik: '',
           kapakFotografi: null,
           fiyat: '',
@@ -211,6 +287,9 @@ export default function FotoGaleri() {
         if(item.vitrin_kategori){
           setSelectedVitrin(item.vitrin_kategori.id)
         }
+        if(item.aciklama){
+          setContent(item.aciklama);
+        }
       
         // İlgili albüm resimlerini yükle
         axios.get(API_ROUTES.ALBUM_IMAGES_KATEGORI_FILTER.replace("seciliKategori", item.id)) 
@@ -243,6 +322,7 @@ export default function FotoGaleri() {
           return;
         }
         setUyariMesaji("");
+        
       
         try {
           const formData = new FormData();
@@ -253,6 +333,14 @@ export default function FotoGaleri() {
       
           formData.append("durum", editedItem["durum"]);
           formData.append("baslik", editedItem["baslik"]);
+
+          if(editedItem["aciklama"]){
+            console.log("Adding aciklama:", editedItem["aciklama"]);
+            formData.append("aciklama", editedItem["aciklama"]);
+          }
+
+          
+         
 
           formData.append("urun_kategori_id", kategoriId);
           
@@ -265,11 +353,14 @@ export default function FotoGaleri() {
           }
 
 
+          
+
 
           setIsSaving(true);
       
           const response = await axios.put(API_ROUTES.URUNLER_DETAIL.replace("id",editedItem.id), formData)
           const updatedData = data.map(item => item.id === editedItem.id ? response.data : item);
+          console.log("Update response:", response.data);
           setData(updatedData);
       
           if (removedImageIds.length > 0) {
@@ -301,6 +392,7 @@ export default function FotoGaleri() {
           setSaveError("Veri güncellenirken bir hata oluştu. Lütfen tekrar deneyiniz.");  // Hata mesajını ayarla
         }finally{
           setIsSaving(false);
+          
         }
       };
       
@@ -310,6 +402,8 @@ export default function FotoGaleri() {
     
     
       const handleAddNewItem = async (kategoriId,selectedId) => {
+
+        
         if (!newItem.baslik || !newItem.kapakFotografi || !kategoriId ) {
             setUyariMesajiEkle("Başlık, kapakfotoğrafı ve kategori alanları zorunlu alandır. Lütfen tüm zorunlu alanları doldurunuz.");
             return;
@@ -319,6 +413,7 @@ export default function FotoGaleri() {
         const formData = new FormData();
         formData.append('kapak_fotografi', newItem["kapakFotografi_file"]);
         formData.append("durum", newItem["durum"]);
+        formData.append("aciklama", newItem["aciklama"]);
         formData.append("baslik", newItem["baslik"]);
         formData.append("fiyat", newItem["fiyat"]);
         formData.append("urun_kategori_id", kategoriId);
@@ -335,9 +430,9 @@ export default function FotoGaleri() {
           const urunlerResponse = await axios.post(API_ROUTES.URUNLER, formData);
           const newUrunId = urunlerResponse.data.id;
       
-          const listResponse = await axios.get(API_ROUTES.URUNLER_PAGINATIONS.replace("currentPage",currentPage))
-          setData(listResponse.data.results);
-          setTotalPages(Math.ceil(listResponse.data.count / 10));
+          const responseNew = await axios.get(API_ROUTES.URUNLER_ACTIVE_FULL)
+          setData(responseNew.data);
+          setTotalPages(Math.ceil(responseNew.data.length / itemsPerPage));
       
           if (createImageAlbum.length > 0) {
             const promises = createImageAlbum.map((item) => {
@@ -402,44 +497,64 @@ export default function FotoGaleri() {
       setDeleteConfirmOpen(false);
     };
 
-    const handleConfirmDelete = () => {
-      setDeleteError('');
-      axios.post(API_ROUTES.URUNLER_DELETE, { ids: selectedIds })
-        .then(() => {
-          return axios.get(API_ROUTES.URUNLER);
-        })
-        .then((response) => {
-          const newTotalCount = response.data.count;
-          const newTotalPages = Math.ceil(newTotalCount / 10);
-          setTotalPages(newTotalPages);
     
-          let updatedPage = currentPage;
-          if (newTotalPages < currentPage) {
-            updatedPage = newTotalPages;
-          }
+
+    const handleConfirmDelete = async () => {
+        setDeleteError('');
+        try {
+            await axios.post(API_ROUTES.URUNLER_DELETE, { ids: selectedIds });
+            const response = await axios.get(API_ROUTES.URUNLER);
+            const newTotalCount = response.data.length;
+            const newTotalPages = Math.ceil(newTotalCount / 10);
+            setTotalPages(newTotalPages);
     
-          if (newTotalPages === 0) {
-            setCurrentPage(1);
-            setData([]);
-            setSelectedRows({});
+            let updatedPage = currentPage;
+            if (newTotalPages < currentPage) {
+                updatedPage = newTotalPages;
+            }
+    
+            if (newTotalPages === 0) {
+                setCurrentPage(1);
+                setData([]);
+                setSelectedRows({});
+                setDeleteConfirmOpen(false);
+            } else {
+                // Güncellenmiş sayfanın verilerini al
+                await fetchData(updatedPage);
+            }
+        } catch (error) {
+            console.error('Toplu silme işlemi sırasında hata oluştu:', error);
+            setDeleteError('Veriler silinirken bir hata oluştu. Lütfen tekrar deneyin.');
             setDeleteConfirmOpen(false);
-          } else {
-            setCurrentPage(updatedPage);
-            return axios.get(API_ROUTES.URUNLER_PAGINATIONS.replace('currentPage', updatedPage));
-          }
-        })
-        .then((response) => {
-          if (response) {
-            setData(response.data.results);
-          }
-          setSelectedRows({});
-          setDeleteConfirmOpen(false);
-        })
-        .catch((error) => {
-          console.error('Toplu silme işlemi sırasında hata oluştu:', error);
-          setDeleteError('Veriler silinirken bir hata oluştu. Lütfen tekrar deneyin.');
-          setDeleteConfirmOpen(false);
-        });
+        }
+        finally{
+          handleCloseDeleteConfirm();
+        }
+    };
+
+    const fetchData = async (page) => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(API_ROUTES.URUNLER_ACTIVE_FULL);
+        const dataItems = response.data || [];
+        const totalCount = dataItems.length || 0;
+        const totalPages = Math.ceil(totalCount / itemsPerPage);
+    
+        // Verileri ve toplam sayfa sayısını güncelle
+        setData(dataItems);
+        setTotalPages(totalPages);
+    
+        // Mevcut sayfayı kontrol et ve ayarla
+        if (page > totalPages) {
+          setCurrentPage(totalPages > 0 ? totalPages : 1);
+        } else {
+          setCurrentPage(page);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     
     
@@ -581,9 +696,38 @@ export default function FotoGaleri() {
                       Sil
                     </Button>
                   )}
+                  {/* search box burada */}
+                  <Box mb={2} display="flex" justifyContent="space-between" alignItems="center">
+                      <TextField
+                      variant="outlined"
+                      size="small"
+                      label="Ürün Arama"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      fullWidth
+                      />
+
+                      <FormControl variant="outlined" size="small" style={{ minWidth: 120, marginLeft: '10px' }}>
+                        <InputLabel>Sayfa Başına</InputLabel>
+                        <Select
+                          value={itemsPerPage}
+                          onChange={handleItemsPerPageChange}
+                          label="Sayfa Başına"
+                        >
+                          <MenuItem value={10}>10</MenuItem>
+                          <MenuItem value={15}>15</MenuItem>
+                          <MenuItem value={30}>30</MenuItem>
+                          <MenuItem value={50}>50</MenuItem>
+                          <MenuItem value={100}>100</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
                   <Table size="small">
+                    
                     <TableHead>
+                      
                       <TableRow style={{ backgroundColor: '#1976d2' }}> 
+
                         <TableCell padding="checkbox">
                           <Checkbox
                             onChange={handleSelectAllRows}
@@ -603,7 +747,7 @@ export default function FotoGaleri() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {data.map(row => (
+                      {displayedData.map(row => (
                         <TableRow key={row.id}>
                           <TableCell padding="checkbox">
                             <Checkbox
@@ -670,7 +814,7 @@ export default function FotoGaleri() {
                   {data.length > 0 && (
                     <Pagination
                       count={totalPages}
-                      page={currentPage}
+                      page={searchQuery ? searchPage : currentPage}
                       onChange={handlePageChange}
                       variant="outlined"
                       size="small"
@@ -767,6 +911,14 @@ export default function FotoGaleri() {
                 }}
             />
 
+            {/* aciklama kayıt ekleme */}
+
+            <TextEditor
+              value={selectedItem && selectedItem.aciklama || ''}
+              onChange={(newContent) => setSelectedItem({...selectedItem, aciklama: newContent})}
+              style={{ width: '100%' }} // TextEditor bileşeninin genişliğini tam ekran genişliğe ayarlayın
+            />
+
 
 
 
@@ -806,6 +958,8 @@ export default function FotoGaleri() {
                         </div>
                     </div>
 
+                   
+
 
                     {/* createImageAlbum'dan Gelen Görseller */}
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -819,6 +973,8 @@ export default function FotoGaleri() {
                         </div>
                         ))}
                     </div>
+
+                     
 
                     {albumImages.length > 0 &&  albumImages.map(image => (
                     <div key={image.id} style={{ border: '2px dashed grey', padding: '5px', width: '120px', height: '150px', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -1013,6 +1169,12 @@ export default function FotoGaleri() {
             endAdornment: <InputAdornment position="end">TL</InputAdornment>,
         }}
         />
+        
+        <TextEditor
+            value={newItem.aciklama || ''}
+            onChange={(newContent) => setNewItem({...newItem, aciklama: newContent})}
+            style={{ width: '100%' }} // TextEditor bileşeninin genişliğini tam ekran genişliğe ayarlayın
+          />
 
 
 

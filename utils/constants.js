@@ -37,7 +37,7 @@ export const API_ROUTES = {
 
     URUNLER : API_SERVER_URL + "/urunler/",
     URUNLER_ACTIVE : API_SERVER_URL + "/urunler/get_active/",
-    URUNLER_ACTIVE_FULL : API_SERVER_URL + "/urunler/get_active_full/",
+    URUNLER_ACTIVE_FULL : API_SERVER_URL + "/urunler/active-full/",
     URUNLER_LIST : API_SERVER_URL + "/urunler-list/",
     URUNLER_PAGINATIONS : API_SERVER_URL + "/urunler/?page=currentPage",
     URUNLER_DETAIL : API_SERVER_URL + "/urunler/id/",
