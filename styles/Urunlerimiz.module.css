@@ -194,6 +194,14 @@
   flex: 1; /* This makes altContainer take the remaining space */
 }
 
+.contextContainerAlternative {
+  display: flex;
+  justify-content: center; /* Loader'ı yatay olarak ortala */
+  align-items: center; /* Loader'ı dikey olarak ortala */
+  flex: 1;
+}
+
+
 
 .productContainer {
   display: flex;
@@ -201,7 +209,7 @@
   justify-content: start;
   gap: 1rem;
   margin-top: 2rem;
-  
+
 }
 
 /* Individual product items */
@@ -252,6 +260,12 @@
   margin-top: 2rem;
  }
 
+ .paginationContainer{
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+ }
 
 
 
@@ -344,5 +358,8 @@
     margin-top: 1rem;
   }
 
-
+  .paginationContainer{
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+   }
 }

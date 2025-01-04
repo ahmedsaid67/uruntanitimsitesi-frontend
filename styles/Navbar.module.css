@@ -64,7 +64,7 @@
   top: 10;
   left: 0;
   background-color: #fff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow for better definition */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2); /* Stronger shadow for better definition */
   border-radius: 0.75rem;
   overflow: hidden;
   z-index: 1000;
@@ -134,7 +134,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 6%;
+  padding: 0 5%;
   height: 4rem;
 }
 

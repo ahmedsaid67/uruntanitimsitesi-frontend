@@ -40,7 +40,6 @@ const AnaSayfaKategori = () => {
               <img
                 src={kategori.kapak_fotografi}
                 alt={kategori.baslik}
-                className={styles.kategoriResim}
               />
              
             </Link>

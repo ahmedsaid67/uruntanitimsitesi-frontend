@@ -215,7 +215,7 @@ const fetchMedications = async (kategoriSlug,page) => {
 
   useEffect(()=>{
 
-    if(activeTab){
+    if(activeTab.baslik){
       const category=activeTab
 
       const container = containerRef.current;
@@ -416,14 +416,7 @@ const fetchMedications = async (kategoriSlug,page) => {
                   </div>
                   
                   {prodcuts.length > 0 && (
-                    <div
-                      style={{
-                        marginTop: '2rem',
-                        marginBottom: '2rem',
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
+                    <div className={styles.paginationContainer}>
                       <Pagination
                         count={totalPages} // Toplam sayfa sayısı
                         page={page} // Geçerli sayfa

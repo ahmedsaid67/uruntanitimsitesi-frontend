@@ -102,6 +102,7 @@
     border-radius: 1rem;
     margin: 0;
     width: 100%;
+    min-height: 25rem;
     }
 
 
@@ -222,4 +223,18 @@
     .iconSosyal {
     font-size: 2rem; /* İkon boyutunu ayarlayın */
     }
+}
+
+
+@media (max-width: 1024px) {
+
+  /* styles.module.css */
+  .socialMedia {
+    gap: 1rem; /* İkonlar arasındaki boşluğu ayarlayın */
+}
+  
+
+.iconSosyal {
+font-size: 2rem; /* İkon boyutunu ayarlayın */
+}
 }

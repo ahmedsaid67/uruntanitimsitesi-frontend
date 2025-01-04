@@ -99,20 +99,6 @@ const SurguluBanner = () => {
     autoplaySpeed: 5000, // 5 saniye
     nextArrow: <NextArrow show={imagesLoaded} />,
     prevArrow: <PrevArrow show={imagesLoaded} />,
-    // appendDots: (dots) => (
-    //   <ul className={styles.customDots}>
-    //     {dots.map((dot, index) => (
-    //       <li
-    //         key={index}
-    //         className={`${styles.customDot} ${index === activeIndex ? styles.activeDot : ''}`}
-    //         onClick={() => {
-    //           sliderRef.current.slickGoTo(index);
-    //           setActiveIndex(index);
-    //         }}
-    //       ></li>
-    //     ))}
-    //   </ul>
-    // ),
   };
 
   return (

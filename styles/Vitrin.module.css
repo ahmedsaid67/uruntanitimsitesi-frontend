@@ -1,58 +1,19 @@
 .showcaseContainer {
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 
-.boxContainer {
-  margin-bottom: 2rem;
-}
-
-
-.mainContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-
-.leftContainer {
-  width: 100%;
-}
-
-.leftContainer h2{
-  text-align: center;
-}
-
-.LeftBoxContainer {
-  
-  
-  
-}
-
-.baslik {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  font-size: 16px;
-}
-
-.verticalContainer {
-  display: flex;
-  flex-direction: column;
-  margin-left: 0.5rem;
-  
-}
 
 .horizontalContainer {
-  margin-top: 0.5rem;
+  margin-top: 0;
   display: flex;
   flex-direction: row;
   overflow: h;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
   gap: 1rem;
   position: relative;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .horizontalCLick{
@@ -60,11 +21,10 @@
 }
 
 
-
 .horizontalContainerFullWidth{
-  margin-top: 0.5rem;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-top: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .fullWidht {
@@ -90,7 +50,7 @@
   display: inline-block;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  font-size: 16px;
+  font-size: 1rem;
   color: #666;
   cursor: pointer;
   white-space: nowrap; /* Prevent text from wrapping to the next line */
@@ -98,32 +58,14 @@
 
 
 
-.rightArrow, .leftArrow {
-  position: absolute;
-  top:50%;
-  transform: translate(0, -50%);
-  font-size: 12px;
-  color: #fff;
-  z-index: 5;
-  cursor: pointer;
-  background: #333333;
-  border-radius: 50%;
-  padding: 6px 9px;
+.productContainer{
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
-.rightArrow:hover, .leftArrow:hover {
-  background: #555555; /* Daha açık bir siyah veya koyu gri */
-}
-
-
-.leftArrow {
-  left: 0
-}
-
-.rightArrow {
-  right: 0;
-}
-
-
 
 
 /* Individual product items */
@@ -136,7 +78,6 @@
   flex-direction: column;
   justify-content: space-between;
   width: calc(33.33%);  /* Starting with 4 cards in large screens */
-  margin-bottom: 0.5rem;
 }
 
 
@@ -176,41 +117,67 @@
   cursor: pointer;
   background-color: black;
   color: #fff;
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 15px;
+  border-radius: 1rem;
 }
 
 .customPrevArrow {
-  left: 25px;
+  left: 1.5rem;
 }
 
 .customNextArrow {
-  right: 25px;
+  right: 1.5rem;
 }
 
 .loader {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh;
-  color: black;
+  flex: 1;
 }
 
-@media (max-width: 768px) {
-  .productItemTitle, .productItemPrice {
-    font-size: 14px;
-  }
-  .kategoriItemTitle{
-    font-size: 14px;
+@media (max-width: 767px) {
+
+  .showcaseContainer {
+    margin-bottom: 1rem;
   }
 
-  .boxContainer {
-    margin-bottom: 25px;
+  .horizontalContainer {
+    margin-left: 0.5rem;
+    margin-right: 1rem;
   }
+
+
+  .horizontalContainerFullWidth{
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .productContainer{
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+
+  .productItem {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+
+  .productItemTitle, .productItemPrice {
+    font-size: 0.9rem;
+  }
+  .kategoriItemTitle{
+    font-size: 0.9rem;
+  }
+
 }
 
 

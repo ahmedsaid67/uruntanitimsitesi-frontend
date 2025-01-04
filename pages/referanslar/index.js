@@ -91,14 +91,7 @@ const Referans = () => {
               )}
 
               {references.length > 0 && (
-                <div
-                  style={{
-                    marginTop: '2rem',
-                    marginBottom: '2rem',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
+                <div className={styles.paginationContainer}>
                   <Pagination
                     count={totalPages} // Toplam sayfa sayısı
                     page={page} // Geçerli sayfa

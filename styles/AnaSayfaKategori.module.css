@@ -1,18 +1,21 @@
 .container {
-  padding: 1.25rem; /* 20px */
+  padding: 1rem; 
+  margin-bottom: 1rem;
 }
 
 .kategoriBaslik {
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.5rem; 
   font-weight: bold;
-  margin-bottom: 1.25rem; /* 20px */
+  margin: 0;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   text-align: center;
 }
 
 .kategoriListesi {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem; /* 16px */
+  gap: 1rem; 
 }
 
 .kategoriItem {
@@ -20,38 +23,43 @@
   overflow: hidden;
 }
 
-.kategoriItem img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
 
 .kategoriItemFull {
   width: 100%;
 }
 
 .kategoriItemHalf {
-  width: calc(50% - 0.5rem); /* 8px */
+  width: calc(50% - 0.5rem);
 }
 
-.kategoriBaslikItem {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  text-align: center;
-  padding: 0.5rem 0; /* 8px */
+.kategoriItem img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
 }
+
 
 /* Mobil Görünüm */
-@media (max-width: 48rem) { /* 768px */
+@media (max-width: 767px) { 
+  .container {
+    padding: 0.5rem; 
+    margin-bottom: 0.5rem;
+  }
+  .kategoriBaslik {
+    font-size: 1.3rem; 
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+  }
+  .kategoriListesi {
+    gap: 1rem; 
+  }
   .kategoriItem {
     width: 100% !important;
   }
 
   .kategoriItem img {
+    width: 100%;
     height: auto;
   }
 }
