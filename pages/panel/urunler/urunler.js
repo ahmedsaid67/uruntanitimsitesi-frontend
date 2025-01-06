@@ -77,9 +77,10 @@ export default function FotoGaleri() {
     // search box değişkenleri
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [itemsPerPage, setItemsPerPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
     const [displayedData, setDisplayedData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
+    const [dataLoading, setDataLoading] = useState(true);
 
 
     useEffect(() => {
@@ -193,7 +194,6 @@ export default function FotoGaleri() {
         setHasError(false);
         try {
           const response = await axios.get(API_ROUTES.URUNLER_ACTIVE_FULL)
-          console.log(response.data);
           setData(response.data);
           setTotalPages(Math.ceil(response.data.length / itemsPerPage));
         } catch (error) {
@@ -278,18 +278,30 @@ export default function FotoGaleri() {
         setCreateImageAlbum([]);
         setAlbumImages([]);
       
-        // Seçilen item'ı ve ilişkili kategorileri ayarla
-        setSelectedItem(item);
+
+        axios.get(`${API_ROUTES.URUNLER}${item.id}/`)
+        .then(response => {
+
+          setSelectedItem(response.data);
+          
+          if(response.data.urun_kategori){
+            setSelectedKategori(response.data.urun_kategori.id)
+          }
+          if(response.data.vitrin_kategori){
+            setSelectedVitrin(response.data.vitrin_kategori.id)
+          }
+          if(response.data.aciklama){
+            setContent(response.data.aciklama);
+          }
+        })
+        .catch(error => setSaveError("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."))
+        .finally(() => {
+          setTimeout(() => {
+            setDataLoading(false);
+          }, 1000);
+          
+        });
         
-        if(item.urun_kategori){
-          setSelectedKategori(item.urun_kategori.id)
-        }
-        if(item.vitrin_kategori){
-          setSelectedVitrin(item.vitrin_kategori.id)
-        }
-        if(item.aciklama){
-          setContent(item.aciklama);
-        }
       
         // İlgili albüm resimlerini yükle
         axios.get(API_ROUTES.ALBUM_IMAGES_KATEGORI_FILTER.replace("seciliKategori", item.id)) 
@@ -335,7 +347,6 @@ export default function FotoGaleri() {
           formData.append("baslik", editedItem["baslik"]);
 
           if(editedItem["aciklama"]){
-            console.log("Adding aciklama:", editedItem["aciklama"]);
             formData.append("aciklama", editedItem["aciklama"]);
           }
 
@@ -360,7 +371,6 @@ export default function FotoGaleri() {
       
           const response = await axios.put(API_ROUTES.URUNLER_DETAIL.replace("id",editedItem.id), formData)
           const updatedData = data.map(item => item.id === editedItem.id ? response.data : item);
-          console.log("Update response:", response.data);
           setData(updatedData);
       
           if (removedImageIds.length > 0) {
@@ -824,258 +834,269 @@ export default function FotoGaleri() {
                 </Paper>
               </Container>
 
+
+{/*  buraya LOADİNG GELECEK */}
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle>
-          Düzenleme
-          <IconButton
-            onClick={handleClose}
-            style={{ position: 'absolute', right: 8, top: 8 }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
+        {dataLoading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+            <CircularProgress size={64}/>
+          </div>
+        ) : (
+          <>
+          
+            <DialogTitle>
+              Düzenleme
+              <IconButton
+                onClick={handleClose}
+                style={{ position: 'absolute', right: 8, top: 8 }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent>
 
-            <TextField
-                label="Başlık"
-                value={selectedItem ? selectedItem.baslik : ''}
-                onChange={(e) => setSelectedItem({ ...selectedItem, baslik: e.target.value })}
-                fullWidth
-                margin="normal"
-            />
-            {/* Kapak Fotoğrafı */}
-            <div style={{ textAlign: 'center', marginBottom: '20px' ,marginTop:'20px'}}>
-                <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
-                    {selectedItem && selectedItem.kapak_fotografi ? (
-                        <>
-                            <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
-                                Kapak Fotoğrafı:
-                            </Typography>
-                            <img
-                                src={selectedItem.kapak_fotografi}
-                                alt="Kapak Fotoğrafı"
-                                style={{ maxWidth: '50%', maxHeight: '100px', position: 'relative' }}
-                            />
-                            {/* X simgesi */}
-                            <IconButton
-                                style={{ fontSize: '20px', backgroundColor: 'transparent', color: 'red', position: 'absolute', top: 0, right: 0 }}
-                                onClick={() => handleRemoveImage("kapak_fotografi")}
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                        </>
-                    ) : (<>
-                        <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
-                                Kapak Fotoğrafı:
-                        </Typography>
-                        <label htmlFor="kapak_fotografiInput">
-                            <IconButton
-                                style={{ fontSize: '50px', color: 'green', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
-                                component="span"
-                            >
-                                <AddPhotoAlternateIcon />
-                            </IconButton>
-                        </label>
-                        </>
-                    )}
-                </div>
-
-                {/* Dosya Ekleme Input */}
-                <input
-                    type="file"
-                    id="kapak_fotografiInput"
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleFileChange(e, "kapak_fotografi")}
+                <TextField
+                    label="Başlık"
+                    value={selectedItem ? selectedItem.baslik : ''}
+                    onChange={(e) => setSelectedItem({ ...selectedItem, baslik: e.target.value })}
+                    fullWidth
+                    margin="normal"
                 />
-            </div>
-
-
-            <TextField
-                label="Fiyat"
-                value={selectedItem && selectedItem.fiyat !== null ? selectedItem.fiyat : ''}
-                onChange={(e) => {
-                    const value = e.target.value;
-                    // Regex to check user input, only allowing numbers and at most two decimal places
-                    const matched = value.match(/^\d*(\.\d{0,2})?$/);
-
-                    // If the entered value is valid, update the state
-                    if (matched) {
-                        setSelectedItem({ ...selectedItem, fiyat: value });
-                    }
-                }}
-                fullWidth
-                margin="normal"
-                InputProps={{
-                    endAdornment: <InputAdornment position="end">TL</InputAdornment>,
-                }}
-            />
-
-            {/* aciklama kayıt ekleme */}
-
-            <TextEditor
-              value={selectedItem && selectedItem.aciklama || ''}
-              onChange={(newContent) => setSelectedItem({...selectedItem, aciklama: newContent})}
-              style={{ width: '100%' }} // TextEditor bileşeninin genişliğini tam ekran genişliğe ayarlayın
-            />
-
-
-
-
-            {/* Görsel Galerisi */}
-            <div style={{ border: '2px dashed grey', margin: '20px 0', overflowX: 'auto', height: '300px', display: 'flex', justifyContent: 'center', position: 'relative' }}>
-                <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
-                    Galeri:
-                </Typography>
-                <div style={{ 
-                    display: 'flex',
-                    gap: '20px', // Öğeler arasındaki boşluk
-                    alignItems: 'center', 
-                    paddingLeft: imagesCount <= 2 ? 0 : "40px", 
-                    minWidth: imagesCount <= 2 ? 'fit-content' : '100%' 
-                }}>
-
-                    <div>
-                        {/* Gizli Dosya Input */}
-                        <input
-                            type="file"
-                            id="imageInput"
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            onChange={(e)=>handleFileAlbum(e)}
-                        />
-
-                        {/* Görsel Ekleme Butonunu Çevreleyen Stil */}
-                        <div style={{ border: '2px dashed grey', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '120px', height: '150px'}}>
-                            <label htmlFor="imageInput">
-                            <IconButton
-                                style={{ color: 'green' }} // Yeşil renkli ikon
-                                component="span"
-                            >
-                                <AddPhotoAlternateIcon />
-                            </IconButton>
+                {/* Kapak Fotoğrafı */}
+                <div style={{ textAlign: 'center', marginBottom: '20px' ,marginTop:'20px'}}>
+                    <div style={{ border: '2px dashed grey', width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                        {selectedItem && selectedItem.kapak_fotografi ? (
+                            <>
+                                <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
+                                    Kapak Fotoğrafı:
+                                </Typography>
+                                <img
+                                    src={selectedItem.kapak_fotografi}
+                                    alt="Kapak Fotoğrafı"
+                                    style={{ maxWidth: '50%', maxHeight: '100px', position: 'relative' }}
+                                />
+                                {/* X simgesi */}
+                                <IconButton
+                                    style={{ fontSize: '20px', backgroundColor: 'transparent', color: 'red', position: 'absolute', top: 0, right: 0 }}
+                                    onClick={() => handleRemoveImage("kapak_fotografi")}
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                            </>
+                        ) : (<>
+                            <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
+                                    Kapak Fotoğrafı:
+                            </Typography>
+                            <label htmlFor="kapak_fotografiInput">
+                                <IconButton
+                                    style={{ fontSize: '50px', color: 'green', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                                    component="span"
+                                >
+                                    <AddPhotoAlternateIcon />
+                                </IconButton>
                             </label>
-                        </div>
+                            </>
+                        )}
                     </div>
 
-                   
+                    {/* Dosya Ekleme Input */}
+                    <input
+                        type="file"
+                        id="kapak_fotografiInput"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleFileChange(e, "kapak_fotografi")}
+                    />
+                </div>
 
 
-                    {/* createImageAlbum'dan Gelen Görseller */}
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                        {createImageAlbum.length > 0 && [...createImageAlbum].reverse().map((item, index) => (
-                        <div key={index} style={{ border: '2px dashed grey', padding: '5px', width: '120px', height: '150px', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={item.frontFile} alt={`Albüm Görseli ${index}`} style={{ maxWidth: '100px', height: 'auto', maxHeight: '80px' }} />
-                            {/* Kapatma (Silme) İkonu */}
-                            <IconButton onClick={() => imgCreateAlbumRemove(index)} style={{ position: 'absolute', top: 0, right: 0, color: 'red' }}>
-                            <CloseIcon />
+                <TextField
+                    label="Fiyat"
+                    value={selectedItem && selectedItem.fiyat !== null ? selectedItem.fiyat : ''}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        // Regex to check user input, only allowing numbers and at most two decimal places
+                        const matched = value.match(/^\d*(\.\d{0,2})?$/);
+
+                        // If the entered value is valid, update the state
+                        if (matched) {
+                            setSelectedItem({ ...selectedItem, fiyat: value });
+                        }
+                    }}
+                    fullWidth
+                    margin="normal"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">TL</InputAdornment>,
+                    }}
+                />
+
+                {/* aciklama kayıt ekleme */}
+
+                <TextEditor
+                  value={selectedItem && selectedItem.aciklama || ''}
+                  onChange={(newContent) => setSelectedItem({...selectedItem, aciklama: newContent})}
+                  style={{ width: '100%' }} // TextEditor bileşeninin genişliğini tam ekran genişliğe ayarlayın
+                />
+
+
+
+
+                {/* Görsel Galerisi */}
+                <div style={{ border: '2px dashed grey', margin: '20px 0', overflowX: 'auto', height: '300px', display: 'flex', justifyContent: 'center', position: 'relative' }}>
+                    <Typography variant="subtitle1" style={{ marginBottom: '10px', position: 'absolute', top: 0, left: 10 }}>
+                        Galeri:
+                    </Typography>
+                    <div style={{ 
+                        display: 'flex',
+                        gap: '20px', // Öğeler arasındaki boşluk
+                        alignItems: 'center', 
+                        paddingLeft: imagesCount <= 2 ? 0 : "40px", 
+                        minWidth: imagesCount <= 2 ? 'fit-content' : '100%' 
+                    }}>
+
+                        <div>
+                            {/* Gizli Dosya Input */}
+                            <input
+                                type="file"
+                                id="imageInput"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={(e)=>handleFileAlbum(e)}
+                            />
+
+                            {/* Görsel Ekleme Butonunu Çevreleyen Stil */}
+                            <div style={{ border: '2px dashed grey', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '120px', height: '150px'}}>
+                                <label htmlFor="imageInput">
+                                <IconButton
+                                    style={{ color: 'green' }} // Yeşil renkli ikon
+                                    component="span"
+                                >
+                                    <AddPhotoAlternateIcon />
+                                </IconButton>
+                                </label>
+                            </div>
+                        </div>
+
+                       
+
+
+                        {/* createImageAlbum'dan Gelen Görseller */}
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                            {createImageAlbum.length > 0 && [...createImageAlbum].reverse().map((item, index) => (
+                            <div key={index} style={{ border: '2px dashed grey', padding: '5px', width: '120px', height: '150px', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <img src={item.frontFile} alt={`Albüm Görseli ${index}`} style={{ maxWidth: '100px', height: 'auto', maxHeight: '80px' }} />
+                                {/* Kapatma (Silme) İkonu */}
+                                <IconButton onClick={() => imgCreateAlbumRemove(index)} style={{ position: 'absolute', top: 0, right: 0, color: 'red' }}>
+                                <CloseIcon />
+                                </IconButton>
+                            </div>
+                            ))}
+                        </div>
+
+                         
+
+                        {albumImages.length > 0 &&  albumImages.map(image => (
+                        <div key={image.id} style={{ border: '2px dashed grey', padding: '5px', width: '120px', height: '150px', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img key={image.id} src={image.image} alt={`Görsel ${image.id}`} style={{ maxWidth: '100px', height: 'auto', maxHeight: '80px' }} />
+                            <IconButton onClick={()=>{imgAlbumRemove(image.id)}} style={{ position: 'absolute', top: 0, right: 0, color: 'red' }}>
+                              <CloseIcon />
                             </IconButton>
                         </div>
                         ))}
+                        
                     </div>
-
-                     
-
-                    {albumImages.length > 0 &&  albumImages.map(image => (
-                    <div key={image.id} style={{ border: '2px dashed grey', padding: '5px', width: '120px', height: '150px', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img key={image.id} src={image.image} alt={`Görsel ${image.id}`} style={{ maxWidth: '100px', height: 'auto', maxHeight: '80px' }} />
-                        <IconButton onClick={()=>{imgAlbumRemove(image.id)}} style={{ position: 'absolute', top: 0, right: 0, color: 'red' }}>
-                          <CloseIcon />
-                        </IconButton>
-                    </div>
-                    ))}
                     
                 </div>
-                
-            </div>
 
 
 
-            <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
-                <Typography variant="h6" gutterBottom style={{ marginBottom: '15px', textAlign: 'center', fontWeight: 'bold', color: '#555' }}>Bedenler</Typography>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
-                    {bedenler.map((beden, index) => (
-                        <div key={beden.id} style={{ 
-                            flex: '0 1 calc(33.3333% - 20px)',
-                            marginBottom: '10px',
-                            backgroundColor: '#fff',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            padding: '10px',
-                            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between'
-                        }}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={beden.durum}
-                                        onChange={() => handleCheckboxChange(index)}
-                                        style={{ padding: '0 10px' }}
-                                    />
-                                }
-                                label={beden.numara}
-                            />
-                            {/* Buraya istediğiniz ekstra içerik veya mesaj ekleyebilirsiniz */}
-                        </div>
-                    ))}
+                <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+                    <Typography variant="h6" gutterBottom style={{ marginBottom: '15px', textAlign: 'center', fontWeight: 'bold', color: '#555' }}>Bedenler</Typography>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+                        {bedenler.map((beden, index) => (
+                            <div key={beden.id} style={{ 
+                                flex: '0 1 calc(33.3333% - 20px)',
+                                marginBottom: '10px',
+                                backgroundColor: '#fff',
+                                border: '1px solid #ddd',
+                                borderRadius: '4px',
+                                padding: '10px',
+                                boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={beden.durum}
+                                            onChange={() => handleCheckboxChange(index)}
+                                            style={{ padding: '0 10px' }}
+                                        />
+                                    }
+                                    label={beden.numara}
+                                />
+                                {/* Buraya istediğiniz ekstra içerik veya mesaj ekleyebilirsiniz */}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
 
 
 
 
-            <FormControl fullWidth margin='normal'>
-                <InputLabel style={{ marginBottom: '8px', marginTop: '-10px' }}>Kategori</InputLabel>
-                <Select
-                    value={selectedKategori}
-                    onChange={(e) => setSelectedKategori(e.target.value)}
-                >
-                    {urunKategoriler.map((kategori) => (
-                    <MenuItem key={kategori.id} value={kategori.id}>
-                        {kategori.baslik}
-                    </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel shrink htmlFor="vitrin-select" style={{ marginBottom: '8px', marginTop: '-10px' }}>Vitrin</InputLabel>
-                <Select
-                    displayEmpty
-                    value={selectedVitrin}
-                    onChange={(e) => setSelectedVitrin(e.target.value)}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    renderValue={
-                        selected => !selected ? <>Seçim Yapılmadı</> : urunVitrin.find(k => k.id === selected)?.baslik || 'Bulunamadı'
-                    }
-                    id="vitrin-select"
-                >
-                    <MenuItem value="" >
-                        <>Seçim Yapılmadı</>
-                    </MenuItem>
-                    {urunVitrin.map((kategori) => (
+                <FormControl fullWidth margin='normal'>
+                    <InputLabel style={{ marginBottom: '8px', marginTop: '-10px' }}>Kategori</InputLabel>
+                    <Select
+                        value={selectedKategori}
+                        onChange={(e) => setSelectedKategori(e.target.value)}
+                    >
+                        {urunKategoriler.map((kategori) => (
                         <MenuItem key={kategori.id} value={kategori.id}>
                             {kategori.baslik}
                         </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                <FormControl fullWidth margin="normal">
+                    <InputLabel shrink htmlFor="vitrin-select" style={{ marginBottom: '8px', marginTop: '-10px' }}>Vitrin</InputLabel>
+                    <Select
+                        displayEmpty
+                        value={selectedVitrin}
+                        onChange={(e) => setSelectedVitrin(e.target.value)}
+                        inputProps={{ 'aria-label': 'Without label' }}
+                        renderValue={
+                            selected => !selected ? <>Seçim Yapılmadı</> : urunVitrin.find(k => k.id === selected)?.baslik || 'Bulunamadı'
+                        }
+                        id="vitrin-select"
+                    >
+                        <MenuItem value="" >
+                            <>Seçim Yapılmadı</>
+                        </MenuItem>
+                        {urunVitrin.map((kategori) => (
+                            <MenuItem key={kategori.id} value={kategori.id}>
+                                {kategori.baslik}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
 
 
-            <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Aktif" />
-          </DialogContent>
-          {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
-          {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}
+                <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Aktif" />
+              </DialogContent>
+              {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
+              {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}
 
-          <DialogActions>
-              <Button onClick={() => handleSave(selectedItem,selectedKategori,selectedVitrin)} color="primary" disabled={isSaving}>
-                {isSaving ? <CircularProgress size={24} /> : "Kaydet"}
-              </Button>
-          </DialogActions>
+              <DialogActions>
+                  <Button onClick={() => handleSave(selectedItem,selectedKategori,selectedVitrin)} color="primary" disabled={isSaving}>
+                    {isSaving ? <CircularProgress size={24} /> : "Kaydet"}
+                  </Button>
+              </DialogActions>
+            </>
+          )}
       </Dialog>
 
 

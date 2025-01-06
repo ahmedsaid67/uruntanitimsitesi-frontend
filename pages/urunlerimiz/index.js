@@ -29,7 +29,6 @@ function Urunlerimiz() {
 
   const kategoriBasliklari = kategoriler.map(category => category.baslik).join(', ');
 
-
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [buttonStatus,setButtonStatus] = useState(false)
@@ -38,7 +37,6 @@ function Urunlerimiz() {
 
   const page = parseInt(searchParams.get("page")) || 1
   
-
 
 
   // Fetch categories and set loading state
