@@ -22,6 +22,16 @@ const CustomNextArrow = ({ onClick }) => (
   </div>
 );
 
+const handleClick = (event, product) => {
+  if (isDragging) {
+    event.preventDefault(); // Drag sırasında tıklamayı engelle
+  } else {
+    // Normal tıklama işlemi
+    console.log("Ürün seçildi:", product);
+  }
+};
+
+
 const Vitrin = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [tabs, setTabs] = useState([]);
@@ -32,6 +42,8 @@ const Vitrin = () => {
   const [isHorizontalContainerHovered, setIsHorizontalContainerHovered] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
+
+   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const fetchTabsAndProducts = async () => {
@@ -232,11 +244,12 @@ const Vitrin = () => {
             <Slider {...sliderSettings}>
               {products.map(product => (
                 <div key={product.id} className={styles.productItem}>
-                  <Link href={`/urunlerimiz/${(product.slug)}`} >
+                  <Link href={`/urunlerimiz/${(product.slug)}`} onClick={(event) => handleClick(event, product)}>
                     <img
                       className={styles.productItemImage}
                       src={product.kapak_fotografi}
                       alt={product.baslik}
+                      onMouseDown={() => setIsDragging(false)}
                     />
                   </Link>
                   <Link href={`/urunlerimiz/${(product.slug)}`} >

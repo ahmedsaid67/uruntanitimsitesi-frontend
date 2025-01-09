@@ -118,7 +118,9 @@ const UrunDetay = () => {
   const [getData, setData] = useState([]);
   const [getImage, setImage] = useState([]);
   const [products, setProducts] = useState([]);
+  const [ozellik, setOzellik] = useState(["Siyah", "Mavi", "Kırmızı", "Yeşil", "Sarı", "Mor", "Beyaz", "Gri", "Kahverengi", "Turuncu", "Pembe"]);
   const [loading, setLoading] = useState(true);
+  const [oneImg, setOneImg] = useState(false);
   const [error, setError] = useState(null);
   const mainImagesRef = useRef(null);
   const sliderRefMain = useRef(null);
@@ -130,23 +132,17 @@ const UrunDetay = () => {
 
   const [bodySizes, setBodySizes] = useState([]);
 
-
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleBeforeChange = (current, next) => {
     setIsSliding(true);
+    setIsDragging(true);
   };
 
   const handleAfterChange = () => {
     setIsSliding(false);
+    setTimeout(() => setIsDragging(false), 0); // Delay to ensure drag state is reset after click event
   };
-
-  
-
-  
-  
-
-
-  
 
   const scrollToImage = (id) => {
     const element = document.getElementById(id);
@@ -161,6 +157,15 @@ const UrunDetay = () => {
     setActiveImage(id);
 };
 
+  const handleClick = (event, product) => {
+    if (isDragging) {
+      event.preventDefault(); // Drag sırasında tıklamayı engelle
+    } else {
+      // Normal tıklama işlemi
+      console.log("Ürün seçildi:", product);
+    }
+  };
+
 
 
   useEffect(() => {
@@ -174,9 +179,15 @@ const UrunDetay = () => {
       try {
         const result = await getDataById(id);
         setData(result);
-        
+
         const imageResult = await getImageById(id);
         setImage(imageResult);
+
+        if (imageResult.length === 1) {
+          setOneImg(true);
+        } else {
+          setOneImg(false);
+        }
 
         const resultNew = await getCategoryBySlug(result.urun_kategori.slug);
         setProducts(resultNew.results);
@@ -184,7 +195,6 @@ const UrunDetay = () => {
         const resultBodySize = await getBodySizeById(id);
         const filteredSizes = resultBodySize.filter(size => size.durum);
         setBodySizes(filteredSizes);
-       
 
         setError(null);
       } catch (error) {
@@ -274,6 +284,8 @@ const UrunDetay = () => {
         },
       },
     ],
+    beforeChange: () => setIsDragging(true), // Drag başladığında
+    afterChange: () => setIsDragging(false), // Drag bittiğinde
   };
 
   if (loading) {
@@ -303,6 +315,7 @@ const UrunDetay = () => {
       </Head>
         <div className={styles.styleContainer}>
             <div className={styles.imgContainer}>
+              {!oneImg && (
                 <div className={styles.altImages}>
                
                     <Slider
@@ -332,6 +345,7 @@ const UrunDetay = () => {
                     </Slider>
                    
                 </div>
+              )}
                 
                  <div className={styles.mainImages} ref={mainImagesRef}>
                     <Slider {...settingsMain} ref={sliderRefMain}>
@@ -365,8 +379,15 @@ const UrunDetay = () => {
                             dangerouslySetInnerHTML={{ __html: getData.aciklama }}
                           />
                         )}
-                         {getData.fiyat && <p className={styles.detailPrice}>{getData.fiyat}</p>}
+                        
                         {/* eğer ticaret sitesi ise */}
+                        <div className={styles.ozellikContainer}>
+                          {ozellik.map((item, index) => (
+                            <span key={index} className={styles.ozellikItem}>
+                              {item}
+                            </span>
+                          ))}
+                        </div>
                         
                         <div className={styles.boxContainer}>
                         
@@ -376,6 +397,9 @@ const UrunDetay = () => {
                           </span>
                         ))}
                         </div>
+                         {getData.fiyat && <p className={styles.detailPrice}>{getData.fiyat}</p>}
+                        
+
                         
               </div>    
               
@@ -392,13 +416,16 @@ const UrunDetay = () => {
             <div className={stylesSlider.leftContainer}>
               <h2>İlginizi Çekebilecek Ürünler</h2>
               <Slider {...sliderSettings}>
-                {products.map(product => (
-                  <div key={product.id} className={stylesSlider.productItem}>
-                    <Link href={`/urunlerimiz/${product.slug}`}>
+                {products
+                  .filter(product => product.id !== getData.id) // Filter out the current product
+                  .map(product => (
+                  <div key={product.id} className={stylesSlider.productItem} >
+                    <Link href={`/urunlerimiz/${product.slug}`}  onClick={(event) => handleClick(event, product)}>
                       <img
                         className={stylesSlider.productItemImage}
                         src={product.kapak_fotografi}
                         alt={product.baslik}
+                        onMouseDown={() => setIsDragging(false)}
                       />
                     </Link>
                     <Link href={`/urunlerimiz/${product.slug}`}>

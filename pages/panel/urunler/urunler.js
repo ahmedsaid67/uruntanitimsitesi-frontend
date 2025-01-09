@@ -296,9 +296,9 @@ export default function FotoGaleri() {
         })
         .catch(error => setSaveError("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."))
         .finally(() => {
-          setTimeout(() => {
+          
             setDataLoading(false);
-          }, 1000);
+          
           
         });
         
@@ -324,6 +324,7 @@ export default function FotoGaleri() {
         setCreateImageAlbum([]);
         setAlbumImages([]);
         setOpen(false);
+        setDataLoading(true);
       };
     
     

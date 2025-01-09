@@ -29,11 +29,11 @@
 }
 
 .detailContent{
+  width: 100%;
   position: -webkit-sticky; /* For Safari */
-    position: sticky; 
-    top: 80px; /* Adjust the top offset as needed */
-    background: white; /* Optional: To ensure the content doesn't overlap with background */
-    padding: 10px; /* Optional: Adjust padding as necessary */
+  position: sticky; 
+  top: 110px; /* Adjust the top offset as needed */
+  padding: 10px; /* Optional: Adjust padding as necessary */
 }
 
   
@@ -92,25 +92,22 @@
 
 
 .detailText {
-    border: 1px solid rgba(2, 14, 248, 0);
-    font-size: 3rem;
+    margin: 0;
+    border: 1px solid rgba(2, 14, 248, 1);
+    font-size: 2.5rem;
     text-align: start;
-    font-weight: 600;
     margin-top: 0;
 }
+.detailDescription {
+    background-color: #cf2323;
+  }
 
 .detailContainer p {
     line-height: 1em;
 }
 
-.detailContainer p:last-child {
-    margin-bottom: 2em;
-}
 
-.detailTextStudio {
-    font-size: 2rem;
-    border: 1px solid rgba(2, 14, 248, 0);
-}
+
 
 
 
@@ -119,7 +116,7 @@
     border: 1px solid rgba(2, 14, 248, 0);
     text-align: start;
     font-size: 1.5em;
-    margin-top: 0;
+    margin-top: 1em;
 }
 
 .detailPrice::after{
@@ -130,7 +127,7 @@
   display: flex;
   flex-wrap: wrap; /* Kutuların yeni satıra geçmesine izin verir */
   gap: 10px; /* Her kutu arasında 10px boşluk bırakır */
-  margin-top: 3.2em;
+  margin-top: 2em;
   justify-content: flex-start; /* Kutuları yatay olarak ortalar */
   align-items: center;
   text-align:center;
@@ -150,8 +147,44 @@
   cursor: pointer; /* Fare imlecini işaretçiye çevirir */
 }
 
+.ozellikContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
 
+.ozellikItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em;
+  background-color: #2e343a;
+  color: rgb(255, 255, 255);
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+.ozellikItem:hover {
+  background-color: #2e5077;
+}
+
+@media screen and (max-width: 576px) {
+  .ozellikItem {
+    font-size: 0.8em;
+    padding: 8px 12px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .ozellikItem {
+    font-size: 0.9em;
+    padding: 9px 13px;
+  }
+}
 
 /* Error and Info Messages */
 .errorMessage {
@@ -455,7 +488,7 @@
     }
 
     .detailText{
-      font-size: 1em;
+      font-size: 1.4em;
     }
 
     .detailPrice{
@@ -751,9 +784,7 @@
       line-height: 2em;
     }
   
-    .detailContainer p:last-child {
-      margin-bottom: 3.5em;
-    }
+    
   
     .detailTextStudio {
       font-size: 5rem;
@@ -798,9 +829,7 @@
       line-height: 3em;
     }
   
-    .detailContainer p:last-child {
-      margin-bottom: 4.5em;
-    }
+    
   
     .detailTextStudio {
       font-size: 6rem;
