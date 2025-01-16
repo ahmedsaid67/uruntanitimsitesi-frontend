@@ -43,6 +43,8 @@ export const API_ROUTES = {
     URUNLER_DETAIL : API_SERVER_URL + "/urunler/id/",
     URUNLER_DELETE : API_SERVER_URL + "/urunler/bulk_soft_delete/",
 
+    URUNLER_DETAIL_PURE : API_SERVER_URL + "/urunler/urun-detail/?slug=urunSlug" ,
+
     URUNLER_KATEGORI_FILTER : API_SERVER_URL + `/urunler/?kategori=seciliKategori&page=currentPage`,
     URUNLER_KATEGORI_FILTER_PAGINATIONSUZ : API_SERVER_URL + `/urunler/?kategori=seciliKategori`,
 
@@ -97,5 +99,11 @@ export const API_ROUTES = {
     URUNE_AIT_BEDEN_GUNCELLEME : API_SERVER_URL + "/bedenler/urun/id/update-durum/",
     URUNE_AIT_BEDEN_EKLEME : API_SERVER_URL + "/bedenler/urun/id/create/",
 
+
+    // ÖZELLIKLER
+
+    URUNE_AIT_OZELLIKLER : API_SERVER_URL + "/ozellikler/urun/id/",
+    URUNE_AIT_OZELLIK_GUNCELLEME : API_SERVER_URL + "/ozellikler/urun/id/update-durum/",
+    URUNE_AIT_OZELLIK_EKLEME : API_SERVER_URL + "/ozellikler/urun/id/create/",
 
 }

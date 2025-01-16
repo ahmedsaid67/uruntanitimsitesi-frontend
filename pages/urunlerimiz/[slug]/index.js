@@ -54,7 +54,7 @@ const PrevArrow = (props) => {
 const getDataById = async (slug) => {
   try {
     const productsResponse = await axios.get(
-      API_ROUTES.URUNLER_DETAIL.replace("id", slug)
+      API_ROUTES.URUNLER_DETAIL_PURE.replace("urunSlug", slug)
     );
     return productsResponse.data;
   } catch (error) {
@@ -68,38 +68,6 @@ const getDataById = async (slug) => {
   }
 };
 
-const getBodySizeById = async (slug) => {
-  try {
-    // API_ROUTES.URUNE_AIT_BEDENLER içinde "id" kısmını slug ile değiştirmek için string interpolasyonu kullanılmalı
-    const url = API_ROUTES.URUNE_AIT_BEDENLER.replace("id", slug);
-    const bodySizeResponse = await axios.get(url);
-    return bodySizeResponse.data;
-  } catch (error) {
-    console.error("Veri yükleme sırasında bir hata oluştu:", error);
-    if (error.response && error.response.status === 404 && error.response.data.detail === "Invalid page.") {
-      console.log('Geçersiz sayfa. Bu sayfa mevcut değil veya sayfa numarası hatalı. Lütfen sayfa numarasını kontrol edin.');
-    } else {
-      console.log('Veriler yüklenirken beklenmeyen bir sorun oluştu. Lütfen daha sonra tekrar deneyin.');
-    }
-    throw error;
-  }
-};
-
-const getImageById = async (slug) => {
-  try {
-    const productsResponse = await axios.get(
-      API_ROUTES.ALBUM_IMAGES_KATEGORI_FILTER.replace("seciliKategori", slug)
-    );
-    return productsResponse.data;
-  } catch (error) {
-    console.error("Veri yükleme sırasında bir hata oluştu:", error);
-    if (error.response && error.response.status === 404 && error.response.data.detail === "Invalid page.") {
-      console.log('Geçersiz sayfa. Bu sayfa mevcut değil veya sayfa numarası hatalı. Lütfen sayfa numarasını kontrol edin.');
-    } else {
-      console.log('Veriler yüklenirken beklenmeyen bir sorun oluştu. Lütfen daha sonra tekrar deneyin.');
-    }
-  }
-};
 
 const getCategoryBySlug = async (slug) => {
   try {
@@ -118,7 +86,7 @@ const UrunDetay = () => {
   const [getData, setData] = useState([]);
   const [getImage, setImage] = useState([]);
   const [products, setProducts] = useState([]);
-  const [ozellik, setOzellik] = useState(["Siyah", "Mavi", "Kırmızı", "Yeşil", "Sarı", "Mor", "Beyaz", "Gri", "Kahverengi", "Turuncu", "Pembe"]);
+  const [ozellik, setOzellik] = useState([]);
   const [loading, setLoading] = useState(true);
   const [oneImg, setOneImg] = useState(false);
   const [error, setError] = useState(null);
@@ -171,30 +139,19 @@ const UrunDetay = () => {
   useEffect(() => {
     if (!slug) return;
 
-    const lastDashIndex = slug.lastIndexOf('-');
-    const id = slug.substring(lastDashIndex + 1);
-
     const loadData = async () => {
       setLoading(true);
       try {
-        const result = await getDataById(id);
+        const result = await getDataById(slug);
         setData(result);
 
-        const imageResult = await getImageById(id);
-        setImage(imageResult);
-
-        if (imageResult.length === 1) {
-          setOneImg(true);
-        } else {
-          setOneImg(false);
-        }
+        setImage(result.images);
 
         const resultNew = await getCategoryBySlug(result.urun_kategori.slug);
         setProducts(resultNew.results);
 
-        const resultBodySize = await getBodySizeById(id);
-        const filteredSizes = resultBodySize.filter(size => size.durum);
-        setBodySizes(filteredSizes);
+        setBodySizes(result.bedenler);
+        setOzellik(result.ozellikler)
 
         setError(null);
       } catch (error) {
@@ -384,7 +341,7 @@ const UrunDetay = () => {
                         <div className={styles.ozellikContainer}>
                           {ozellik.map((item, index) => (
                             <span key={index} className={styles.ozellikItem}>
-                              {item}
+                              {item.name}
                             </span>
                           ))}
                         </div>

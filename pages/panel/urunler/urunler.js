@@ -1,6 +1,5 @@
 import React, { useEffect, useState,useMemo } from 'react';
 import { Container,InputAdornment , Typography, Paper,Pagination, Table,Tooltip, TableBody, TableCell, TableHead, TableRow, Button, Dialog, DialogTitle, DialogContent, TextField, Checkbox,FormLabel,FormGroup, FormControlLabel, DialogActions } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,14 +13,13 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { API_ROUTES } from '@/utils/constants';
 
-import dynamic from 'next/dynamic';
+
 import { Box } from '@mui/system';
-// Dinamik olarak TextEditor bileşenini yükle
-const TextEditor = dynamic(() => import('@/compenent/Editor'), { ssr: false });
+
+import {TextEditorTipTap} from '../../../compenent/EditorTipTap';
 
 
-
-export default function FotoGaleri() {
+export default function Urunler() {
     const [data, setData] = useState([]);
     const [open, setOpen] = useState(false);
     const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -46,12 +44,14 @@ export default function FotoGaleri() {
     const [uyariMesajiEkle, setUyariMesajiEkle] = useState("");
 
     const [urunKategoriler, setUrunKategoriler] = useState([]);
-    const [selectedKategori, setSelectedKategori] = useState("");
+    const [selectedKategori, setSelectedKategori] = useState({});
 
     const [urunVitrin, setUrunVitrin] = useState([]);
-    const [selectedVitrin, setSelectedVitrin] = useState("");
+    const [selectedVitrin, setSelectedVitrin] = useState({});
 
     const [bedenler,setBedenler] = useState([])
+    const [ozellikler,setOzellikler] = useState([])
+
 
 
     const [isSaving, setIsSaving] = useState(false);
@@ -74,10 +74,33 @@ export default function FotoGaleri() {
 
     const beden = Array.from({ length: 9 }, (_, index) => ({ numara: 30 + index * 2, durum: false }));
 
+    const ozellik = [
+      { name: 'Mavi', durum: false },
+      { name: 'Yeşil', durum: false },
+      { name: 'Kırmızı', durum: false },
+      { name: 'Sarı', durum: false },
+      { name: 'Turuncu', durum: false },
+      { name: 'Mor', durum: false },
+      { name: 'Pembe', durum: false },
+      { name: 'Lacivert', durum: false },
+      { name: 'Beyaz', durum: false },
+      { name: 'Siyah', durum: false },
+      { name: 'Kahverengi', durum: false },
+      { name: 'Gri', durum: false },
+      { name: 'Altın', durum: false },
+      { name: 'Gümüş', durum: false },
+      { name: 'Bordo', durum: false },
+      { name: 'Fuşya', durum: false },
+      { name: 'Turkuaz', durum: false },
+      { name: 'Eflatun', durum: false },
+      { name: 'Açık Mavi', durum: false },
+      { name: 'Bej', durum: false }
+    ];
+  
     // search box değişkenleri
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [displayedData, setDisplayedData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [dataLoading, setDataLoading] = useState(true);
@@ -225,6 +248,14 @@ export default function FotoGaleri() {
       setBedenler(updatedBedenler);
     };
 
+
+    //özellik düzenleme function
+    const handleOzellikCheckboxChange = (index) => {
+      const updatedOzellikler = [...ozellikler];
+      updatedOzellikler[index].durum = !updatedOzellikler[index].durum;
+      setOzellikler(updatedOzellikler);
+    };
+
     
 
 
@@ -254,10 +285,11 @@ export default function FotoGaleri() {
         });
         setUyariMesajiEkle("");
         setSaveError("");
-        setSelectedKategori("");
+        setSelectedKategori({});
         setCreateImageAlbum([]);
-        setSelectedVitrin("");
+        setSelectedVitrin({});
         setBedenler(beden)
+        setOzellikler(ozellik)
         setOpenAddDialog(true);
       };
 
@@ -272,8 +304,8 @@ export default function FotoGaleri() {
         // Temiz bir başlangıç için gerekli state'leri sıfırla
         setSaveError("");
         setUyariMesaji("");
-        setSelectedKategori("");
-        setSelectedVitrin("");
+        setSelectedKategori({});
+        setSelectedVitrin({});
         setRemovedImageIds([]);
         setCreateImageAlbum([]);
         setAlbumImages([]);
@@ -282,24 +314,33 @@ export default function FotoGaleri() {
         axios.get(`${API_ROUTES.URUNLER}${item.id}/`)
         .then(response => {
 
+          // console.log("res:",response.data)
+
           setSelectedItem(response.data);
           
           if(response.data.urun_kategori){
-            setSelectedKategori(response.data.urun_kategori.id)
+            setSelectedKategori(response.data.urun_kategori)
           }
           if(response.data.vitrin_kategori){
-            setSelectedVitrin(response.data.vitrin_kategori.id)
+            setSelectedVitrin(response.data.vitrin_kategori)
           }
           if(response.data.aciklama){
             setContent(response.data.aciklama);
           }
+
+          // İlgili bedenleri yükle
+
+          setBedenler(response.data.bedenler);
+
+
+          // İlgili özellikleri yükle
+
+          setOzellikler(response.data.ozellikler);
+
         })
         .catch(error => setSaveError("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."))
         .finally(() => {
-          
-            setDataLoading(false);
-          
-          
+          setDataLoading(false);
         });
         
       
@@ -310,15 +351,9 @@ export default function FotoGaleri() {
         })
         .catch(error => setSaveError("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."));
 
-        // İlgili albüm resimlerini yükle
-        axios.get(API_ROUTES.URUNE_AIT_BEDENLER.replace("id", item.id)) 
-        .then(response => {
-            setBedenler(response.data);
-        })
-        .catch(error => setSaveError("Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."));
-
         setOpen(true);
       };
+      
       
       const handleClose = () => {
         setCreateImageAlbum([]);
@@ -329,8 +364,8 @@ export default function FotoGaleri() {
     
     
     
-      const handleSave = async (editedItem, kategoriId,SelectedId) => {
-        if (!editedItem.baslik || !editedItem.kapak_fotografi || !kategoriId) {
+      const handleSave = async (editedItem, selectedVitrin,selectedKategori) => {
+        if (!editedItem.baslik || !editedItem.kapak_fotografi || !selectedKategori.id) {
           setUyariMesaji("Başlık, kapakfotoğrafı ve kategori alanları zorunlu alandır. Lütfen tüm zorunlu alanları doldurunuz.");
           return;
         }
@@ -354,24 +389,39 @@ export default function FotoGaleri() {
           
          
 
-          formData.append("urun_kategori_id", kategoriId);
+          formData.append("urun_kategori", selectedKategori.id);
           
-          if(SelectedId){
-            formData.append("vitrin_kategori_id", SelectedId);
+          if(selectedVitrin?.id){
+            formData.append("vitrin_kategori", selectedVitrin.id);
           }
           
           if(editedItem["fiyat"]){
             formData.append("fiyat", editedItem["fiyat"]);
           }
 
-
           
+          formData.append("bedenler", JSON.stringify(bedenler));
+
+          formData.append("ozellikler", JSON.stringify(ozellikler));
 
 
           setIsSaving(true);
       
           const response = await axios.put(API_ROUTES.URUNLER_DETAIL.replace("id",editedItem.id), formData)
-          const updatedData = data.map(item => item.id === editedItem.id ? response.data : item);
+          
+          const updateDateDetail ={ 
+            id:editedItem.id,
+            baslik: editedItem.baslik,
+            slug: editedItem.slug,
+            kapak_fotografi: editedItem.kapak_fotografi,
+            fiyat: editedItem.fiyat,
+            durum: editedItem.durum,
+            urun_kategori: selectedKategori,
+            vitrin_kategori: selectedVitrin
+          }
+
+          const updatedData = data.map(item => item.id === editedItem.id ? updateDateDetail : item);
+        
           setData(updatedData);
       
           if (removedImageIds.length > 0) {
@@ -393,9 +443,6 @@ export default function FotoGaleri() {
           }
 
 
-          const responseBeden = await axios.post(API_ROUTES.URUNE_AIT_BEDEN_GUNCELLEME.replace("id",editedItem.id), {list:bedenler})
-
-
       
           handleClose(); // İşlemler tamamlandıktan sonra pencereyi kapat
         } catch (error) {
@@ -412,10 +459,10 @@ export default function FotoGaleri() {
     
     
     
-      const handleAddNewItem = async (kategoriId,selectedId) => {
+      const handleAddNewItem = async (selectedKategori,selectedVitrin) => {
 
         
-        if (!newItem.baslik || !newItem.kapakFotografi || !kategoriId ) {
+        if (!newItem.baslik || !newItem.kapakFotografi || !selectedKategori.id ) {
             setUyariMesajiEkle("Başlık, kapakfotoğrafı ve kategori alanları zorunlu alandır. Lütfen tüm zorunlu alanları doldurunuz.");
             return;
         }
@@ -427,11 +474,15 @@ export default function FotoGaleri() {
         formData.append("aciklama", newItem["aciklama"]);
         formData.append("baslik", newItem["baslik"]);
         formData.append("fiyat", newItem["fiyat"]);
-        formData.append("urun_kategori_id", kategoriId);
+        formData.append("urun_kategori", selectedKategori.id);
         
-        if (selectedId){
-            formData.append("vitrin_kategori_id", selectedId);
+        if (selectedVitrin.id){
+            formData.append("vitrin_kategori", selectedVitrin.id);
         }
+
+        formData.append("bedenler", JSON.stringify(bedenler));
+
+        formData.append("ozellikler", JSON.stringify(ozellikler));
 
 
 
@@ -457,8 +508,6 @@ export default function FotoGaleri() {
             await Promise.all(promises);
           }
 
-
-          const responseBeden = await axios.post(API_ROUTES.URUNE_AIT_BEDEN_EKLEME.replace("id",newUrunId), {list:bedenler})
       
           handleCloseAddDialog();
         } catch (error) {
@@ -725,8 +774,7 @@ export default function FotoGaleri() {
                           onChange={handleItemsPerPageChange}
                           label="Sayfa Başına"
                         >
-                          <MenuItem value={10}>10</MenuItem>
-                          <MenuItem value={15}>15</MenuItem>
+                          <MenuItem value={20}>20</MenuItem>
                           <MenuItem value={30}>30</MenuItem>
                           <MenuItem value={50}>50</MenuItem>
                           <MenuItem value={100}>100</MenuItem>
@@ -759,7 +807,7 @@ export default function FotoGaleri() {
                     </TableHead>
                     <TableBody>
                       {displayedData.map(row => (
-                        <TableRow key={row.id}>
+                        <TableRow key={row.slug}>
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={selectedRows[row.id] || false}
@@ -931,13 +979,17 @@ export default function FotoGaleri() {
                     }}
                 />
 
-                {/* aciklama kayıt ekleme */}
 
-                <TextEditor
-                  value={selectedItem && selectedItem.aciklama || ''}
-                  onChange={(newContent) => setSelectedItem({...selectedItem, aciklama: newContent})}
-                  style={{ width: '100%' }} // TextEditor bileşeninin genişliğini tam ekran genişliğe ayarlayın
-                />
+
+                {/* acıklama*/}
+            {selectedItem && (
+              <>
+                <Typography variant="subtitle1" style={{ marginBottom: '10px', marginTop:'10px'}}>
+                  Açıklama (isteğe bağlı) :
+                </Typography>
+                <TextEditorTipTap selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
+              </>
+            )}
 
 
 
@@ -1044,32 +1096,82 @@ export default function FotoGaleri() {
                 </div>
 
 
-
-
-
-                <FormControl fullWidth margin='normal'>
-                    <InputLabel style={{ marginBottom: '8px', marginTop: '-10px' }}>Kategori</InputLabel>
-                    <Select
-                        value={selectedKategori}
-                        onChange={(e) => setSelectedKategori(e.target.value)}
-                    >
-                        {urunKategoriler.map((kategori) => (
-                        <MenuItem key={kategori.id} value={kategori.id}>
-                            {kategori.baslik}
-                        </MenuItem>
+                <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+                    <Typography variant="h6" gutterBottom style={{ marginBottom: '15px', textAlign: 'center', fontWeight: 'bold', color: '#555' }}>Renkler</Typography>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+                        {ozellikler.map((ozellik, index) => (
+                            <div key={ozellik.id} style={{ 
+                                flex: '0 1 calc(33.3333% - 20px)',
+                                marginBottom: '10px',
+                                backgroundColor: '#fff',
+                                border: '1px solid #ddd',
+                                borderRadius: '4px',
+                                padding: '10px',
+                                boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={ozellik.durum}
+                                            onChange={() => handleOzellikCheckboxChange(index)}
+                                            style={{ padding: '0 10px' }}
+                                        />
+                                    }
+                                    label={ozellik.name}
+                                />
+                                {/* Buraya istediğiniz ekstra içerik veya mesaj ekleyebilirsiniz */}
+                            </div>
                         ))}
-                    </Select>
+                    </div>
+                </div>
+
+
+                <FormControl fullWidth margin="normal">
+                  <InputLabel style={{ marginBottom: '8px', marginTop: '-10px' }}>
+                    Kategori
+                  </InputLabel>
+                  <Select
+                    value={selectedKategori ? selectedKategori.id : ''} // selectedKategori varsa id'sini göster, yoksa boş
+                    onChange={(e) => {
+                      const selected = urunKategoriler.find(
+                        (kategori) => kategori.id === e.target.value
+                      );
+                      setSelectedKategori(selected || {}); // Seçilen kategori objesini state'e kaydet
+                    }}
+                    renderValue={(selected) => {
+                      if (selected) {
+                        const kategori = urunKategoriler.find(
+                          (kategori) => kategori.id === selected
+                        );
+                        return kategori ? kategori.baslik : 'Seçim Yapılmadı'; // Başlık ya da boş bir seçenek göster
+                      }
+                      return 'Seçim Yapılmadı'; // Seçim yapılmadıysa bu mesajı göster
+                    }}
+                  >
+                    {urunKategoriler.map((kategori) => (
+                      <MenuItem key={kategori.id} value={kategori.id}>
+                        {kategori.baslik} {/* Kategori başlığını göster */}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </FormControl>
+
 
                 <FormControl fullWidth margin="normal">
                     <InputLabel shrink htmlFor="vitrin-select" style={{ marginBottom: '8px', marginTop: '-10px' }}>Vitrin</InputLabel>
                     <Select
                         displayEmpty
-                        value={selectedVitrin}
-                        onChange={(e) => setSelectedVitrin(e.target.value)}
+                        value={selectedVitrin.id}
+                        onChange={(e) => {
+                            const selectedVitrinData = urunVitrin.find(kategori => kategori.id === e.target.value);
+                            setSelectedVitrin(selectedVitrinData || { id: null, baslik: '' });
+                        }}
                         inputProps={{ 'aria-label': 'Without label' }}
                         renderValue={
-                            selected => !selected ? <>Seçim Yapılmadı</> : urunVitrin.find(k => k.id === selected)?.baslik || 'Bulunamadı'
+                            selected => !selected ? <>Seçim Yapılmadı</> : selectedVitrin.baslik || 'Bulunamadı'
                         }
                         id="vitrin-select"
                     >
@@ -1086,13 +1188,14 @@ export default function FotoGaleri() {
 
 
 
+
                 <FormControlLabel control={<Checkbox checked={selectedItem ? selectedItem.durum : false} onChange={(e) => setSelectedItem({ ...selectedItem, durum: e.target.checked })} />} label="Aktif" />
               </DialogContent>
               {saveError && <p style={{ color: 'red', marginLeft: '25px' }}>{saveError}</p>}
               {uyariMesaji && <p style={{ color: 'red', marginLeft: '25px' }}>{uyariMesaji}</p>}
 
               <DialogActions>
-                  <Button onClick={() => handleSave(selectedItem,selectedKategori,selectedVitrin)} color="primary" disabled={isSaving}>
+                  <Button onClick={() => handleSave(selectedItem,selectedVitrin,selectedKategori)} color="primary" disabled={isSaving}>
                     {isSaving ? <CircularProgress size={24} /> : "Kaydet"}
                   </Button>
               </DialogActions>
@@ -1191,12 +1294,18 @@ export default function FotoGaleri() {
             endAdornment: <InputAdornment position="end">TL</InputAdornment>,
         }}
         />
+
+
+           {/* editor ekleme */}
         
-        <TextEditor
-            value={newItem.aciklama || ''}
-            onChange={(newContent) => setNewItem({...newItem, aciklama: newContent})}
-            style={{ width: '100%' }} // TextEditor bileşeninin genişliğini tam ekran genişliğe ayarlayın
-          />
+        {newItem && (
+              <>
+                <Typography variant="subtitle1" style={{ marginBottom: '10px', marginTop:'10px'}}>
+                  Açıklama (isteğe bağlı):
+                </Typography>
+                <TextEditorTipTap selectedItem={newItem} setSelectedItem={setNewItem}/>
+              </>
+            )}
 
 
 
@@ -1259,7 +1368,7 @@ export default function FotoGaleri() {
                 <Typography variant="h6" gutterBottom style={{ marginBottom: '15px', textAlign: 'center', fontWeight: 'bold', color: '#555' }}>Bedenler</Typography>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
                     {bedenler.map((beden, index) => (
-                        <div key={beden.id} style={{ 
+                        <div key={index} style={{ 
                             flex: '0 1 calc(33.3333% - 20px)',
                             marginBottom: '10px',
                             backgroundColor: '#fff',
@@ -1288,45 +1397,96 @@ export default function FotoGaleri() {
             </div>
 
 
-       
-        
-
-            <FormControl fullWidth margin='normal'>
-                <InputLabel style={{ marginBottom: '8px', marginTop: '-10px' }}>Kategori</InputLabel>
-                <Select
-                    value={selectedKategori}
-                    onChange={(e) => setSelectedKategori(e.target.value)}
-                >
-                    {urunKategoriler.map((kategori) => (
-                    <MenuItem key={kategori.id} value={kategori.id}>
-                        {kategori.baslik}
-                    </MenuItem>
+            <div style={{ margin: '20px 0', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+                <Typography variant="h6" gutterBottom style={{ marginBottom: '15px', textAlign: 'center', fontWeight: 'bold', color: '#555' }}>Renkler</Typography>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+                    {ozellikler.map((ozellik, index) => (
+                        <div key={index} style={{ 
+                            flex: '0 1 calc(33.3333% - 20px)',
+                            marginBottom: '10px',
+                            backgroundColor: '#fff',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            padding: '10px',
+                            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={ozellik.durum}
+                                        onChange={() => handleOzellikCheckboxChange(index)}
+                                        style={{ padding: '0 10px' }}
+                                    />
+                                }
+                                label={ozellik.name}
+                            />
+                            {/* Buraya istediğiniz ekstra içerik veya mesaj ekleyebilirsiniz */}
+                        </div>
                     ))}
-                </Select>
-            </FormControl>
+                </div>
+            </div>
+
 
             <FormControl fullWidth margin="normal">
-                <InputLabel shrink htmlFor="vitrin-select" style={{ marginBottom: '8px', marginTop: '-10px' }}>Vitrin</InputLabel>
-                <Select
-                    displayEmpty
-                    value={selectedVitrin}
-                    onChange={(e) => setSelectedVitrin(e.target.value)}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    renderValue={
-                        selected => selected === "" ? <>Seçim Yapılmadı</> : urunVitrin.find(k => k.id === selected)?.baslik || 'Bulunamadı'
-                    }
-                    id="vitrin-select"
-                >
-                    <MenuItem value="" >
-                        <>Seçim Yapılmadı</>
-                    </MenuItem>
-                    {urunVitrin.map((kategori) => (
-                        <MenuItem key={kategori.id} value={kategori.id}>
-                            {kategori.baslik}
-                        </MenuItem>
-                    ))}
-                </Select>
+              <InputLabel style={{ marginBottom: '8px', marginTop: '-10px' }}>
+                Kategori
+              </InputLabel>
+              <Select
+                value={selectedKategori?.id || ''} // Ensure the value is always defined
+                onChange={(e) => {
+                  const selected = urunKategoriler.find(
+                    (kategori) => kategori.id === e.target.value
+                  );
+                  setSelectedKategori(selected || {}); // Set the selected category object
+                }}
+                renderValue={(selected) => {
+                  const kategori = urunKategoriler.find((kategori) => kategori.id === selected);
+                  return kategori ? kategori.baslik : 'Seçim Yapılmadı'; // Display category title or default message
+                }}
+              >
+                {urunKategoriler.map((kategori) => (
+                  <MenuItem key={kategori.id} value={kategori.id}>
+                    {kategori.baslik} {/* Display category title */}
+                  </MenuItem>
+                ))}
+              </Select>
             </FormControl>
+
+
+
+            <FormControl fullWidth margin="normal">
+                <InputLabel shrink htmlFor="vitrin-select" style={{ marginBottom: '8px', marginTop: '-10px' }}>
+                  Vitrin
+                </InputLabel>
+                <Select
+                  displayEmpty
+                  value={selectedVitrin?.id || ''} // Eğer selectedVitrin varsa id değerini göster, yoksa boş bırak
+                  onChange={(e) => {
+                    const selected = urunVitrin.find((kategori) => kategori.id === e.target.value);
+                    setSelectedVitrin(selected || {}); // Seçilen vitrini obje olarak kaydet
+                  }}
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  renderValue={(selected) => {
+                    if (!selected) return <>Seçim Yapılmadı</>; // Eğer seçim yapılmamışsa
+                    const kategori = urunVitrin.find((k) => k.id === selected);
+                    return kategori ? kategori.baslik : 'Bulunamadı'; // Seçilen başlık ya da 'Bulunamadı'
+                  }}
+                  id="vitrin-select"
+                >
+                  <MenuItem value="">
+                    <>Seçim Yapılmadı</>
+                  </MenuItem>
+                  {urunVitrin.map((kategori) => (
+                    <MenuItem key={kategori.id} value={kategori.id}>
+                      {kategori.baslik} {/* Vitrin başlığını göster */}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
 
 
 
