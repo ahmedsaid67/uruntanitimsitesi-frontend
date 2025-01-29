@@ -206,7 +206,7 @@
 .productContainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 1rem;
   margin-top: 2rem;
 

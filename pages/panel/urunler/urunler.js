@@ -47,7 +47,7 @@ export default function Urunler() {
     const [selectedKategori, setSelectedKategori] = useState({});
 
     const [urunVitrin, setUrunVitrin] = useState([]);
-    const [selectedVitrin, setSelectedVitrin] = useState({});
+    const [selectedVitrin, setSelectedVitrin] = useState({ id: null, baslik: '' });
 
     const [bedenler,setBedenler] = useState([])
     const [ozellikler,setOzellikler] = useState([])
@@ -838,7 +838,7 @@ export default function Urunler() {
                           <TableCell style={{ fontSize: '0.75rem', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             <Tooltip title={row.vitrin_kategori ? row.vitrin_kategori.baslik : 'Mevcut Değil'} placement="top">
                               <span>
-                                {truncateText(row.vitrin_kategori ? row.vitrin_kategori.baslik : 'Mevcut Değil', 20)}
+                                {truncateText(row.vitrin_kategori?.id ? row.vitrin_kategori.baslik : 'Mevcut Değil', 20)}
                               </span>
                             </Tooltip>
                           </TableCell>
@@ -1163,27 +1163,27 @@ export default function Urunler() {
                 <FormControl fullWidth margin="normal">
                     <InputLabel shrink htmlFor="vitrin-select" style={{ marginBottom: '8px', marginTop: '-10px' }}>Vitrin</InputLabel>
                     <Select
-                        displayEmpty
-                        value={selectedVitrin.id}
-                        onChange={(e) => {
-                            const selectedVitrinData = urunVitrin.find(kategori => kategori.id === e.target.value);
-                            setSelectedVitrin(selectedVitrinData || { id: null, baslik: '' });
-                        }}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        renderValue={
-                            selected => !selected ? <>Seçim Yapılmadı</> : selectedVitrin.baslik || 'Bulunamadı'
-                        }
-                        id="vitrin-select"
-                    >
-                        <MenuItem value="" >
-                            <>Seçim Yapılmadı</>
-                        </MenuItem>
-                        {urunVitrin.map((kategori) => (
-                            <MenuItem key={kategori.id} value={kategori.id}>
-                                {kategori.baslik}
-                            </MenuItem>
-                        ))}
-                    </Select>
+    displayEmpty
+    value={selectedVitrin.id || ''}
+    onChange={(e) => {
+        const selectedVitrinData = urunVitrin.find(kategori => kategori.id === e.target.value);
+        setSelectedVitrin(selectedVitrinData || { id: '', baslik: '' });
+    }}
+    inputProps={{ 'aria-label': 'Without label' }}
+    renderValue={
+        selected => !selected ? <>Seçim Yapılmadı</> : selectedVitrin.baslik || 'Bulunamadı'
+    }
+    id="vitrin-select"
+>
+    <MenuItem value="">
+        <>Seçim Yapılmadı</>
+    </MenuItem>
+    {urunVitrin.map((kategori) => (
+        <MenuItem key={kategori.id} value={kategori.id}>
+            {kategori.baslik}
+        </MenuItem>
+    ))}
+</Select>
                 </FormControl>
 
 
