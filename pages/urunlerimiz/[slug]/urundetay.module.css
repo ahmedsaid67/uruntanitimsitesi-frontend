@@ -545,25 +545,28 @@ transition: background-color 0.3s;
 
   .styleContainer {
     flex-wrap: wrap;
-    width: 100%;
-    margin-top: 1rem;
+    width: calc(100% - 1rem); /* 0.5rem sol ve sağ margin için toplam 1rem çıkarıyoruz */
+    margin: 1rem 0.5rem;
     position: relative;
     margin-bottom: 3.5rem;
   }
 
-  
-  
-  .detailText{
-    font-size: 1.3rem;
+  .imgContainer {
+    width: 100%;
+    padding: 0;
   }
 
-  .detailContainer{
+  .mainImages {
+    width: 100%;
+    margin: 0;
+  }
+
+  .detailContainer {
     width: 100%;
     margin-left: 0;
     overflow-y: none;
     height: auto;
     align-items: flex-start;
-    padding: 0 0.5rem;
   }
 
   .detailContent{
@@ -582,28 +585,16 @@ transition: background-color 0.3s;
     display: none;
   }
 
-
-
-
   .imgContainer {
-    width: 95%;
-    min-width: auto;
-    margin: 0 auto;
-    height: auto;
-    margin-bottom: 1rem;
-    position: relative;
+    width: 100%;
+    padding: 0;
   }
 
   .mainImages {
     width: 100%;
-    min-width: 0;
-    height: auto;
     margin: 0;
-    border: 1px solid rgba(194, 211, 7, 0);
-    display: flex;
-    background-color: rgba(255, 0, 0, 0);
   }
-  
+
   .mainImage {
     width: 100%;
     height: auto;
