@@ -3,7 +3,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 1rem 2%;
+    margin: 1rem 2rem;
     min-height: 100vh;
   }
   
@@ -120,7 +120,7 @@
         align-items: center;
         justify-content: center;
         text-decoration: none;
-        color: inherit; /* İkonların rengini ayarlayın */
+        color: rgb(29,29,31); /* İkonların rengini ayarlayın */
     }
     
     .iconSosyal {

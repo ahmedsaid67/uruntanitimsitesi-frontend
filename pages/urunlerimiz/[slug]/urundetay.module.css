@@ -1,31 +1,76 @@
-.styleContainer{
-    width: 80%;
-    display: flex;
-    margin: 0 auto;
-    justify-content: center;
-    margin-top: 3em;
-    margin-bottom: 5em;
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 2rem;
+  overflow: hidden; /* İçeriğin taşmasını engeller */
+}
 
+.siteMap {
+  height: auto; /* Yüksekliği otomatik olarak ayarlar */
+  display: flex;
+  align-items: center; /* Dikey hizalama */
+  gap: 0.5rem; /* Öğeler arasındaki boşluk */
+  flex-wrap: wrap; /* Öğelerin gerektiğinde alt satıra geçmesini sağlar */
+}
+
+.mapText {
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none; /* Linklerin alt çizgisini kaldırır */
+  color: #333333;
+  white-space: normal; /* Metnin gerektiğinde satırlara kırılmasına izin verir */
+  word-wrap: break-word; /* Uzun kelimelerin alt satıra geçmesini sağlar */
+  word-break: break-word; /* Uzun kelimelerin alt satıra geçmesini sağlar */
+  line-height: 1.3;
+}
+
+.activeText {
+  font-size: 0.8rem; /* Daha büyük boyut */
+  font-weight: 700; /* Daha kalın font */
+  color: rgb(29,29,31); /* Vurgulu renk */
+  line-height: 1.3; /* Satır arası boşluk artırılır */
+  word-wrap: break-word; /* Uzun kelimelerin alt satıra geçmesini sağlar */
+  word-break: break-word; /* Uzun kelimelerin alt satıra geçmesini sağlar */
+  white-space: normal; /* Bu, metnin gerektiğinde satırları kırmasına izin verir */
+  margin: 0;
+}
+
+.mapText:hover {
+  color: rgb(29,29,31); /* Hover rengini vurgulu yap */
+}
+
+.icon {
+  font-size: 0.8rem; /* Slash veya ikon boyutu */
+  color: #333333; /* Daha yumuşak bir renk */
+}
+
+
+.styleContainer{
+  width: 80%;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 7rem;
 }
 
 
 .imgContainer {
-    width: 50%;
-    height: auto;
-    max-height: var(--IMG-H);
-    display: flex;
-    flex-direction: row;
+  width: 50%;
+  height: auto;
+  max-height: var(--IMG-H);
+  display: flex;
+  flex-direction: row;
 }
 
 .detailContainer {
-    width: 35%;
-    display: flex;
-    height: auto;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 3.2rem;
-    border: 1px solid rgba(30, 38, 192, 0);
-    
+  width: 35%;
+  display: flex;
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 3.2rem;
+  border: 1px solid rgba(30, 38, 192, 0);
 }
 
 .detailContent{
@@ -34,810 +79,808 @@
   position: sticky; 
   top: 110px; /* Adjust the top offset as needed */
   padding: 10px; /* Optional: Adjust padding as necessary */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-  
+
 .altImages {
-    margin-right: 1em;
-    position: relative;
-    gap: 0.75em;
-    display: flex;
-    flex-direction: column;
-    width: 10%;
-    min-width: 100px;
-    max-height: 100vh; /* Set a maximum height */
-    border: 1px solid rgba(255, 0, 0, 0);
-    cursor: grab;
-    overflow-y: none; /* Enable vertical scrolling */
-  }
-  
-  
+  margin-right: 1em;
+  position: relative;
+  gap: 0.75em;
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  min-width: 100px;
+  max-height: 100vh; /* Set a maximum height */
+  border: 1px solid rgba(255, 0, 0, 0);
+  cursor: grab;
+  overflow-y: none; /* Enable vertical scrolling */
+}
+
+
 .altImage {
-    width: 100%;
-    margin-bottom: 1em;
-    height: 100%;
-    display: block;
+  width: 100%;
+  margin-bottom: 1em;
+  height: 100%;
+  display: block;
 
 }
 
 .slider .altImage:last-child {
-  margin-bottom: 20px; /* İstediğiniz margin değerini buraya yazabilirsiniz */
+margin-bottom: 20px; /* İstediğiniz margin değerini buraya yazabilirsiniz */
 }
-  
+
 .altImage.active {
-    border: 2px solid darkblue;
+  border: 2px solid darkblue;
 }
-  
+
 .mainImages {
-    width: 100%;
-    height: auto;
-    margin: 0;
-    border: 1px solid rgba(194, 211, 7, 0);
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(255, 0, 0, 0);
-    overflow: hidden;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border: 1px solid rgba(194, 211, 7, 0);
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 0, 0, 0);
+  overflow: hidden;
 
 
 }
-  
+
 .mainImage {
-    object-fit: cover;
-    height: 100%;
+  object-fit: cover;
+  height: 100%;
 
 }
 .mainImage:hover{
-  cursor: pointer;
+cursor: pointer;
 }
 
 
 .detailText {
-    margin: 0;
-    border: 1px solid rgba(2, 14, 248, 1);
-    font-size: 2.5rem;
-    text-align: start;
-    margin-top: 0;
-}
-.detailDescription {
-    background-color: #cf2323;
-  }
-
-.detailContainer p {
-    line-height: 1em;
+  margin: 0;
+  font-size: 2.5rem;
+  text-align: start;
+  margin-top: 0;
+  font-weight: 600;
+  line-height: 1em;
 }
 
 
+.detailDescription{
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
 
-
+.smallBaslik{
+  font-size: 1rem;
+}
 
 
 .detailPrice {
-    color: black;
-    border: 1px solid rgba(2, 14, 248, 0);
-    text-align: start;
-    font-size: 1.5em;
-    margin-top: 1em;
+  text-align: start;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
 }
 
 .detailPrice::after{
-    content: " TL";
+  content: " TL";
 }
 
 .boxContainer {
   display: flex;
   flex-wrap: wrap; /* Kutuların yeni satıra geçmesine izin verir */
-  gap: 10px; /* Her kutu arasında 10px boşluk bırakır */
-  margin-top: 2em;
+  gap: 1rem; /* Her kutu arasında 10px boşluk bırakır */
   justify-content: flex-start; /* Kutuları yatay olarak ortalar */
   align-items: center;
   text-align:center;
-  border-radius: 10px; /* Köşeleri yuvarlatır */
+  
 }
 
 .box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: #1c3a5a; /* Kutuların arka plan rengi */
-  color: whitesmoke; /* Kutuların içindeki yazının rengi */
-  font-size: 1.2em; /* Yazı boyutu */
-  border-radius: 5px; /* Köşeleri yuvarlatır */
-  cursor: pointer; /* Fare imlecini işaretçiye çevirir */
+display: flex;
+align-items: center;
+justify-content: center;
+height: 2.5rem;
+border: 0.075rem solid rgb(29, 29, 31); /* Kenarlık ekleme */
+font-size: 1rem; /* Yazı boyutu */
+border-radius: 0.25rem; /* Köşeleri yuvarlatır */
+padding: 0 1rem;
+color: #fff;
+background-color: rgb(29, 29, 31);
 }
 
 .ozellikContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-start;
-  align-items: center;
+display: flex;
+flex-wrap: wrap;
+gap: 1rem;
+justify-content: flex-start;
+align-items: center;
 }
 
 .ozellikItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5em;
-  background-color: #2e343a;
-  color: rgb(255, 255, 255);
-  font-size: 1em;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 2.5rem;
+padding: 0 1rem;
+border: 0.075rem solid rgb(29, 29, 31); /* Kenarlık ekleme */
+font-size: 1rem;
+border-radius: 0.25rem;
+cursor: pointer;
+transition: background-color 0.3s ease;
 }
 
-.ozellikItem:hover {
-  background-color: #2e5077;
-}
 
-@media screen and (max-width: 576px) {
-  .ozellikItem {
-    font-size: 0.8em;
-    padding: 8px 12px;
-  }
-}
 
-@media (min-width: 577px) and (max-width: 768px) {
-  .ozellikItem {
-    font-size: 0.9em;
-    padding: 9px 13px;
-  }
+.errorContainer{
+  margin: 1rem 2rem;
+  min-height: 90vh;
 }
-
 /* Error and Info Messages */
 .errorMessage {
-    color: #ff0000;
-    font-size: 18px;
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #ff0000;
-    margin: 20px auto;
-    background-color: #ffcccc;
-    max-width: 90%; /* Adjusted for smaller screens */
-  }
-  
-  .infoMessage {
-    color: white;
-    font-size: 18px;
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #2e5077;
-    margin: 20px auto;
-    max-width: 90%; /* Adjusted for smaller screens */
-  }
-  .placeholder {
-    width: 100%;
-    height: 120vh; /* Varsayılan yükseklik, ihtiyaca göre ayarlayın */
-    background: #fff;
-  
-  }
-  
-  .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100vh;
-  }
-  .loadImage{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .loadSlider{
-    height: 50vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .noDataMessage {
-    text-align: center;
-    padding: 20px;
-    font-size: 18px;
-    background-color: #2e5077;
-    color: white;
-    border-radius: 8px;
-    margin: 20px auto;
-    max-width: 80%;
-  }
+  font-size: 1.3rem;
+  text-align: start;
+}
+
+.returnButton {
+  display: inline-block;
+  font-size: 1.1rem;
+  background-color: #1D64F2; /* Hover etkisi */
+  color: #ffffff; /* Beyaz renkli metin */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid #1D64F2;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.infoMessage {
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #2e5077;
+  margin: 20px auto;
+  max-width: 90%; /* Adjusted for smaller screens */
+}
+.placeholder {
+  width: 100%;
+  height: 120vh; /* Varsayılan yükseklik, ihtiyaca göre ayarlayın */
+  background: #fff;
+
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+}
+.loadImage{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loadSlider{
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noDataMessage {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  background-color: #2e5077;
+  color: white;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 80%;
+}
 
 
 
 /* rowDot style */
 
 .rowDotContainer {
-  display: none;
-  position:absolute;
-  gap: 4px; /* Space between dots */
-  left: 50%;
- 
-  transform: translateX(-50%);
-  z-index: 3; /* Ensure this is higher than images */
+display: none;
+position:absolute;
+gap: 4px; /* Space between dots */
+left: 50%;
+
+transform: translateX(-50%);
+z-index: 3; /* Ensure this is higher than images */
 }
 
 .rowDot {
-  width: 10px;
-  height: 10px;
-  background-color: rgb(146, 133, 133);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s;
+width: 10px;
+height: 10px;
+background-color: rgb(146, 133, 133);
+border-radius: 50%;
+cursor: pointer;
+transition: background-color 0.3s;
 }
-  
-  .rowDot:hover {
-    background: rgb(255, 249, 249);
-  }
-  
-  
-  .rowDot.active {
-    background-color: whitesmoke;
-  }
-  
-  
-  
-  /* rowDot end */
+
+.rowDot:hover {
+  background: rgb(255, 249, 249);
+}
 
 
-
-/* popup */
+.rowDot.active {
+  background-color: whitesmoke;
+}
 
 
 
 
 .popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1020;
-  }
-  
-  .popupContent {
-    position: flex;
-    padding: 20px;
-    background-color: rgb(255, 255, 255);
-    height: 100vh;
-    width: 100%;
-    z-index: 1021;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .popImage{
-    height: 100%;
-    width: 50%;
-    object-fit: contain;
-    min-width: 350px; 
-    border: 1px solid green;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1020;
+}
 
-  
-  .magnifier{
-    position: fixed;
-    width: 200px; /* Büyüteç boyutu */
-    height: 200px; /* Büyüteç boyutu */
-    border: 2px solid #000;
-    overflow: hidden;
-    pointer-events: none;
-    cursor: none;
-  }
-  
-  .magnifierImage{
-    width: 200px;
-    height: 200px;
-    border: 2px solid #fff;
-  }
-  
-  
-  .hoverCont {
-    pointer-events: none; /* Bu, container'ın mouse ile etkileşimini engeller */
-  }
-  
-  
-  
-  .closeButton {
-    position: absolute;
-    top: 1%;
-    right: 3%;
-    font-size: 2.5em;
-    cursor: pointer;
-    color: black;
-  }
-  
-  .imgGlass{
-    position: absolute;
-    border: 3px solid #000;
-    border-radius: 50%;
-    cursor: none;
-    /*Set the size of the magnifier glass:*/
-    width: 100px;
-    height: 100px;
-  }
-  
-  .leftArrow, .rightArrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    border-radius: 50px;
-    padding: 10px 15px;
-    z-index: 5000;
-    border-style:double;
-  }
+.popupContent {
+  position: flex;
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  height: 100vh;
+  width: 100%;
+  z-index: 1021;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
-  .leftArrow:hover{
-    cursor: pointer;
-  }
-  .rightArrow:hover{
-    cursor: pointer;
-  }
-  
-  .leftArrow {
-    left: 10px;
-  }
-  
-  .rightArrow {
-    right: 10px;
-  }
-  
-  /* popup end */
-  
-  /* altImages slider */
+.popImage{
+  height: 100%;
+  width: 50%;
+  object-fit: contain;
+  min-width: 350px; 
+  border: 1px solid green;
+}
+
+
+.magnifier{
+  position: fixed;
+  width: 200px; /* Büyüteç boyutu */
+  height: 200px; /* Büyüteç boyutu */
+  border: 2px solid #000;
+  overflow: hidden;
+  pointer-events: none;
+  cursor: none;
+}
+
+.magnifierImage{
+  width: 200px;
+  height: 200px;
+  border: 2px solid #fff;
+}
+
+
+.hoverCont {
+  pointer-events: none; /* Bu, container'ın mouse ile etkileşimini engeller */
+}
+
+
+
+.closeButton {
+  position: absolute;
+  top: 1%;
+  right: 3%;
+  font-size: 2.5em;
+  cursor: pointer;
+  color: black;
+}
+
+.imgGlass{
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px;
+}
+
+.leftArrow, .rightArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  border-radius: 50px;
+  padding: 10px 15px;
+  z-index: 5000;
+  border-style:double;
+}
+
+.leftArrow:hover{
+  cursor: pointer;
+}
+.rightArrow:hover{
+  cursor: pointer;
+}
+
+.leftArrow {
+  left: 10px;
+}
+
+.rightArrow {
+  right: 10px;
+}
+
+/* popup end */
+
+/* altImages slider */
 
 .newSlider {
-    margin-top: 2em;
-    
+  margin-top: 2em;
+  
+}
+
+.newSlider p{
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
+/* Arrow styles */
+.prevArrow,
+.nextArrow {
+  position: sticky;
+  display: flex;
+  color: #1c3a5a95;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 50px;
+  font-size: 2.5em;
+  
+  
+}
+
+
+.nextArrow{
+  bottom: 10px;
+}
+
+
+
+.altImage:hover .prevArrow,
+.altImage:hover .nextArrow {
+  opacity: 1;
+}
+
+.slickprev, .slicknext {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin: auto;
+  background-color: rgba(28, 58, 90, 0.6);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.altImages:hover .slicknext,
+.altImages:hover .slickprev {
+  opacity: 1;
+}
+
+.slickprev {
+  top: 0; /* Arrow konumunu ayarlayın */
+  left: 50%; /* Arrow konumunu ayarlayın */
+  transform: translateX(-50%);
+}
+
+.slicknext {
+  bottom: 35px; /* Arrow konumunu ayarlayın */
+  left: 50%; /* Arrow konumunu ayarlayın */
+  transform: translateX(-50%);
+}
+
+ /* altImages slider end */
+
+
+ 
+@media (max-width: 768px) {
+  .ozellikItem {
+    font-size: 0.9rem;
+    height: 2rem;
+    border-radius: 0.25rem;
   }
   
-  .newSlider p{
-    font-weight: bold;
-    text-align: center;
+  .detailDescription{
+    font-size: 0.9rem;
+    line-height: 1.3rem;
   }
   
+  .container {
+    margin: 1rem 0.5rem;
+    margin-bottom: 0;
+  }
   
+  .siteMap {
+    gap: 0.2rem; /* Öğeler arasındaki boşluk */
+  }
   
-  /* Arrow styles */
-  .prevArrow,
-  .nextArrow {
-    position: sticky;
-    display: flex;
-    color: #1c3a5a95;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 50px;
-    font-size: 2.5em;
-    
-    
+  .mapText {
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.2;
+  }
+  
+  .icon {
+      font-size: 0.75rem; /* Slash veya ikon boyutu */
+  }
+  
+  .activeText {
+      font-size: 0.75rem; /* Daha büyük boyut */
+      font-weight: 700;
+      line-height: 1.2;
+  }
+
+  .styleContainer {
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 1rem;
+    position: relative;
+    margin-bottom: 3.5rem;
   }
 
   
-  .nextArrow{
-    bottom: 10px;
-  }
   
-  
-  
-  .altImage:hover .prevArrow,
-  .altImage:hover .nextArrow {
-    opacity: 1;
+  .detailText{
+    font-size: 1.3rem;
   }
 
-  .slickprev, .slicknext {
-    position: absolute;
-    z-index: 1000;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    margin: auto;
-    background-color: rgba(28, 58, 90, 0.6);
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    color: white;
-    cursor: pointer;
-    opacity: 0;
+  .detailContainer{
+    width: 100%;
+    margin-left: 0;
+    overflow-y: none;
+    height: auto;
+    align-items: flex-start;
+    padding: 0 0.5rem;
   }
-  
-  .altImages:hover .slicknext,
-  .altImages:hover .slickprev {
-    opacity: 1;
-  }
-  
-  .slickprev {
-    top: 0; /* Arrow konumunu ayarlayın */
-    left: 50%; /* Arrow konumunu ayarlayın */
-    transform: translateX(-50%);
-  }
-  
-  .slicknext {
-    bottom: 35px; /* Arrow konumunu ayarlayın */
-    left: 50%; /* Arrow konumunu ayarlayın */
-    transform: translateX(-50%);
-  }
-  
-   /* altImages slider end */
 
+  .detailContent{
+    padding: 0; /* Optional: Adjust padding as necessary */
+  }
 
+  .smallBaslik{
+    font-size: 0.9rem;
+  }
+  
+  }
 
 
 @media screen and (max-width: 576px) {
-    .altImage, .altImages {
-      display: none;
-    }
-  
-    .detailContainer {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 0;
-      overflow-y: none;
-      height: auto;
-    }
-
-    .detailText{
-      font-size: 1.4em;
-    }
-
-    .detailPrice{
-      font-size: 1em;
-    }
-  
-    .styleContainer {
-      width: 100%;
-      flex-wrap: wrap;
-      margin-top: 1em;
-    }
-  
-    .imgContainer {
-      width: 95%;
-      min-width: auto;
-      margin: 0 auto;
-      height: auto;
-      margin-bottom: 1em;
-      position: relative;
-    }
-  
-    .mainImages {
-      width: 100%;
-      min-width: 0;
-      height: auto;
-      margin: 0;
-      border: 1px solid rgba(194, 211, 7, 0);
-      display: flex;
-      background-color: rgba(255, 0, 0, 0);
-    }
-    
-    .mainImage {
-      width: 100%;
-      height: auto;
-      min-height: max-content;
-      position: relative;
-    }
-    
-    .rowDotContainer {
-      display: flex;
-      position: absolute;
-      left: 50%;
-      bottom: 10px; /* Adjust this value to position the dots slightly above the bottom edge */
-      transform: translateX(-50%);
-      z-index: 3; /* Ensure this is higher than images */
-    }
-    
-    .popImage{
-        object-fit: cover;
-    }
-
-    .detailContainer{
-      align-items: flex-start;
-      margin-top: 0;
-    }
-    .detailText{
-      margin-top: 0;
-    }
-    .detailPrice{
-      text-align: start;
-    }
-
-    .styleContainer{
-      margin-bottom: 3.5em;
-    }
-
-    .boxContainer {
-      margin-top: 1.5em;
-    }
-    
-    .box {
-      width: 30px;
-      height: 30px;
-      font-size: 1em; /* Yazı boyutu */
-    }
-    
+  .altImage, .altImages {
+    display: none;
+  }
 
 
 
+
+  .imgContainer {
+    width: 95%;
+    min-width: auto;
+    margin: 0 auto;
+    height: auto;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .mainImages {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    border: 1px solid rgba(194, 211, 7, 0);
+    display: flex;
+    background-color: rgba(255, 0, 0, 0);
   }
   
+  .mainImage {
+    width: 100%;
+    height: auto;
+    min-height: max-content;
+    position: relative;
+  }
   
+  .rowDotContainer {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    bottom: 10px; /* Adjust this value to position the dots slightly above the bottom edge */
+    transform: translateX(-50%);
+    z-index: 3; /* Ensure this is higher than images */
+  }
   
-  
-  @media (min-width: 577px) and (max-width: 768px) {
-    .altImage, .altImages {
-      display: none;
-    }
-  
-    .detailContainer {
-      width: 100%;
-      margin-left: 0;
-      overflow-y: none;
-      height: auto;
-    }
-    .detailText{
-      font-size: 1.1em;
-    }
-
-    .detailPrice{
-      font-size: 1.1em;
-    }
-  
-    .styleContainer {
-      flex-wrap: wrap;
-      width: 100%;
-      margin-top: 2em;
-      position: relative;
-    }
-  
-    .imgContainer {
-      width: 98%;
-      min-width: auto;
-      height: auto;
-      max-height: fit-content;
-      margin-bottom: 1em;
-    }
-  
-    .mainImages {
-      width: 100%;
-      min-width: 0;
-      height: auto;
-      margin: 0;
-      border: 1px solid rgba(194, 211, 7, 0);
-      display: flex;
-      
-      background-color: rgba(255, 0, 0, 0);
-    }
-  
-    .mainImage {
-      width: 100%;
-      height: auto;
+  .popImage{
       object-fit: cover;
-    }
-  
-    .mainImage Image{
-      display: none;
-    }
-  
-    .rowDotContainer {
-      display: flex;
-      bottom: 200px;
-    }
-    .popImage{
-        width: 100%;
-    }
-    .detailContainer{
-      align-items: flex-start;
-      margin-top: 0;
-    }
-    .detailText{
-      margin-top: 0;
-    }
-    .detailPrice{
-      text-align: start;
-    }.styleContainer{
-      margin-bottom: 3.5em;
-    }
-    .boxContainer {
-      margin-top: 1.7em;
-    }
-    
-    .box {
-      width: 35px;
-      height: 35px;
-      font-size: 1.2em; /* Yazı boyutu */
-    }
+  }
 
+
+  .detailPrice{
+    text-align: start;
+    font-size: 1.1rem;
+  }
+
+
+  
+  .box {
+    height: 2rem;
+    font-size: 0.9rem; /* Yazı boyutu */
+    border-radius: 0.25rem;
+  }
+
+
+}
+
+
+
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .altImage, .altImages {
+    display: none;
+  }
+
+  .detailPrice{
+    font-size: 1.1em;
+  }
+
+  
+
+  .imgContainer {
+    width: 98%;
+    min-width: auto;
+    height: auto;
+    max-height: fit-content;
+    margin-bottom: 1rem;
+  }
+
+  .mainImages {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    border: 1px solid rgba(194, 211, 7, 0);
+    display: flex;
+    background-color: rgba(255, 0, 0, 0);
+  }
+
+  .mainImage {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .mainImage Image{
+    display: none;
+  }
+
+  .rowDotContainer {
+    display: flex;
+    bottom: 200px;
+  }
+  .popImage{
+      width: 100%;
+  }
+
+  .detailPrice{
+    text-align: start;
+  }
+  .boxContainer {
+    margin-top: 1.7em;
   }
   
-  
-  
-  
-  
-  @media (min-width: 768px) and (max-width: 900px) {
-    .detailContainer {
-      width: 100%;
-      margin-left: 0;
-      overflow-y: none;
-      height: auto;
-    }
-  
-    .styleContainer {
-      flex-wrap: wrap;
-    }
-  
-    .imgContainer {
-      width: 100%;
-      min-width: auto;
-      margin-bottom: 2em;
-      max-height:1200px;
-    }
-  
-    .mainImages {
-      width: 100%;
-      min-width: 0;
-      height: auto;
-      margin: 0;
-      border: 1px solid rgba(194, 211, 7, 0);
-      display: flex;
-      flex-direction: column;
-      background-color: rgba(255, 0, 0, 0);
-    }
-  
-    .mainImage {
-      width: 100%;
-      height: auto;
-      min-height: 1200px;
+  .box {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2em; /* Yazı boyutu */
+  }
+
+}
+
+
+
+
+
+@media (min-width: 768px) and (max-width: 900px) {
+  .detailContainer {
+    width: 100%;
+    margin-left: 0;
+    overflow-y: none;
+    height: auto;
+  }
+
+  .styleContainer {
+    flex-wrap: wrap;
+  }
+
+  .imgContainer {
+    width: 100%;
+    min-width: auto;
+    margin-bottom: 2em;
+    max-height:1200px;
+  }
+
+  .mainImages {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    border: 1px solid rgba(194, 211, 7, 0);
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 0, 0, 0);
+  }
+
+  .mainImage {
+    width: 100%;
+    height: auto;
+    min-height: 1200px;
+    object-fit: cover;
+  }
+  .popImage{
       object-fit: cover;
-    }
-    .popImage{
-        object-fit: cover;
-    }
-    
   }
   
-  
-  
-  @media (min-width: 900px) and (max-width: 1200px) {
-    .detailContainer {
-      width: 100%;
-      margin-left: 0;
-      overflow-y: none;
-      height: auto;
-    }
-  
-    .styleContainer {
-      flex-wrap: wrap;
-    }
-  
-    .imgContainer {
-      width: 100%;
-      min-width: auto;
-      margin-bottom: 2em;
-      max-height:1200px;
-    }
-  
-    .mainImages {
-      width: 100%;
-      min-width: 0;
-      height: auto;
-      margin: 0;
-      border: 1px solid rgba(194, 211, 7, 0);
-      display: flex;
-      flex-direction: column;
-      background-color: rgba(255, 0, 0, 0);
-    }
-  
-    .mainImage {
-      width: 100%;
-      height: auto;
-      min-height: 1200px;
+}
+
+
+
+@media (min-width: 900px) and (max-width: 1200px) {
+  .detailContainer {
+    width: 100%;
+    margin-left: 0;
+    overflow-y: none;
+    height: auto;
+  }
+
+  .styleContainer {
+    flex-wrap: wrap;
+  }
+
+  .imgContainer {
+    width: 100%;
+    min-width: auto;
+    margin-bottom: 2em;
+    max-height:1200px;
+  }
+
+  .mainImages {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    border: 1px solid rgba(194, 211, 7, 0);
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 0, 0, 0);
+  }
+
+  .mainImage {
+    width: 100%;
+    height: auto;
+    min-height: 1200px;
+    object-fit: cover;
+  }
+  .popImage{
       object-fit: cover;
-    }
-    .popImage{
-        object-fit: cover;
-    }
-  
-    
   }
+
   
-  
-  
-  
-  
-  /* 2K Resolution */
-  @media (min-width: 1921px) and (max-width: 2560px) {
-    .detailContainer {
-      width: 50%;
-    }
-  
-    .imgContainer {
-      max-height: var(--IMG-H2k);
-      width: 50%;
-      min-width: 1200px;
-      max-width: 1300px;
-    }
-  
-    .mainImages {
-      width: 1000px;
-      height: auto;
-    }
-  
-    .mainImage {
-      width: 100%;
-    }
-  
-    .detailText {
-      font-size: 2rem;
-    }
-  
-    .detailContainer p {
-      line-height: 2em;
-    }
-  
-    
-  
-    .detailTextStudio {
-      font-size: 5rem;
-    }
-  
-    .detailPrice {
-      font-size: 3em;
-    }
+}
+
+
+
+
+
+/* 2K Resolution */
+@media (min-width: 1921px) and (max-width: 2560px) {
+  .detailContainer {
+    width: 50%;
   }
-  
-  /* 2K Resolution end*/
-  
-  
-  
-  /* 4K Resolution */
-  @media (min-width: 2561px) and (max-width: 3840px) {
-    .detailContainer {
-      width: 40%;
-    }
-  
-    .imgContainer {
-      max-height: var(--IMG-H4k);
-      width: 50%;
-      min-width: 1600px;
-      max-width: 1800px;
-    }
-  
-    .mainImages {
-      width: 1475px;
-      height: auto;
-    }
-  
-    .mainImage {
-      width: 100%;
-    }
-  
-    .detailText {
-      font-size: 3rem;
-    } 
-  
-    .detailContainer p {
-      line-height: 3em;
-    }
-  
-    
-  
-    .detailTextStudio {
-      font-size: 6rem;
-    }
-  
-    .detailPrice {
-      font-size: 3em;
-    }
+
+  .imgContainer {
+    max-height: var(--IMG-H2k);
+    width: 50%;
+    min-width: 1200px;
+    max-width: 1300px;
   }
+
+  .mainImages {
+    width: 1000px;
+    height: auto;
+  }
+
+  .mainImage {
+    width: 100%;
+  }
+
+
+
   
-  /* 4K Resolution end*/
+
+  .detailTextStudio {
+    font-size: 5rem;
+  }
+
+}
+
+/* 2K Resolution end*/
+
+
+
+/* 4K Resolution */
+@media (min-width: 2561px) and (max-width: 3840px) {
+  .detailContainer {
+    width: 40%;
+  }
+
+  .imgContainer {
+    max-height: var(--IMG-H4k);
+    width: 50%;
+    min-width: 1600px;
+    max-width: 1800px;
+  }
+
+  .mainImages {
+    width: 1475px;
+    height: auto;
+  }
+
+  .mainImage {
+    width: 100%;
+  }
+
+
+
+  .detailTextStudio {
+    font-size: 6rem;
+  }
+}
+
+/* 4K Resolution end*/
+
+.whatsappLink {
+display: inline-flex;
+align-items: center;
+
+padding: 0.5rem 1rem;
+background-color: #25D366; /* WhatsApp green color */
+color: white;
+text-decoration: none;
+border-radius: 5px;
+font-weight: bold;
+text-align: center;
+}
+
+.whatsappLink:hover {
+background-color: #61d48c; /* Darker green on hover */
+}

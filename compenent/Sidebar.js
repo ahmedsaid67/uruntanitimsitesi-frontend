@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Head from 'next/head';
 import styles from '../styles/Sidebar.module.css';
-import { faAddressCard,faShoppingCart,  faCircleInfo, faFile, faHandshake, faHashtag, faHouse, faImage, faLink, faList, faMap, faSliders } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard,faShoppingCart,  faCircleInfo, faEnvelope , faHandshake, faHashtag, faHouse, faImage, faLink, faList, faMap, faSliders } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { submitLogout } from '../context/features/auth/loginSlice';
 
@@ -59,6 +59,11 @@ const MenuListItems = [
     id:8,
     text:  <><span className={styles.icon}><FontAwesomeIcon icon={faCircleInfo} /></span> Hakkımızda</>,
     url: '/panel/hakkimizda',
+  },
+  {
+    id:9,
+    text:  <><span className={styles.icon}><FontAwesomeIcon icon={faEnvelope} /></span> Mesajlar</>,
+    url: '/panel/message',
   }
 ];
 

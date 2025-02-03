@@ -106,4 +106,12 @@ export const API_ROUTES = {
     URUNE_AIT_OZELLIK_GUNCELLEME : API_SERVER_URL + "/ozellikler/urun/id/update-durum/",
     URUNE_AIT_OZELLIK_EKLEME : API_SERVER_URL + "/ozellikler/urun/id/create/",
 
+
+    // MESSAGE
+
+    MESSAGE: API_SERVER_URL + "/message/",
+    MESSAGE_PAGINATIONS : API_SERVER_URL + "/message/?page=currentPage",
+    MESSAGE_DETAIL : API_SERVER_URL + "/message/id/",
+    MESSAGE_DELETE : API_SERVER_URL + "/message/bulk_soft_delete/",
+
 }

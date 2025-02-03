@@ -15,6 +15,7 @@ import {
 import Head from 'next/head';
 import Link from 'next/link';
 import {useRouter } from 'next/navigation';
+import Contact from '../../compenent/Contact'
 
 
 const getIcon = (url) => {
@@ -119,6 +120,11 @@ const Iletisim = () => {
 
 
           <div className={styles.altContainer}>
+          <div className={styles.infoContainer}>
+              <h2>Form</h2>
+              <Contact />
+
+            </div>
             <div className={styles.infoContainer}>
               <h2>E-mail</h2>
               <p>{email || 'Henüz içerik eklenmemiştir.'}</p>
@@ -141,17 +147,6 @@ const Iletisim = () => {
                   </a>
                 ))}
               </div>
-            </div>
-            <div className={styles.haritaContainer}>
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1504.250113643521!2d28.9210027661942!3d41.05805709525544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e1d1224d96a7119%3A0x8cbe1c9940dac826!2sGaziosmanpa%C5%9Fa%20Monavet%20Veteriner%20Klini%C4%9Fi!5e0!3m2!1str!2str!4v1719593685137!5m2!1str!2str" 
-                width="600" 
-                height="450" 
-                style={{ border: 0 }} 
-                allowFullScreen="" 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
             </div>
           </div>
         </div>

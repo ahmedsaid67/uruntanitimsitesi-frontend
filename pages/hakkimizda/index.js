@@ -62,7 +62,7 @@ const Hakkimizda = () => {
                 <div className={styles.mapText}>Ana Sayfa</div>
               </Link>
               <span className={styles.icon}>/</span>
-              <div className={`${styles.mapText} ${styles.activeText}`}>Hakkimizda</div>
+              <div className={`${styles.mapText} ${styles.activeText}`}>Hakkımızda</div>
             </div>
       
             <div className={styles.baslikContainer}>
