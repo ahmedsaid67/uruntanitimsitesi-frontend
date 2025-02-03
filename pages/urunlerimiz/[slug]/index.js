@@ -123,6 +123,8 @@ const UrunDetay = ({ product, relatedProducts, error }) => {
 
             {product.fiyat && <p className={styles.detailPrice}>{product.fiyat}</p>}
 
+            {product.ozellikler && product.ozellikler.length > 0 && (
+              <>
             <div className={styles.smallBaslik}>Renk:</div>
 
             <div className={styles.ozellikContainer}>
@@ -133,6 +135,11 @@ const UrunDetay = ({ product, relatedProducts, error }) => {
               ))}
             </div>
 
+            </>
+            )}
+
+            {product.bedenler && product.bedenler.length > 0 && (
+              <>
             <div className={styles.smallBaslik}>Beden:</div>
 
             <div className={styles.boxContainer}>
@@ -142,6 +149,8 @@ const UrunDetay = ({ product, relatedProducts, error }) => {
                 </span>
               ))}
             </div>
+            </>
+            )}
 
             {product.aciklama && (
               <div
