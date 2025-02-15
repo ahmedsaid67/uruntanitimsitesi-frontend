@@ -93,9 +93,8 @@ const Iletisim = () => {
   return (
     <div>
       <Head>
-        <title>Flexsoft | İletişim</title>
-        <meta name="description" content="Flexsoft, bir demo e-ticaret ve yazılım şirketidir. Şu anda İstanbul, Eyüpsultan'da bulunmaktadır." />
-        <meta name="keywords" content="Flexsoft, iletişim, e-ticaret, yazılım, Eyüpsultan, Şişli,Gaziosmanpaşa,Bayrampaşa,Kağıthane,Sultangazi,Arnavutköy,İstanbul,,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları" />
+      <title>Flexsoft | İletişim</title>
+      <meta name="description" content="Flexsoft ile iletişime geçin. İletişim bilgilerimiz ve iletişim formu aracılığıyla bize kolayca ulaşabilirsiniz." />
       </Head>
 
 

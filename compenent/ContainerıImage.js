@@ -94,27 +94,30 @@ const ContainerıImage = ({getImage}) => {
       };
     
       const settingsMain = {
-        dots: false, // Noktalar her zaman aktif
+        dots: false, // Ana ayarda dots'ları aktif ediyoruz
+        dotsClass: `slick-dots ${styles.customDots}`, // Özel dots sınıfı ekliyoruz
         infinite: false,
         speed: 300,
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        vertical: true, // Varsayılan olarak masaüstü dikey
+        vertical: true,
         verticalSwiping: true,
         responsive: [
           {
-            breakpoint: 768, // Tablet ve altı cihazlar için
+            breakpoint: 768,
             settings: {
-              vertical: false, // Tablet ve mobilde yatay düzen
+              vertical: false,
               verticalSwiping: false,
+              dots: true, // Tablet için dots aktif
             },
           },
           {
-            breakpoint: 576, // Mobil cihazlar için
+            breakpoint: 576,
             settings: {
-              vertical: false, // Mobilde de yatay düzen
+              vertical: false,
               verticalSwiping: false,
+              dots: true, // Mobil için dots aktif
             },
           },
         ],

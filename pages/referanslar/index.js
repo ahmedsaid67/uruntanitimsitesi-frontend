@@ -42,11 +42,8 @@ const Referans = () => {
   return (
     <>
       <Head>
-        <title>Flexsoft | Referanslar</title>
-        <meta
-          name="description"
-          content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yönelik referanslarımız: ${references.map(ref => ref.name).join(', ')}.`}
-        />
+          <title>Flexsoft | Referanslar</title>
+          <meta name="description" content="Flexsoft'un güvenilir referansları ve sektördeki başarılı iş birlikleri hakkında bilgi alın." />
       </Head>
 
         {isLoading ? (
