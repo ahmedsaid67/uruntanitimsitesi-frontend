@@ -308,7 +308,6 @@ const fetchMedications = async (kategoriSlug,page) => {
         <Head>
           <title>Flexsoft | Ürünlerimiz</title>
           <meta name="description" content={`Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Kategorilerimiz: ${kategoriBasliklari}.`} />
-          <meta name="keywords" content={`e-ticaret, yazılım, butik, giyim mağazaları,site satın al,web site satın al,hazır site satın al,web site kurma,web site tasarımı,butik web site,butik web site satın al,mağaza web site satın al,web site fiyatları, ${kategoriBasliklari}`} />
         </Head>
 
 
