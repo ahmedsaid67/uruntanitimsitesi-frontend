@@ -48,7 +48,11 @@ function Urunlerimiz() {
         setKategoriler(res);
 
         
-        handleActiveCategory(res);
+        if(res.length>0){
+          handleActiveCategory(res);
+        }else{
+          setIsLoading(false)
+        }
         setCategoriesLoading(false);
       } catch (error) {
         console.error('Error fetching categories:', error);
