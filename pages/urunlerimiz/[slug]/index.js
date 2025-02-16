@@ -93,7 +93,7 @@ const UrunDetay = ({ product, relatedProducts, error }) => {
   return (
     <div>
       <Head>
-        <title>Flexsoft | {product.baslik}</title>
+        <title>{product.baslik} | Flexsoft</title>
         <meta name="description" content="Flexsoft bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yöneliktir." />
       </Head>
 

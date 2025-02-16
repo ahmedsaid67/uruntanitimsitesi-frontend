@@ -12,7 +12,7 @@ function Index() {
   return (
     <>
     <Head>
-      <title>Flexsoft | Panelli Tanıtım Sitesi</title>
+      <title>Flexsoft</title>
       <meta name="description" content="Flexsoft, bir e-ticaret sitesidir ve yazılım hizmetleri vermektedir. Butik ve giyim mağazalarına yöneliktir." />
     </Head>
 

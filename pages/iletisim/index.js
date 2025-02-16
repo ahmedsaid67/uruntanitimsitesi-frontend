@@ -93,7 +93,7 @@ const Iletisim = () => {
   return (
     <div>
       <Head>
-      <title>Flexsoft | İletişim</title>
+      <title>İletişim | Flexsoft</title>
       <meta name="description" content="Flexsoft ile iletişime geçin. İletişim bilgilerimiz ve iletişim formu aracılığıyla bize kolayca ulaşabilirsiniz." />
       </Head>
 

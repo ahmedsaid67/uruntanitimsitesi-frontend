@@ -16,7 +16,7 @@ const Hakkimizda = ({ content, data, error }) => {
   return (
     <>
       <Head>
-      <title>Flexsoft | Hakkımızda</title>
+      <title>Hakkımızda | Flexsoft</title>
       <meta name="description" content="Flexsoft hakkında detaylı bilgi edinin. Flexsoft ile ilgili her şey burada."/>
       </Head>
 

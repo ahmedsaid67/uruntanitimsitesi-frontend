@@ -7,7 +7,7 @@ const Custom404 = () => {
   return (
     <>
       <Head>
-        <title>Sayfa Bulunamadı</title>
+        <title>Sayfa Bulunamadı | Flexsoft</title>
       </Head>
       <div className={styles.container}>
         <h1 className={styles.title}>404 - Sayfa Bulunamadı</h1>

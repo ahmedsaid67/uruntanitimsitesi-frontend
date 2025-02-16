@@ -43,8 +43,7 @@ const Login = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Admin Giriş | ASD</title>
-
+        <title>Admin Giriş | Flexsoft</title>
       </Head>
       <div className={styles.login}>
         <h1 className={styles.title}>Giriş Yap</h1>

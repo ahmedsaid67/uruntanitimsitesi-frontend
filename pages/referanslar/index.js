@@ -42,7 +42,7 @@ const Referans = () => {
   return (
     <>
       <Head>
-          <title>Flexsoft | Referanslar</title>
+          <title>Referanslar | Flexsoft</title>
           <meta name="description" content="Flexsoft'un güvenilir referansları ve sektördeki başarılı iş birlikleri hakkında bilgi alın." />
       </Head>
 
