@@ -22,14 +22,6 @@ const CustomNextArrow = ({ onClick }) => (
   </div>
 );
 
-const handleClick = (event, product) => {
-  if (isDragging) {
-    event.preventDefault(); // Drag sırasında tıklamayı engelle
-  } else {
-    // Normal tıklama işlemi
-    console.log("Ürün seçildi:", product);
-  }
-};
 
 
 const Vitrin = () => {
@@ -244,12 +236,11 @@ const Vitrin = () => {
             <Slider {...sliderSettings}>
               {products.map(product => (
                 <div key={product.id} className={styles.productItem}>
-                  <Link href={`/urunlerimiz/${(product.slug)}`} onClick={(event) => handleClick(event, product)}>
+                  <Link href={`/urunlerimiz/${(product.slug)}`}>
                     <img
                       className={styles.productItemImage}
                       src={product.kapak_fotografi}
                       alt={product.baslik}
-                      onMouseDown={() => setIsDragging(false)}
                     />
                   </Link>
                   <Link href={`/urunlerimiz/${(product.slug)}`} >
